@@ -4,6 +4,15 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 	<display-name>freelancer</display-name>
+	<filter>
+		<filter-name>AuthenticationAdminFilter</filter-name>
+		<filter-class>com.epam.freelancer.filter.AuthenticationAdminFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthenticationAdminFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<jsp-config>
 		<jsp-property-group>
 			<url-pattern>*.jsp</url-pattern>
