@@ -1,11 +1,12 @@
 package com.epam.freelancer.model;
 
+import java.sql.Date;
 import java.util.Locale;
 
 /**
  * Created by Максим on 15.01.2016.
  */
-public class Admin implements UserEntity {
+public class Customer implements UserEntity {
 
     private Integer id;
     private String email;
@@ -13,8 +14,36 @@ public class Admin implements UserEntity {
     private String fname;
     private String lname;
 
+    private Integer version;
     private String lang;
     private String uuid;
+    private String regUrl;
+    private Date regDate;
+
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public String getRegUrl() {
+        return regUrl;
+    }
+
+    public void setRegUrl(String regUrl) {
+        this.regUrl = regUrl;
+    }
+
+    public Date getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
+    }
 
     public String getLang() {
         return lang;
@@ -93,4 +122,5 @@ public class Admin implements UserEntity {
     public void setId(Integer id) {
         this.id = id;
     }
+
 }

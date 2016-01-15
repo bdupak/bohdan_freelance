@@ -3,19 +3,31 @@ package com.epam.freelancer.model;
 import java.util.Locale;
 
 public interface UserEntity extends BaseEntity<Integer> {
-	public String getEmail();
+	String getEmail();
 
-	public void setEmail(String email);
+	void setEmail(String email);
 
-	public String getPassword();
+	String getPassword();
 
-	public void setPassword(String password);
+	void setPassword(String password);
 
-	public String getUuid();
+	String getUuid();
 
-	public void setUuid(String uuid);
+	void setUuid(String uuid);
 
-	public Locale getLocale();
+	Locale getLocale();
 
-	public void setLocale(Locale locale);
+	void setLocale(Locale locale);
+
+	String getFname();
+
+	void setFname(String fname);
+
+	String getLname();
+
+	void setLname(String lname);
+
+	String getLang();
+
+	void setLang(String lang);
 }
