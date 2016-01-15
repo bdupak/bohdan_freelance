@@ -23,8 +23,8 @@ public abstract class GenericJdbcDao<T extends BaseEntity<ID>, ID> implements
 
 	public GenericJdbcDao(Class<T> class1, String table) throws Exception {
 		this.class1 = class1;
-		this.table = table;
 		this.transformer = new DataTransformer<>(class1);
+		this.table = transformer.getTableName();
 	}
 
 	@SuppressWarnings("unchecked")

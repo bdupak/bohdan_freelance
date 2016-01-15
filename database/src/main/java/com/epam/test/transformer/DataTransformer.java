@@ -171,19 +171,20 @@ public class DataTransformer<T> {
 	}
 
 	public String getSaveStatement() {
-		return statementManager.getSaveStatement(columns, ids, tableName);
+		return statementManager.getSaveStatement(columns, ids, getTableName());
 	}
 
 	public String getUpdateStatement() {
-		return statementManager.getUpdateStatement(columns, ids, tableName);
+		return statementManager
+				.getUpdateStatement(columns, ids, getTableName());
 	}
 
 	public String getDeleteStatement() {
-		return statementManager.getDeleteStatement(ids, tableName);
+		return statementManager.getDeleteStatement(ids, getTableName());
 	}
 
 	public String getSelectStatement() {
-		return statementManager.getSelectStatement(ids, tableName);
+		return statementManager.getSelectStatement(ids, getTableName());
 	}
 
 	public void fillSave(PreparedStatement statement, T obj) throws Exception {
@@ -246,5 +247,9 @@ public class DataTransformer<T> {
 			method.setAccessible(true);
 			item.setValue(method.invoke(obj));
 		}
+	}
+
+	public String getTableName() {
+		return tableName;
 	}
 }
