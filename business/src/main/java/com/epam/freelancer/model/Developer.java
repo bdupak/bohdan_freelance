@@ -14,10 +14,11 @@ public class Developer implements UserEntity {
     private String password;
     private String fname;
     private String lname;
-
+    private Boolean isDeleted;
     private Integer version;
     private Double hourly;
     private Timestamp zone;
+    private Locale locale;
     private String lang;
     private String uuid;
     private String regUrl;
@@ -64,12 +65,28 @@ public class Developer implements UserEntity {
         this.regDate = regDate;
     }
 
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
     public String getLang() {
-        return lang;
+        return lang != null ? locale.toLanguageTag() : null;
     }
 
     public void setLang(String lang) {
-        this.lang = lang;
+        if (lang == null) {
+            this.lang = null;
+            return;
+        }
+        String[] langCode = lang.split("-");
+        if (langCode.length == 2)
+            this.locale = new Locale(langCode[0], langCode[1]);
+        else
+            this.locale = new Locale(langCode[0]);
     }
 
     @Override
@@ -103,16 +120,6 @@ public class Developer implements UserEntity {
     }
 
     @Override
-    public Locale getLocale() {
-        return null;
-    }
-
-    @Override
-    public void setLocale(Locale locale) {
-
-    }
-
-    @Override
     public String getFname() {
         return fname;
     }
@@ -140,6 +147,16 @@ public class Developer implements UserEntity {
     @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    @Override
+    public void setDeleted(Boolean deleted) {
+        this.isDeleted = deleted;
     }
 
 }

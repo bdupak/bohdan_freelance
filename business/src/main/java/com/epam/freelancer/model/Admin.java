@@ -1,20 +1,31 @@
 package com.epam.freelancer.model;
 
+import com.epam.test.transformer.annotation.Column;
+import com.epam.test.transformer.annotation.Id;
+import com.epam.test.transformer.annotation.Table;
+
 import java.util.Locale;
 /**
  * Created by Максим on 15.01.2016.
  */
-
+@Table(name = "admin")
 public class Admin implements UserEntity {
 
+    @Id
     private Integer id;
+    @Column
     private String email;
     private String password;
+    @Column(name = "name")
     private String fname;
+    @Column(name = "last_name")
     private String lname;
-
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+    @Column
     private String lang;
     private Locale locale;
+    @Column
     private String uuid;
 
     public Locale getLocale() {
@@ -29,9 +40,16 @@ public class Admin implements UserEntity {
         return lang != null ? locale.toLanguageTag() : null;
     }
 
-    @Override
     public void setLang(String lang) {
-        this.lang = lang;
+        if (lang == null) {
+            this.lang = null;
+            return;
+        }
+        String[] langCode = lang.split("-");
+        if (langCode.length == 2)
+            this.locale = new Locale(langCode[0], langCode[1]);
+        else
+            this.locale = new Locale(langCode[0]);
     }
 
     @Override
@@ -92,5 +110,15 @@ public class Admin implements UserEntity {
     @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    @Override
+    public void setDeleted(Boolean deleted) {
+        this.isDeleted = deleted;
     }
 }

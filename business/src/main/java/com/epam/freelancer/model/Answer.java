@@ -7,7 +7,7 @@ public class Answer implements BaseEntity<Integer> {
 
     private Integer id;
     private Integer questionId;
-
+    private Boolean isDeleted;
     private String name;
 
     public Integer getQuestionId() {
@@ -34,5 +34,15 @@ public class Answer implements BaseEntity<Integer> {
     @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    @Override
+    public void setDeleted(Boolean deleted) {
+        this.isDeleted = deleted;
     }
 }

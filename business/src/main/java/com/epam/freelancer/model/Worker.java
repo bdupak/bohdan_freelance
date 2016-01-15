@@ -3,22 +3,20 @@ package com.epam.freelancer.model;
 /**
  * Created by Максим on 16.01.2016.
  */
-public class Contact implements BaseEntity<Integer> {
-
+public class Worker implements BaseEntity<Integer> {
     private Integer id;
-    private Integer customId;
+    private Integer orderId;
     private Integer devId;
-    private String phone;
-    private String skype;
+    private Double newHourly;
+    private Double sumHours;
     private Boolean isDeleted;
 
-
-    public Integer getCustomId() {
-        return customId;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setCustomId(Integer customId) {
-        this.customId = customId;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     public Integer getDevId() {
@@ -29,20 +27,20 @@ public class Contact implements BaseEntity<Integer> {
         this.devId = devId;
     }
 
-    public String getPhone() {
-        return phone;
+    public Double getNewHourly() {
+        return newHourly;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setNewHourly(Double newHourly) {
+        this.newHourly = newHourly;
     }
 
-    public String getSkype() {
-        return skype;
+    public Double getSumHours() {
+        return sumHours;
     }
 
-    public void setSkype(String skype) {
-        this.skype = skype;
+    public void setSumHours(Double sumHours) {
+        this.sumHours = sumHours;
     }
 
     @Override
@@ -64,5 +62,4 @@ public class Contact implements BaseEntity<Integer> {
     public void setDeleted(Boolean deleted) {
         this.isDeleted = deleted;
     }
-
 }

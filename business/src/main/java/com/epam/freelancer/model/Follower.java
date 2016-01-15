@@ -3,23 +3,12 @@ package com.epam.freelancer.model;
 /**
  * Created by Максим on 16.01.2016.
  */
-public class Contact implements BaseEntity<Integer> {
-
+public class Follower implements BaseEntity<Integer> {
     private Integer id;
-    private Integer customId;
     private Integer devId;
-    private String phone;
-    private String skype;
+    private String message;
+    private Integer orderId;
     private Boolean isDeleted;
-
-
-    public Integer getCustomId() {
-        return customId;
-    }
-
-    public void setCustomId(Integer customId) {
-        this.customId = customId;
-    }
 
     public Integer getDevId() {
         return devId;
@@ -29,20 +18,20 @@ public class Contact implements BaseEntity<Integer> {
         this.devId = devId;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getMessage() {
+        return message;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getSkype() {
-        return skype;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setSkype(String skype) {
-        this.skype = skype;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     @Override
