@@ -3,7 +3,6 @@ package com.epam.freelancer.filter;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
@@ -23,7 +22,7 @@ public class JSPFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 'home' the servlet which maps to main page
-        ((HttpServletResponse) response).sendRedirect("/home");
+        /*((HttpServletResponse) response).sendRedirect("/");*/
         chain.doFilter(request, response);
     }
 

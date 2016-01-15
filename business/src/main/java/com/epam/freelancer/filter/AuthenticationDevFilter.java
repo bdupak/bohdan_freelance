@@ -22,7 +22,7 @@ public class AuthenticationDevFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         String path = req.getServletPath();
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
 
         if(path.endsWith("developer")) {
             if (session == null || !"developer".equals(session.getAttribute("role"))) {

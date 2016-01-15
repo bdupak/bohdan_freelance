@@ -22,7 +22,7 @@ public class AuthenticationAdminFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         String path = req.getServletPath();
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
 
         if(path.endsWith("admin")) {
             if (session == null || !"admin".equals(session.getAttribute("role"))) {
