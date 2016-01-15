@@ -22,7 +22,7 @@ public class AuthenticationCustomerFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         String path = req.getServletPath();
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
 
         if(path.endsWith("customer")) {
             if (session == null || !"customer".equals(session.getAttribute("role"))) {
