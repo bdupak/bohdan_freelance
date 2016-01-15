@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 	<display-name>freelancer</display-name>
-	<filter>
+
+    <filter>
 		<filter-name>AuthenticationAdminFilter</filter-name>
 		<filter-class>com.epam.freelancer.filter.AuthenticationAdminFilter</filter-class>
 	</filter>
@@ -12,6 +13,39 @@
 		<filter-name>AuthenticationAdminFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+    <filter>
+        <filter-name>AuthenticationDevFilter</filter-name>
+        <filter-class>com.epam.freelancer.filter.AuthenticationDevFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationDevFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>AuthenticationCustomerFilter</filter-name>
+        <filter-class>com.epam.freelancer.filter.AuthenticationCustomerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationCustomerFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>UTF8Filter</filter-name>
+        <filter-class>com.epam.freelancer.filter.UTF8Filter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UTF8Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>JSPFilter</filter-name>
+        <filter-class>com.epam.freelancer.filter.JSPFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>JSPFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 	
 	<jsp-config>
 		<jsp-property-group>
@@ -19,4 +53,6 @@
 			<page-encoding>UTF-8</page-encoding>
 		</jsp-property-group>
 	</jsp-config>
+
+
 </web-app>

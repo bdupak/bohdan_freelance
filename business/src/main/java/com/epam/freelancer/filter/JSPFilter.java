@@ -8,7 +8,7 @@ import java.io.IOException;
 
 
 /**
- * Filter which forbid users contact directly to *.jsp files
+ * Filter which forbids users contact directly to *.jsp files
  */
 public class JSPFilter implements Filter {
 
