@@ -1,25 +1,44 @@
 package com.epam.freelancer.model;
 
+import com.epam.test.transformer.annotation.Column;
+import com.epam.test.transformer.annotation.Id;
+import com.epam.test.transformer.annotation.Table;
+
 import java.sql.Date;
 
 /**
  * Created by Максим on 16.01.2016.
  */
+@Table(name = "ordering")
 public class Ordering implements BaseEntity<Integer> {
+    @Id
     private Integer id;
+    @Column
     private String title;
+    @Column(name = "pay_type")
     private String payType;
+    @Column
     private String descr;
+    @Column(name = "customer_id")
     private Integer customerId;
+    @Column
     private Date date;
-    private Boolean isDeleted;
+    @Column
     private Double payment;
+    @Column
     private Boolean started;
+    @Column(name = "started_date")
     private Date startedDate;
+    @Column
     private Boolean ended;
+    @Column(name = "ended_date")
     private Date endedDate;
+    @Column(name = "private")
     private Boolean priv;
-
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+    @Column
+    private Integer version;
 
     public String getTitle() {
         return title;
@@ -127,5 +146,38 @@ public class Ordering implements BaseEntity<Integer> {
     @Override
     public void setDeleted(Boolean deleted) {
         this.isDeleted = deleted;
+    }
+
+    @Override
+    public Integer getVersion() {
+        return version;
+    }
+
+    @Override
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ordering ordering = (Ordering) o;
+
+        if (title != null ? !title.equals(ordering.title) : ordering.title != null) return false;
+        if (customerId != null ? !customerId.equals(ordering.customerId) : ordering.customerId != null) return false;
+        if (date != null ? !date.equals(ordering.date) : ordering.date != null) return false;
+        return !(isDeleted != null ? !isDeleted.equals(ordering.isDeleted) : ordering.isDeleted != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (customerId != null ? customerId.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        return result;
     }
 }

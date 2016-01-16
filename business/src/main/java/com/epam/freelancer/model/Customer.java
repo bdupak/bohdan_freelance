@@ -1,26 +1,43 @@
 package com.epam.freelancer.model;
 
+import com.epam.test.transformer.annotation.Column;
+import com.epam.test.transformer.annotation.Id;
+import com.epam.test.transformer.annotation.Table;
+
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Locale;
 
 /**
  * Created by Максим on 15.01.2016.
  */
+@Table(name = "customer")
 public class Customer implements UserEntity {
-
+    @Id
     private Integer id;
+    @Column
     private String email;
+    @Column
     private String password;
+    @Column(name = "name")
     private String fname;
+    @Column(name = "last_name")
     private String lname;
-    private Boolean isDeleted;
-    private Integer version;
+    @Column
+    private Timestamp zone;
+    @Column
     private String lang;
+    @Column
     private String uuid;
     private Locale locale;
+    @Column(name = "reg_url")
     private String regUrl;
+    @Column(name = "reg_date")
     private Date regDate;
-
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+    @Column
+    private Integer version;
 
     public Locale getLocale() {
         return locale;
@@ -68,6 +85,14 @@ public class Customer implements UserEntity {
 
     public void setRegDate(Date regDate) {
         this.regDate = regDate;
+    }
+
+    public Timestamp getZone() {
+        return zone;
+    }
+
+    public void setZone(Timestamp zone) {
+        this.zone = zone;
     }
 
     @Override
@@ -140,4 +165,41 @@ public class Customer implements UserEntity {
         this.isDeleted = isDeleted;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (email != null ? !email.equals(customer.email) : customer.email != null) return false;
+        if (uuid != null ? !uuid.equals(customer.uuid) : customer.uuid != null) return false;
+        return !(isDeleted != null ? !isDeleted.equals(customer.isDeleted) : customer.isDeleted != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = email != null ? email.hashCode() : 0;
+        result = 31 * result + (uuid != null ? uuid.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", zone=" + zone +
+                ", lang='" + lang + '\'' +
+                ", uuid='" + uuid + '\'' +
+                ", regUrl='" + regUrl + '\'' +
+                ", regDate=" + regDate +
+                ", isDeleted=" + isDeleted +
+                ", version=" + version +
+                '}';
+    }
 }

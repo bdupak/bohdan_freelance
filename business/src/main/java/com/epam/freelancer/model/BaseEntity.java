@@ -1,11 +1,15 @@
 package com.epam.freelancer.model;
 
 public interface BaseEntity<ID> {
-	ID getId();
+    ID getId();
 
-	void setId(ID id);
+    void setId(ID id);
 
-	Boolean getDeleted();
+    Boolean getDeleted();
 
-	void setDeleted(Boolean deleted);
+    void setDeleted(Boolean deleted);
+
+    Integer getVersion();
+
+    void setVersion(Integer version);
 }

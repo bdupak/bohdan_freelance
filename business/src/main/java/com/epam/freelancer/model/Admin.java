@@ -5,6 +5,7 @@ import com.epam.test.transformer.annotation.Id;
 import com.epam.test.transformer.annotation.Table;
 
 import java.util.Locale;
+
 /**
  * Created by Максим on 15.01.2016.
  */
@@ -20,13 +21,15 @@ public class Admin implements UserEntity {
     private String fname;
     @Column(name = "last_name")
     private String lname;
-    @Column(name = "is_deleted")
-    private Boolean isDeleted;
     @Column
     private String lang;
     private Locale locale;
     @Column
     private String uuid;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+    @Column
+    private Integer version;
 
     public Locale getLocale() {
         return locale;
@@ -120,5 +123,50 @@ public class Admin implements UserEntity {
     @Override
     public void setDeleted(Boolean deleted) {
         this.isDeleted = deleted;
+    }
+
+    @Override
+    public Integer getVersion() {
+        return version;
+    }
+
+    @Override
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Admin admin = (Admin) o;
+
+        if (email != null ? !email.equals(admin.email) : admin.email != null) return false;
+        if (uuid != null ? !uuid.equals(admin.uuid) : admin.uuid != null) return false;
+        return !(isDeleted != null ? !isDeleted.equals(admin.isDeleted) : admin.isDeleted != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = email != null ? email.hashCode() : 0;
+        result = 31 * result + (uuid != null ? uuid.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", lang='" + lang + '\'' +
+                ", uuid='" + uuid + '\'' +
+                ", isDeleted=" + isDeleted +
+                ", version=" + version +
+                '}';
     }
 }

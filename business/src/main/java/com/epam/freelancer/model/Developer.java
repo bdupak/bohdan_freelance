@@ -1,5 +1,9 @@
 package com.epam.freelancer.model;
 
+import com.epam.test.transformer.annotation.Column;
+import com.epam.test.transformer.annotation.Id;
+import com.epam.test.transformer.annotation.Table;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Locale;
@@ -7,23 +11,36 @@ import java.util.Locale;
 /**
  * Created by Максим on 15.01.2016.
  */
+@Table(name = "table")
 public class Developer implements UserEntity {
-
+    @Id
     private Integer id;
+    @Column
     private String email;
+    @Column
     private String password;
+    @Column(name = "name")
     private String fname;
+    @Column(name = "last_name")
     private String lname;
-    private Boolean isDeleted;
-    private Integer version;
+    @Column
     private Double hourly;
+    @Column
     private Timestamp zone;
+    @Column
     private Locale locale;
+    @Column
     private String lang;
+    @Column
     private String uuid;
+    @Column(name = "reg_url")
     private String regUrl;
+    @Column(name = "reg_date")
     private Date regDate;
-
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+    @Column
+    private Integer version;
 
     public Integer getVersion() {
         return version;
@@ -159,4 +176,42 @@ public class Developer implements UserEntity {
         this.isDeleted = deleted;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Developer developer = (Developer) o;
+
+        if (email != null ? !email.equals(developer.email) : developer.email != null) return false;
+        if (uuid != null ? !uuid.equals(developer.uuid) : developer.uuid != null) return false;
+        return !(isDeleted != null ? !isDeleted.equals(developer.isDeleted) : developer.isDeleted != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = email != null ? email.hashCode() : 0;
+        result = 31 * result + (uuid != null ? uuid.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Developer{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", hourly=" + hourly +
+                ", zone=" + zone +
+                ", lang='" + lang + '\'' +
+                ", uuid='" + uuid + '\'' +
+                ", regUrl='" + regUrl + '\'' +
+                ", regDate=" + regDate +
+                ", isDeleted=" + isDeleted +
+                ", version=" + version +
+                '}';
+    }
 }
