@@ -1,0 +1,12 @@
+com\epam\freelancer\security\MD5Util.class
+com\epam\freelancer\security\filter\UTF8Filter.class
+com\epam\freelancer\security\SaltUtil.class
+com\epam\freelancer\security\Algorithm.class
+com\epam\freelancer\security\filter\JSPFilter.class
+com\epam\freelancer\security\provider\AuthenticationProvider.class
+com\epam\freelancer\security\element\AccessTag.class
+com\epam\freelancer\security\filter\AuthenticationAdminFilter.class
+com\epam\freelancer\security\filter\AuthenticationDevFilter.class
+com\epam\freelancer\security\Encryption.class
+com\epam\freelancer\security\SHA256Util.class
+com\epam\freelancer\security\filter\AuthenticationCustomerFilter.class
