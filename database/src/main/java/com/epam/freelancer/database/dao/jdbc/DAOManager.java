@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
-
 import com.epam.freelancer.database.dao.GenericDao;
 import com.epam.freelancer.database.dao.GenericManyToManyDao;
 import com.epam.freelancer.database.model.BaseEntity;
+import org.apache.tomcat.jdbc.pool.DataSource;
+
 
 public final class DAOManager {
 	private DataSource connectionPool;
@@ -42,7 +42,7 @@ public final class DAOManager {
 		 getDatasourceProperties("/datasource.properties");
 		
 		 Class.forName(properties.getProperty("driver"));
-		 connectionPool = new org.apache.tomcat.jdbc.pool.DataSource();
+		 connectionPool = new DataSource();
 		
 		 connectionPool.setUsername(properties.getProperty("user"));
 		 connectionPool.setPassword(properties.getProperty("password"));

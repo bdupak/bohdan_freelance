@@ -1,5 +1,9 @@
 package com.epam.freelancer.database.dao.jdbc;
 
+import com.epam.freelancer.database.dao.GenericDao;
+import com.epam.freelancer.database.model.BaseEntity;
+import com.epam.freelancer.database.transformer.DataTransformer;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,9 +13,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.epam.freelancer.database.dao.GenericDao;
-import com.epam.freelancer.database.model.BaseEntity;
-import com.epam.freelancer.database.transformer.DataTransformer;
 
 public abstract class GenericJdbcDao<T extends BaseEntity<ID>, ID> implements
 		GenericDao<T, ID>

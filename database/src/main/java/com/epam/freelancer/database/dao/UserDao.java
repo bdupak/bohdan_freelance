@@ -1,5 +1,6 @@
 package com.epam.freelancer.database.dao;
 
+
 import com.epam.freelancer.database.model.UserEntity;
 
 public interface UserDao<T extends UserEntity> extends

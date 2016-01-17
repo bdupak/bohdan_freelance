@@ -1,10 +1,10 @@
 package com.epam.freelancer.database.dao;
 
-import java.util.List;
-
-import javax.sql.DataSource;
 
 import com.epam.freelancer.database.model.BaseEntity;
+
+import javax.sql.DataSource;
+import java.util.List;
 
 public interface GenericManyToManyDao<F extends BaseEntity<ID>, S extends BaseEntity<ID>, ID>
 {
