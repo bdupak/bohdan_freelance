@@ -14,8 +14,8 @@ import java.util.List;
  * Created by ������ on 17.01.2016.
  */
 public class AnswerJdbcDao extends GenericJdbcDao<Answer, Integer> implements AnswerDao {
-    public AnswerJdbcDao(Class<Answer> class1) throws Exception {
-        super(class1);
+    public AnswerJdbcDao() throws Exception {
+        super(Answer.class);
     }
 
     @Override

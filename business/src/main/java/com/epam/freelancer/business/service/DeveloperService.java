@@ -2,12 +2,14 @@ package com.epam.freelancer.business.service;
 
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
 import com.epam.freelancer.database.dao.DeveloperDao;
+import com.epam.freelancer.database.dao.GenericManyToManyDao;
+import com.epam.freelancer.database.dao.WorkerManyToManyDao;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
 import com.epam.freelancer.database.model.Developer;
+import com.epam.freelancer.database.model.Ordering;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import java.util.Map;
  * Created by Максим on 18.01.2016.
  */
 public class DeveloperService extends UserService<Developer> {
+    private GenericManyToManyDao<Developer, Ordering, Integer> workerMTMDao;
 
     public DeveloperService() {
         super(DAOManager.getInstance().getDAO(DeveloperDao.class.getSimpleName()));
@@ -93,5 +96,17 @@ public class DeveloperService extends UserService<Developer> {
                 data.get("email") == null ? null : data.get("email")[0]);
 
         return map;
+    }
+
+    public List<Ordering> getPortfolioByDevId(Integer id){
+        return ((WorkerManyToManyDao) workerMTMDao).getPortfolio(id);
+    }
+
+    public GenericManyToManyDao<Developer, Ordering, Integer> getWorkerMTMDao() {
+        return workerMTMDao;
+    }
+
+    public void setWorkerMTMDao(GenericManyToManyDao<Developer, Ordering, Integer> workerMTMDao) {
+        this.workerMTMDao = workerMTMDao;
     }
 }
