@@ -89,8 +89,7 @@ public class DeveloperService extends UserService<Developer> {
                         .minLength(1),
                 data.get("password") == null ? null : data.get("password")[0]);
         map.put(ValidationParametersBuilder
-                        .createParameters(false)
-                        .maxLength(50)
+                        .createParameters(false).maxLength(50)
                         .pattern(
                                 "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]+)"),
                 data.get("email") == null ? null : data.get("email")[0]);
