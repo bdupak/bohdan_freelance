@@ -1,12 +1,12 @@
 package com.epam.freelancer.business.service;
 
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
-import com.epam.freelancer.database.dao.AdminDao;
+import com.epam.freelancer.database.dao.CustomerDao;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.Admin;
+import com.epam.freelancer.database.model.Customer;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,20 +14,20 @@ import java.util.Map;
 /**
  * Created by Максим on 18.01.2016.
  */
-public class AdminService extends UserService<Admin> {
+public class CustomerService extends UserService<Customer> {
 
-    public AdminService() {
-        super(DAOManager.getInstance().getDAO(AdminDao.class.getSimpleName()));
+    public CustomerService() {
+        super(DAOManager.getInstance().getDAO(CustomerDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
         genericDao.setDataSource(daoManager.getDataSource());
     }
 
     @Override
-    public Admin create(Map<String, String[]> data) {
+    public Customer create(Map<String, String[]> data) {
         if (!isDataValid(prepareData(data)))
             throw new RuntimeException("Validation exception");
 
-        Admin entity = new Admin();
+        Customer entity = new Customer();
         String[] value = data.get("first_name");
         entity.setFname(value != null ? value[0] : null);
         value = data.get("last_name");
@@ -38,6 +38,9 @@ public class AdminService extends UserService<Admin> {
         entity.setLang(value != null ? value[0] : "en");
         value = data.get("uuid");
         entity.setUuid(value != null ? value[0] : null);
+        value = data.get("reg_url");
+        entity.setRegUrl(value != null ? value[0] : null);
+        entity.setRegDate(new Date(new java.util.Date().getTime()));
         value = data.get("password");
         try {
             entity.setPassword(value != null ? encodePassword(value[0]) : null);
@@ -47,19 +50,19 @@ public class AdminService extends UserService<Admin> {
         return genericDao.save(entity);
     }
 
-    public void deleteAdmin(Admin admin){
-        genericDao.delete(admin);
+    public void deleteCustomer(Customer Customer){
+        genericDao.delete(Customer);
     }
 
-    public Admin updateAdmin(Admin admin){
-        return genericDao.update(admin);
+    public Customer updateCustomer(Customer Customer){
+        return genericDao.update(Customer);
     }
 
-    public Admin getAdmin(Integer id){
+    public Customer getCustomer(Integer id){
         return genericDao.getById(id);
     }
 
-    public List<Admin> getAllAdmins(){
+    public List<Customer> getAllCustomers(){
         return genericDao.getAll();
     }
 
