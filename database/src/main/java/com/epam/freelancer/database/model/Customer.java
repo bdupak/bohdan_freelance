@@ -165,7 +165,7 @@ public class Customer implements UserEntity {
 
     @Override
     public void setDeleted(Boolean deleted) {
-        this.isDeleted = isDeleted;
+        this.isDeleted = deleted;
     }
 
     @Override
