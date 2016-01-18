@@ -7,4 +7,4 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/lib/font-awesome.min.css">
 <link rel="shortcut icon"
-	href="${pageContext.request.contextPath}/resources/img/icon/site_icon.png" />
+	href="${pageContext.request.contextPath}/resources/img/icon.png" />
