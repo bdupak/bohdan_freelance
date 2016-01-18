@@ -45,8 +45,6 @@ public class QuestionService extends GenericService<Question, Integer> {
             throw new RuntimeException("Validation exception");
         question.setMultiple(correct);
 
-        //many to many
-
         question = genericDao.save(question);
 
         return question;
