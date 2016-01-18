@@ -38,6 +38,8 @@ public class Customer implements UserEntity {
     private Boolean isDeleted;
     @Column
     private Integer version;
+    @Column
+    private String salt;
 
     public Customer() {
     }
@@ -64,6 +66,14 @@ public class Customer implements UserEntity {
             this.locale = new Locale(langCode[0], langCode[1]);
         else
             this.locale = new Locale(langCode[0]);
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public Integer getVersion() {
@@ -165,7 +175,7 @@ public class Customer implements UserEntity {
 
     @Override
     public void setDeleted(Boolean deleted) {
-        this.isDeleted = isDeleted;
+        this.isDeleted = deleted;
     }
 
     @Override

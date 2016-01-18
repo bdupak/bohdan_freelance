@@ -41,8 +41,18 @@ public class Developer implements UserEntity {
     private Boolean isDeleted;
     @Column
     private Integer version;
+    @Column
+    private String salt;
 
     public Developer() {
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public Integer getVersion() {

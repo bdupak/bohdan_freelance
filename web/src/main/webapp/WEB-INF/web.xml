@@ -65,6 +65,10 @@
 	</filter-mapping>
 
 	<jsp-config>
+		<taglib>
+			<taglib-uri>http://testsystem.fx/jsp/tlds/security</taglib-uri>
+			<taglib-location>tags/security.tld</taglib-location>
+		</taglib>
 		<jsp-property-group>
 			<url-pattern>*.jsp</url-pattern>
 			<page-encoding>UTF-8</page-encoding>
