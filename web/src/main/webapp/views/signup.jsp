@@ -8,6 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Sign up</title>
 <jsp:include page="/template/headImport.jsp" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/lib/hover.min.css">
 </head>
 <body>
 	<jsp:include page="/template/header.jsp" />
@@ -19,12 +21,12 @@
 				<div class="panel panel-primary animated fadeIn cabinet-top">
 					<div class="panel-heading">
 						<div class="panel-title">
-							<i class="fa fa-info"></i> Sign up
-							<div class="pull-right">
+							<i class="fa fa-edit"></i> Sign up
+							<div class="pull-right animated bounceIn">
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="social-btn linkedin">
-											<img alt="LInkedin" class="social-img"
+											<img alt="LInkedin" class="social-img hvr-grow"
 												src="${pageContext.request.contextPath}/resources/img/social_icon/linkedin_icon.png" />
 										</div>
 									</div>
@@ -32,7 +34,7 @@
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="social-btn google-plus">
-											<img alt="LInkedin" class="social-img"
+											<img alt="LInkedin" class="social-img hvr-grow"
 												src="${pageContext.request.contextPath}/resources/img/social_icon/google_plus_icon.png" />
 										</div>
 									</div>
