@@ -30,8 +30,17 @@ public class Admin implements UserEntity {
     private Boolean isDeleted;
     @Column
     private Integer version;
+    private String salt;
 
     public Admin() {
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public Locale getLocale() {
