@@ -3,10 +3,8 @@ package com.epam.freelancer.business.service;
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
 import com.epam.freelancer.database.dao.*;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.Contact;
-import com.epam.freelancer.database.model.Developer;
-import com.epam.freelancer.database.model.Ordering;
-import com.epam.freelancer.database.model.Worker;
+import com.epam.freelancer.database.dao.jdbc.GenericJdbcManyToManyDao;
+import com.epam.freelancer.database.model.*;
 import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
 
 import java.security.NoSuchAlgorithmException;
@@ -20,6 +18,7 @@ import java.util.Map;
  */
 public class DeveloperService extends UserService<Developer> {
     private GenericManyToManyDao<Developer, Ordering, Integer> workerMTMDao;
+    private GenericManyToManyDao<Developer, Technology, Integer> devMTMtechDao;
     private GenericDao<Worker,Integer> workerDao;
     private GenericDao<Contact, Integer> contactDao;
 
@@ -128,6 +127,14 @@ public class DeveloperService extends UserService<Developer> {
         this.contactDao = contactDao;
     }
 
+    public GenericManyToManyDao<Developer, Technology, Integer> getDevMTMtechDao() {
+        return devMTMtechDao;
+    }
+
+    public void setDevMTMtechDao(GenericManyToManyDao<Developer, Technology, Integer> devMTMtechDao) {
+        this.devMTMtechDao = devMTMtechDao;
+    }
+
     public Worker createWorker(Worker worker){
         return workerDao.save(worker);
     }
@@ -159,4 +166,6 @@ public class DeveloperService extends UserService<Developer> {
     public void deleteContact(Contact contact){
         contactDao.delete(contact);
     }
+
+    public List<Technology> getTechnologiesByDevId(Integer id){ return ((DevMTMTechDao)devMTMtechDao).getTechnologiesByDevId(id);}
 }

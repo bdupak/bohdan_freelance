@@ -38,9 +38,9 @@ public class FeedbackJdbcDao extends GenericJdbcDao<Feedback, Integer> implement
             statement.setInt(1, id);
             try (ResultSet set = statement.executeQuery()) {
                 while (set.next()) {
-                    Feedback test;
-                    test = transformer.getObject(set);
-                    feedbacks.add(test);
+                    Feedback feedback;
+                    feedback = transformer.getObject(set);
+                    feedbacks.add(feedback);
                 }
             }
         } catch (Exception e) {
