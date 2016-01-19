@@ -6,7 +6,8 @@
 			<div class="outer-box">
 				<div class="logo">
 					<a href="${pageContext.request.contextPath}/home">
-						<img alt="Site logo" class="img-logo img-png"
+						<img alt="Site logo" class="img-logo img-png animated rotateIn" data-tooltip="yes"
+							title="Home" data-placement="right"
 							src="${pageContext.request.contextPath}/resources/img/logo.png">
 					</a>
 				</div>

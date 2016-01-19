@@ -12,8 +12,8 @@ import java.sql.ResultSet;
  * Created by ������ on 17.01.2016.
  */
 public class ContactJdbcDao extends GenericJdbcDao<Contact, Integer> implements ContactDao {
-    public ContactJdbcDao(Class<Contact> class1) throws Exception {
-        super(class1);
+    public ContactJdbcDao() throws Exception {
+        super(Contact.class);
     }
 
     @Override

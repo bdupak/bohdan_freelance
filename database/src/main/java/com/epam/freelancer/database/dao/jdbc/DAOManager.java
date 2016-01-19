@@ -1,6 +1,7 @@
 package com.epam.freelancer.database.dao.jdbc;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,8 +10,8 @@ import java.util.Properties;
 import com.epam.freelancer.database.dao.GenericDao;
 import com.epam.freelancer.database.dao.GenericManyToManyDao;
 import com.epam.freelancer.database.model.BaseEntity;
-import org.apache.tomcat.jdbc.pool.DataSource;
 
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 public final class DAOManager {
 	private DataSource connectionPool;
@@ -38,22 +39,24 @@ public final class DAOManager {
 			IOException, SQLException, InstantiationException,
 			IllegalAccessException
 	{
-		 Properties properties =
-		 getDatasourceProperties("/datasource.properties");
-		
-		 Class.forName(properties.getProperty("driver"));
-		 connectionPool = new DataSource();
-		
-		 connectionPool.setUsername(properties.getProperty("user"));
-		 connectionPool.setPassword(properties.getProperty("password"));
-		
-		 connectionPool.setDriverClassName(properties.getProperty("driver"));
-		 connectionPool.setUrl(properties.getProperty("url"));
-		 connectionPool.setInitialSize(200);
+		Properties properties = getDatasourceProperties("/datasource.properties");
+
+		Class.forName(properties.getProperty("driver"));
+		connectionPool = new DataSource();
+
+		connectionPool.setUsername(properties.getProperty("user"));
+		connectionPool.setPassword(properties.getProperty("password"));
+
+		connectionPool.setDriverClassName(properties.getProperty("driver"));
+		connectionPool.setUrl(properties.getProperty("url"));
+		connectionPool.setInitialSize(200);
 	}
 
 	private Properties getDatasourceProperties(String path) throws IOException {
 		Properties properties = new Properties();
+		try (InputStream file = GenericDao.class.getResourceAsStream(path);) {
+			properties.load(file);
+		}
 		return properties;
 	}
 
