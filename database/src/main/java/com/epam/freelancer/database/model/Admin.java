@@ -36,10 +36,12 @@ public class Admin implements UserEntity {
     public Admin() {
     }
 
+    @Override
     public String getSalt() {
         return salt;
     }
 
+    @Override
     public void setSalt(String salt) {
         this.salt = salt;
     }

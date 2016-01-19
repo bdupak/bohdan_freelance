@@ -68,10 +68,12 @@ public class Customer implements UserEntity {
             this.locale = new Locale(langCode[0]);
     }
 
+    @Override
     public String getSalt() {
         return salt;
     }
 
+    @Override
     public void setSalt(String salt) {
         this.salt = salt;
     }
