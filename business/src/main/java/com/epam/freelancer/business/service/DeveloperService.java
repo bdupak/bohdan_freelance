@@ -1,12 +1,13 @@
 package com.epam.freelancer.business.service;
 
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
-import com.epam.freelancer.database.dao.DeveloperDao;
-import com.epam.freelancer.database.dao.GenericManyToManyDao;
-import com.epam.freelancer.database.dao.WorkerManyToManyDao;
+import com.epam.freelancer.database.dao.*;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
+import com.epam.freelancer.database.model.Contact;
 import com.epam.freelancer.database.model.Developer;
 import com.epam.freelancer.database.model.Ordering;
+import com.epam.freelancer.database.model.Worker;
+import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
@@ -19,6 +20,8 @@ import java.util.Map;
  */
 public class DeveloperService extends UserService<Developer> {
     private GenericManyToManyDao<Developer, Ordering, Integer> workerMTMDao;
+    private GenericDao<Worker,Integer> workerDao;
+    private GenericDao<Contact, Integer> contactDao;
 
     public DeveloperService() {
         super(DAOManager.getInstance().getDAO(DeveloperDao.class.getSimpleName()));
@@ -97,15 +100,63 @@ public class DeveloperService extends UserService<Developer> {
         return map;
     }
 
-    public List<Ordering> getPortfolioByDevId(Integer id){
-        return ((WorkerManyToManyDao) workerMTMDao).getPortfolio(id);
-    }
-
     public GenericManyToManyDao<Developer, Ordering, Integer> getWorkerMTMDao() {
         return workerMTMDao;
     }
 
     public void setWorkerMTMDao(GenericManyToManyDao<Developer, Ordering, Integer> workerMTMDao) {
         this.workerMTMDao = workerMTMDao;
+    }
+
+    public List<Ordering> getPortfolioByDevId(Integer id){
+        return ((WorkerManyToManyDao) workerMTMDao).getPortfolio(id);
+    }
+
+    public GenericDao<Worker, Integer> getWorkerDao() {
+        return workerDao;
+    }
+
+    public void setWorkerDao(GenericDao<Worker, Integer> workerDao) {
+        this.workerDao = workerDao;
+    }
+
+    public GenericDao<Contact, Integer> getContactDao() {
+        return contactDao;
+    }
+
+    public void setContactDao(GenericDao<Contact, Integer> contactDao) {
+        this.contactDao = contactDao;
+    }
+
+    public Worker createWorker(Worker worker){
+        return workerDao.save(worker);
+    }
+
+    public void deleteWorker(Worker worker){
+        workerDao.delete(worker);
+    }
+
+    public Worker updateWorker(Worker worker) {
+        return workerDao.update(worker);
+    }
+
+    public Worker getWorkerById(Integer id){
+        return workerDao.getById(id);
+    }
+
+    public List<Worker> getAllWorkers(){
+        return workerDao.getAll();
+    }
+
+    public Contact getContactByDevId(Integer id){
+        return ((ContactDao)contactDao).getContactByDevId(id);
+    }
+
+    public Contact updateContact(Contact contact){
+        return contactDao.update(contact);
+    }
+
+    public void deleteContact(Contact contact){
+        contactDao.delete(contact);
     }
 }

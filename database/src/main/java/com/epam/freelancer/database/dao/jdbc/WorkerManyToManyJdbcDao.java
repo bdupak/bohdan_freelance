@@ -41,4 +41,14 @@ public class WorkerManyToManyJdbcDao extends GenericJdbcManyToManyDao<Developer,
         }
         return entities;
     }
+
+    @Override
+    public List<Ordering> getOrdersByDevId(Integer devId) {
+        return getBasedOnFirst(devId);
+    }
+
+    @Override
+    public List<Developer> getDevsByOrderingId(Integer orderId) {
+        return getBasedOnSecond(orderId);
+    }
 }

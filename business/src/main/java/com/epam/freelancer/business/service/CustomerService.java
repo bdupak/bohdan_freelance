@@ -1,8 +1,11 @@
 package com.epam.freelancer.business.service;
 
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
+import com.epam.freelancer.database.dao.ContactDao;
 import com.epam.freelancer.database.dao.CustomerDao;
+import com.epam.freelancer.database.dao.GenericDao;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
+import com.epam.freelancer.database.model.Contact;
 import com.epam.freelancer.database.model.Customer;
 
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +18,8 @@ import java.util.Map;
  * Created by Максим on 18.01.2016.
  */
 public class CustomerService extends UserService<Customer> {
+
+    private GenericDao<Contact, Integer> contactDao;
 
     public CustomerService() {
         super(DAOManager.getInstance().getDAO(CustomerDao.class.getSimpleName()));
@@ -92,5 +97,25 @@ public class CustomerService extends UserService<Customer> {
                 data.get("email") == null ? null : data.get("email")[0]);
 
         return map;
+    }
+
+    public GenericDao<Contact, Integer> getContactDao() {
+        return contactDao;
+    }
+
+    public void setContactDao(GenericDao<Contact, Integer> contactDao) {
+        this.contactDao = contactDao;
+    }
+
+    public Contact getContactByCustomerId(Integer id){
+        return ((ContactDao)contactDao).getContactByCustId(id);
+    }
+
+    public Contact updateContact(Contact contact){
+        return contactDao.update(contact);
+    }
+
+    public void deleteContact(Contact contact){
+        contactDao.delete(contact);
     }
 }
