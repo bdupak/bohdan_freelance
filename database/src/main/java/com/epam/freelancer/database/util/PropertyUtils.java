@@ -1,4 +1,4 @@
-package com.epam.freelancer.database.persistence;
+package com.epam.freelancer.database.util;
 
 import org.apache.log4j.Logger;
 
