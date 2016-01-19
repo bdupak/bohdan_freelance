@@ -24,7 +24,7 @@ public class DeveloperService extends UserService<Developer> {
     public DeveloperService() {
         super(DAOManager.getInstance().getDAO(DeveloperDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setDataSource(daoManager.getDataSource());
+        genericDao.setConnectionPool(daoManager.getConnectionPool());
     }
 
     @Override

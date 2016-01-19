@@ -22,7 +22,7 @@ public class AnswerJdbcDao extends GenericJdbcDao<Answer, Integer> implements An
     public List<Answer> getAnswersByQuestionId(Integer id) {
         List<Answer> answers = new ArrayList<>();
         String query = "SELECT * FROM " + table + " WHERE quest_id = ?";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection
                      .prepareStatement(query)) {
             statement.setInt(1, id);

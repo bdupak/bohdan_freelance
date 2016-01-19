@@ -17,7 +17,7 @@ public class FeedbackService extends GenericService<Feedback, Integer> {
     public FeedbackService() {
         super(DAOManager.getInstance().getDAO(FeedbackDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setDataSource(daoManager.getDataSource());
+        genericDao.setConnectionPool(daoManager.getConnectionPool());
     }
 
     @Override

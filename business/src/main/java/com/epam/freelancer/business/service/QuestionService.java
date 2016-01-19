@@ -3,7 +3,6 @@ package com.epam.freelancer.business.service;
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
 import com.epam.freelancer.database.dao.QuestionDao;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.Answer;
 import com.epam.freelancer.database.model.Question;
 
 import java.util.HashMap;
@@ -18,7 +17,7 @@ public class QuestionService extends GenericService<Question, Integer> {
     public QuestionService() {
         super(DAOManager.getInstance().getDAO(QuestionDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setDataSource(daoManager.getDataSource());
+        genericDao.setConnectionPool(daoManager.getConnectionPool());
     }
 
     @Override

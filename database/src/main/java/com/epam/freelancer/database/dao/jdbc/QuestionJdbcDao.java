@@ -20,8 +20,8 @@ public class QuestionJdbcDao extends GenericJdbcDao<Question, Integer> implement
 	public List<Question> getByTechnology(Integer id) {
 		List<Question> entities = new ArrayList<>();
 		String query = "SELECT * FROM " + table + " WHERE tech_id = ?";
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 						.prepareStatement(query)) {
 			statement.setInt(1, id);
 			try (ResultSet set = statement.executeQuery()) {
@@ -41,8 +41,8 @@ public class QuestionJdbcDao extends GenericJdbcDao<Question, Integer> implement
 	public List<Question> getByAdminId(Integer id) {
 		List<Question> entities = new ArrayList<>();
 		String query = "SELECT * FROM " + table + " WHERE admin_id = ?";
-		try (Connection connection = dataSource.getConnection();
-			 PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 					 .prepareStatement(query)) {
 			statement.setInt(1, id);
 			try (ResultSet set = statement.executeQuery()) {
@@ -57,5 +57,4 @@ public class QuestionJdbcDao extends GenericJdbcDao<Question, Integer> implement
 		}
 		return entities;
 	}
-
 }

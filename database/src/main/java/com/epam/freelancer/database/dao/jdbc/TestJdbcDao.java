@@ -20,8 +20,8 @@ public class TestJdbcDao extends GenericJdbcDao<Test, Integer> implements TestDa
 	public List<Test> getTestsByTechId(Integer id) {
 		List<Test> tests = new ArrayList<>();
 		String query = "SELECT * FROM " + table + " WHERE tech_id = ?";
-		try (Connection connection = dataSource.getConnection();
-			 PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 					 .prepareStatement(query)) {
 			statement.setInt(1, id);
 			try (ResultSet set = statement.executeQuery()) {
@@ -41,8 +41,8 @@ public class TestJdbcDao extends GenericJdbcDao<Test, Integer> implements TestDa
 	public List<Test> getTestsByAdminId(Integer id) {
 		List<Test> tests = new ArrayList<>();
 		String query = "SELECT * FROM " + table + " WHERE admin_id = ?";
-		try (Connection connection = dataSource.getConnection();
-			 PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 					 .prepareStatement(query)) {
 			statement.setInt(1, id);
 			try (ResultSet set = statement.executeQuery()) {

@@ -20,8 +20,8 @@ public abstract class UserJdbcDao<T extends UserEntity, ID> extends
 	public T getByEmail(String email) {
 		String query = "SELECT * FROM " + table + " WHERE email LIKE ?";
 		T entity = null;
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 						.prepareStatement(query)) {
 			statement.setString(1, email);
 			try (ResultSet set = statement.executeQuery()) {
@@ -39,8 +39,8 @@ public abstract class UserJdbcDao<T extends UserEntity, ID> extends
 	public boolean emailAvailable(String email) {
 		String query = "SELECT count(email) FROM " + table
 				+ " WHERE email LIKE ?";
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 						.prepareStatement(query)) {
 			statement.setString(1, email);
 			try (ResultSet set = statement.executeQuery()) {
@@ -57,8 +57,8 @@ public abstract class UserJdbcDao<T extends UserEntity, ID> extends
 	public T getByUUID(String uuid) {
 		String query = "SELECT * FROM " + table + " WHERE UUID LIKE ?";
 		T entity = null;
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 						.prepareStatement(query)) {
 			statement.setString(1, uuid);
 			try (ResultSet set = statement.executeQuery()) {
@@ -71,5 +71,4 @@ public abstract class UserJdbcDao<T extends UserEntity, ID> extends
 		}
 		return entity;
 	}
-
 }

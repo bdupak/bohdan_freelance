@@ -1,8 +1,8 @@
 package com.epam.freelancer.database.dao;
 
-import java.util.List;
+import com.epam.freelancer.database.persistence.ConnectionPool;
 
-import javax.sql.DataSource;
+import java.util.List;
 
 public interface GenericDao<T, ID> {
 
@@ -16,5 +16,5 @@ public interface GenericDao<T, ID> {
 
 	List<T> getAll();
 
-	void setDataSource(DataSource dataSource);
+    void setConnectionPool(ConnectionPool connectionPool);
 }

@@ -17,7 +17,7 @@ public class AdminService extends UserService<Admin> {
     public AdminService() {
         super(DAOManager.getInstance().getDAO(AdminDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setDataSource(daoManager.getDataSource());
+        genericDao.setConnectionPool(daoManager.getConnectionPool());
     }
 
     @Override

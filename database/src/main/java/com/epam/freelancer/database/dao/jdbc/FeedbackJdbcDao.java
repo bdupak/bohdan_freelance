@@ -32,7 +32,7 @@ public class FeedbackJdbcDao extends GenericJdbcDao<Feedback, Integer> implement
 
     private List<Feedback>  getFeedbacksByQuery(String query, Integer id) {
         List<Feedback> feedbacks = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection
                      .prepareStatement(query)) {
             statement.setInt(1, id);

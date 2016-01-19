@@ -22,7 +22,10 @@ public class ConnectionPool {
     private String dbUser;
     private String dbPassword;
 
-    public ConnectionPool() throws SQLException, ClassNotFoundException {
+    public ConnectionPool() {
+    }
+
+/*    public ConnectionPool() throws SQLException, ClassNotFoundException {
         this.driverClassName = "com.mysql.jdbc.Driver";
         this.dbUrl = "jdbc:mysql://127.0.0.1:3306/freelancerdb?characterEncoding=UTF-8";
         this.dbUser = "root";
@@ -36,7 +39,7 @@ public class ConnectionPool {
         if (pool.size() != initialPoolSize) {
             LOG.warn("Initial sized pool creation failed.");
         }
-    }
+    }*/
 
     public ConnectionPool(Properties properties) throws SQLException, ClassNotFoundException {
         this.driverClassName = properties.getProperty("driver");
@@ -85,7 +88,7 @@ public class ConnectionPool {
         currentPoolSize.incrementAndGet();
     }
 
-    public Connection borrowConnection() throws InterruptedException, SQLException {
+    public Connection getConnection() throws InterruptedException, SQLException {
 
         if (currentPoolSize.intValue() < maxPoolSize) {
             openAndPoolConnection();
@@ -112,5 +115,61 @@ public class ConnectionPool {
             return;
         }
         pool.offer(conn); // offer() as we do not want to go beyond capacity
+    }
+
+    public AtomicInteger getCurrentPoolSize() {
+        return currentPoolSize;
+    }
+
+    public void setCurrentPoolSize(AtomicInteger currentPoolSize) {
+        this.currentPoolSize = currentPoolSize;
+    }
+
+    public int getMaxPoolSize() {
+        return maxPoolSize;
+    }
+
+    public void setMaxPoolSize(int maxPoolSize) {
+        this.maxPoolSize = maxPoolSize;
+    }
+
+    public int getInitialPoolSize() {
+        return initialPoolSize;
+    }
+
+    public void setInitialPoolSize(int initialPoolSize) {
+        this.initialPoolSize = initialPoolSize;
+    }
+
+    public String getDriverClassName() {
+        return driverClassName;
+    }
+
+    public void setDriverClassName(String driverClassName) {
+        this.driverClassName = driverClassName;
+    }
+
+    public String getDbUrl() {
+        return dbUrl;
+    }
+
+    public void setDbUrl(String dbUrl) {
+        this.dbUrl = dbUrl;
+    }
+
+    public String getDbUser() {
+        return dbUser;
+    }
+
+    public void setDbUser(String dbUser) {
+        this.dbUser = dbUser;
+    }
+
+    public String getDbPassword() {
+        return dbPassword;
+    }
+
+    public void setDbPassword(String dbPassword) {
+        this.dbPassword = dbPassword;
     }
 }

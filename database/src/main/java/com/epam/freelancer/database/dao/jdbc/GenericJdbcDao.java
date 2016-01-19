@@ -2,6 +2,7 @@ package com.epam.freelancer.database.dao.jdbc;
 
 import com.epam.freelancer.database.dao.GenericDao;
 import com.epam.freelancer.database.model.BaseEntity;
+import com.epam.freelancer.database.persistence.ConnectionPool;
 import com.epam.freelancer.database.transformer.DataTransformer;
 
 import java.sql.Connection;
@@ -11,15 +12,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 
 public abstract class GenericJdbcDao<T extends BaseEntity<ID>, ID> implements
 		GenericDao<T, ID>
 {
 	protected DataTransformer<T> transformer;
-	protected DataSource dataSource;
-	protected String table;
+    protected ConnectionPool connectionPool;
+    protected String table;
 	protected Class<T> class1;
 
 	public GenericJdbcDao(Class<T> class1) throws Exception {
@@ -31,8 +30,8 @@ public abstract class GenericJdbcDao<T extends BaseEntity<ID>, ID> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public T save(T entity) {
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection.prepareStatement(
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(
 						transformer.getSaveStatement(),
 						Statement.RETURN_GENERATED_KEYS)) {
 			transformer.fillSave(statement, entity);
@@ -49,8 +48,8 @@ public abstract class GenericJdbcDao<T extends BaseEntity<ID>, ID> implements
 
 	@Override
 	public T update(T entity) {
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 						.prepareStatement(transformer.getUpdateStatement())) {
 			transformer.fillUpdate(statement, entity);
 			statement.executeUpdate();
@@ -62,8 +61,8 @@ public abstract class GenericJdbcDao<T extends BaseEntity<ID>, ID> implements
 
 	@Override
 	public void delete(T entity) {
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 						.prepareStatement(transformer.getDeleteStatement())) {
 			transformer.fillDelete(statement, entity);
 			statement.executeUpdate();
@@ -75,8 +74,8 @@ public abstract class GenericJdbcDao<T extends BaseEntity<ID>, ID> implements
 	@Override
 	public T getById(ID id) {
 		T entity = null;
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 						.prepareStatement(transformer.getSelectStatement())) {
 			T temp = class1.newInstance();
 			temp.setId(id);
@@ -96,8 +95,8 @@ public abstract class GenericJdbcDao<T extends BaseEntity<ID>, ID> implements
 	public List<T> getAll() {
 		List<T> entities = new ArrayList<>();
 		String query = "SELECT * FROM " + table;
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection
 						.prepareStatement(query);
 				ResultSet set = statement.executeQuery()) {
 			while (set.next()) {
@@ -111,8 +110,8 @@ public abstract class GenericJdbcDao<T extends BaseEntity<ID>, ID> implements
 	}
 
 	@Override
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
 
 }

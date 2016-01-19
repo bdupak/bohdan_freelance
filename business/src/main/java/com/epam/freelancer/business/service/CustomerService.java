@@ -23,7 +23,7 @@ public class CustomerService extends UserService<Customer> {
     public CustomerService() {
         super(DAOManager.getInstance().getDAO(CustomerDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setDataSource(daoManager.getDataSource());
+        genericDao.setConnectionPool(daoManager.getConnectionPool());
     }
 
     @Override
