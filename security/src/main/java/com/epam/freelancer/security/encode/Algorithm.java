@@ -1,4 +1,4 @@
-package com.epam.freelancer.security;
+package com.epam.freelancer.security.encode;
 
 public interface Algorithm {
 
