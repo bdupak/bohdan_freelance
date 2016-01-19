@@ -37,6 +37,7 @@ public class AdminService extends UserService<Admin> {
         value = data.get("uuid");
         entity.setUuid(value != null ? value[0] : null);
         value = data.get("password");
+        entity.setPassword(value != null ? value[0] : null);
 
         encodePassword(entity);
 

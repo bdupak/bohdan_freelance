@@ -47,6 +47,7 @@ public class DeveloperService extends UserService<Developer> {
         entity.setRegUrl(value != null ? value[0] : null);
         entity.setRegDate(new Date(new java.util.Date().getTime()));
         value = data.get("password");
+        entity.setPassword(value != null ? value[0] : null);
 
         encodePassword(entity);
 
