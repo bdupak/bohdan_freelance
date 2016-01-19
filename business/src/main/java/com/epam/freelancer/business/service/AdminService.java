@@ -5,7 +5,6 @@ import com.epam.freelancer.database.dao.AdminDao;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
 import com.epam.freelancer.database.model.Admin;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,11 +37,9 @@ public class AdminService extends UserService<Admin> {
         value = data.get("uuid");
         entity.setUuid(value != null ? value[0] : null);
         value = data.get("password");
-        try {
-            entity.setPassword(value != null ? encodePassword(value[0]) : null);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+
+        encodePassword(entity);
+
         return genericDao.save(entity);
     }
 

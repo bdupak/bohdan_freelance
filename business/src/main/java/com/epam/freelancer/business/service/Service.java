@@ -1,26 +1,27 @@
 package com.epam.freelancer.business.service;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.Map;
-
 import com.epam.freelancer.business.util.ValidationParametersBuilder.Parameters;
 import com.epam.freelancer.database.model.BaseEntity;
+import com.epam.freelancer.database.model.UserEntity;
+
+import java.util.List;
+import java.util.Map;
 
 public interface Service<T extends BaseEntity<ID>, ID> {
 	T create(Map<String, String[]> data);
 
-	public T modify(T entity);
+    T modify(T entity);
 
-	public void remove(T entity);
+    void remove(T entity);
 
-	public T findById(ID id);
+    T findById(ID id);
 
-	public List<T> findAll();
+    List<T> findAll();
 
-	public default String encodePassword(String password)
-			throws NoSuchAlgorithmException
+    void encodePassword(UserEntity userEntity);
+
+/*	public default String encodePassword(String password)
+            throws NoSuchAlgorithmException
 	{
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		md.update(password.getBytes());
@@ -32,7 +33,7 @@ public interface Service<T extends BaseEntity<ID>, ID> {
 					(byteData[i] & 0xff) + 0x100, 16).substring(1));
 		}
 		return encodedPassword.toString();
-	}
-	
-	public boolean isDataValid(Map<Parameters, String> data);
+	}*/
+
+    boolean isDataValid(Map<Parameters, String> data);
 }

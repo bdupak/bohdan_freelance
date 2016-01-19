@@ -7,9 +7,7 @@ import com.epam.freelancer.database.model.Contact;
 import com.epam.freelancer.database.model.Developer;
 import com.epam.freelancer.database.model.Ordering;
 import com.epam.freelancer.database.model.Worker;
-import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,11 +47,9 @@ public class DeveloperService extends UserService<Developer> {
         entity.setRegUrl(value != null ? value[0] : null);
         entity.setRegDate(new Date(new java.util.Date().getTime()));
         value = data.get("password");
-        try {
-            entity.setPassword(value != null ? encodePassword(value[0]) : null);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+
+        encodePassword(entity);
+
         return genericDao.save(entity);
     }
 
