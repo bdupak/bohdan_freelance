@@ -1,15 +1,14 @@
 package com.epam.freelancer.business.service;
 
-import com.epam.freelancer.business.util.ValidationParametersBuilder;
-import com.epam.freelancer.database.dao.AdminDao;
-import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.Admin;
-
-import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.epam.freelancer.business.util.ValidationParametersBuilder;
+import com.epam.freelancer.database.dao.AdminDao;
+import com.epam.freelancer.database.dao.jdbc.DAOManager;
+import com.epam.freelancer.database.model.Admin;
 
 /**
  * Created by Максим on 18.01.2016.

@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
 import com.epam.freelancer.database.dao.GenericDao;
 import com.epam.freelancer.database.dao.GenericManyToManyDao;
 import com.epam.freelancer.database.model.BaseEntity;
-
-import org.apache.tomcat.jdbc.pool.DataSource;
 
 public final class DAOManager {
 	private DataSource connectionPool;
@@ -42,14 +42,7 @@ public final class DAOManager {
 		Properties properties = getDatasourceProperties("/datasource.properties");
 
 		Class.forName(properties.getProperty("driver"));
-		connectionPool = new DataSource();
-
-		connectionPool.setUsername(properties.getProperty("user"));
-		connectionPool.setPassword(properties.getProperty("password"));
-
-		connectionPool.setDriverClassName(properties.getProperty("driver"));
-		connectionPool.setUrl(properties.getProperty("url"));
-		connectionPool.setInitialSize(200);
+		//init connection pool
 	}
 
 	private Properties getDatasourceProperties(String path) throws IOException {

@@ -4,6 +4,9 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <dependent-module archiveName="business-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/business/business">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="database-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/database/database">
             <dependency-type>uses</dependency-type>
         </dependent-module>

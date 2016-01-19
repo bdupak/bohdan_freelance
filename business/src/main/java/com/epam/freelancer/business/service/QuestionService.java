@@ -1,14 +1,13 @@
 package com.epam.freelancer.business.service;
 
-import com.epam.freelancer.business.util.ValidationParametersBuilder;
-import com.epam.freelancer.database.dao.QuestionDao;
-import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.Answer;
-import com.epam.freelancer.database.model.Question;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.epam.freelancer.business.util.ValidationParametersBuilder;
+import com.epam.freelancer.database.dao.QuestionDao;
+import com.epam.freelancer.database.dao.jdbc.DAOManager;
+import com.epam.freelancer.database.model.Question;
 
 /**
  * Created by Максим on 18.01.2016.
