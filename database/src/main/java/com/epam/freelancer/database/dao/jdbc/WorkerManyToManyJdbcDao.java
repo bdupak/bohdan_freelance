@@ -30,7 +30,7 @@ public class WorkerManyToManyJdbcDao extends GenericJdbcManyToManyDao<Developer,
              PreparedStatement statement = connection
                      .prepareStatement(query)) {
             statement.setObject(1, devId);
-            statement.setObject(2,  false);
+            statement.setObject(2, false);
             try (ResultSet set = statement.executeQuery()) {
                 while (set.next()) {
                     entities.add(secondTransformer.getObject(set));
