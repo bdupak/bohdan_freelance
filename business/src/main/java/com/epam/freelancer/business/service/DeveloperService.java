@@ -3,11 +3,11 @@ package com.epam.freelancer.business.service;
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
 import com.epam.freelancer.database.dao.*;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.Contact;
-import com.epam.freelancer.database.model.Developer;
-import com.epam.freelancer.database.model.Ordering;
-import com.epam.freelancer.database.model.Worker;
+import com.epam.freelancer.database.dao.jdbc.GenericJdbcManyToManyDao;
+import com.epam.freelancer.database.model.*;
+import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,13 +18,14 @@ import java.util.Map;
  */
 public class DeveloperService extends UserService<Developer> {
     private GenericManyToManyDao<Developer, Ordering, Integer> workerMTMDao;
+    private GenericManyToManyDao<Developer, Technology, Integer> devMTMtechDao;
     private GenericDao<Worker,Integer> workerDao;
     private GenericDao<Contact, Integer> contactDao;
 
     public DeveloperService() {
         super(DAOManager.getInstance().getDAO(DeveloperDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setConnectionPool(daoManager.getConnectionPool());
+        genericDao.setDataSource(daoManager.getDataSource());
     }
 
     @Override
@@ -47,10 +48,11 @@ public class DeveloperService extends UserService<Developer> {
         entity.setRegUrl(value != null ? value[0] : null);
         entity.setRegDate(new Date(new java.util.Date().getTime()));
         value = data.get("password");
-        entity.setPassword(value != null ? value[0] : null);
-
-        encodePassword(entity);
-
+        try {
+            entity.setPassword(value != null ? encodePassword(value[0]) : null);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         return genericDao.save(entity);
     }
 
@@ -125,6 +127,14 @@ public class DeveloperService extends UserService<Developer> {
         this.contactDao = contactDao;
     }
 
+    public GenericManyToManyDao<Developer, Technology, Integer> getDevMTMtechDao() {
+        return devMTMtechDao;
+    }
+
+    public void setDevMTMtechDao(GenericManyToManyDao<Developer, Technology, Integer> devMTMtechDao) {
+        this.devMTMtechDao = devMTMtechDao;
+    }
+
     public Worker createWorker(Worker worker){
         return workerDao.save(worker);
     }
@@ -156,4 +166,6 @@ public class DeveloperService extends UserService<Developer> {
     public void deleteContact(Contact contact){
         contactDao.delete(contact);
     }
+
+    public List<Technology> getTechnologiesByDevId(Integer id){ return ((DevMTMTechDao)devMTMtechDao).getTechnologiesByDevId(id);}
 }

@@ -21,6 +21,7 @@ public final class ApplicationContext {
 
         DeveloperService developerService = new DeveloperService();
         developerService.setWorkerMTMDao(daoManager.getManyToManyDAO(WorkerManyToManyDao.class.getSimpleName()));
+        developerService.setDevMTMtechDao(daoManager.getManyToManyDAO(DevMTMTechDao.class.getSimpleName()));
         developerService.setWorkerDao(daoManager.getDAO(WorkerDao.class.getSimpleName()));
         developerService.setContactDao(daoManager.getDAO(ContactDao.class.getSimpleName()));
         addBean("developerService", developerService);
@@ -33,6 +34,7 @@ public final class ApplicationContext {
         try {
             daoManager.addDao(AdminDao.class.getSimpleName(), new AdminJdbcDao());
             daoManager.addDao(WorkerManyToManyDao.class.getSimpleName(), new WorkerManyToManyJdbcDao());
+            daoManager.addDao(DevMTMTechDao.class.getSimpleName(), new DevMTMTechJdbcDao());
             daoManager.addDao(TestDao.class.getSimpleName(), new TestJdbcDao());
             daoManager.addDao(WorkerDao.class.getSimpleName(), new WorkerJdbcDao());
             daoManager.addDao(Contact.class.getSimpleName(), new ContactJdbcDao());
