@@ -30,4 +30,8 @@ public interface UserEntity extends BaseEntity<Integer> {
     String getLang();
 
     void setLang(String lang);
+
+    String getSalt();
+
+    void setSalt(String salt);
 }
