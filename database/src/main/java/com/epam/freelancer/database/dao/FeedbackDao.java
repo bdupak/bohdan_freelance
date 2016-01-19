@@ -1,6 +1,5 @@
 package com.epam.freelancer.database.dao;
 
-
 import com.epam.freelancer.database.model.Feedback;
 
 import java.util.List;
@@ -10,8 +9,8 @@ import java.util.List;
  */
 public interface FeedbackDao extends GenericDao<Feedback, Integer> {
 
-    public List<Feedback> getFeedbacksByDevId(Integer id);
+	public List<Feedback> getFeedbacksByDevId(Integer id);
 
-    public List<Feedback>  getFeedbacksByCustId(Integer id);
+	public List<Feedback> getFeedbacksByCustId(Integer id);
 
 }

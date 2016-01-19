@@ -12,8 +12,8 @@ import java.sql.ResultSet;
  * Created by ������ on 17.01.2016.
  */
 public class DeveloperQAJdbcDao extends GenericJdbcDao<DeveloperQA, Integer> implements DeveloperQADao {
-    public DeveloperQAJdbcDao(Class<DeveloperQA> class1) throws Exception {
-        super(class1);
+    public DeveloperQAJdbcDao() throws Exception {
+        super(DeveloperQA.class);
     }
 
     @Override

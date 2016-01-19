@@ -42,7 +42,7 @@ public final class DAOManager {
 		Properties properties = getDatasourceProperties("/datasource.properties");
 
 		Class.forName(properties.getProperty("driver"));
-		//init connection pool
+		// init connection pool
 	}
 
 	private Properties getDatasourceProperties(String path) throws IOException {
@@ -69,10 +69,10 @@ public final class DAOManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <F extends BaseEntity<ID>, S extends BaseEntity<ID>, ID> GenericManyToManyDao<F, S, ID> getManyToManyDAO(
+	public <F extends BaseEntity<ID>, S extends BaseEntity<ID>, M extends BaseEntity<ID>, ID> GenericManyToManyDao<F, S, M, ID> getManyToManyDAO(
 			String daoName)
 	{
-		return (GenericManyToManyDao<F, S, ID>) daos.get(daoName);
+		return (GenericManyToManyDao<F, S, M, ID>) daos.get(daoName);
 	}
 
 }

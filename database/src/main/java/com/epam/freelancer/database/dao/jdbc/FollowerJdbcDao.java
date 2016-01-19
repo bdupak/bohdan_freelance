@@ -8,7 +8,7 @@ import com.epam.freelancer.database.model.Follower;
  * Created by ������ on 17.01.2016.
  */
 public class FollowerJdbcDao extends GenericJdbcDao<Follower, Integer> implements FollowerDao {
-    public FollowerJdbcDao(Class<Follower> class1) throws Exception {
-        super(class1);
+    public FollowerJdbcDao() throws Exception {
+        super(Follower.class);
     }
 }

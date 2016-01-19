@@ -45,10 +45,9 @@ public class FrontController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException
 	{
 		LOG.info(getClass().getSimpleName() + " - " + "doGet");
-		request.setCharacterEncoding("UTF-8");
 		try {
-//			if (request.getSession().isNew())
-//				configAutoAuthentication(request.getSession());
+			if (request.getSession().isNew())
+				configAutoAuthentication(request.getSession());
 
 			String path = request.getRequestURI().substring(
 					request.getContextPath().length());
@@ -58,17 +57,16 @@ public class FrontController extends HttpServlet {
 				if ("".equals(path))
 					path = "home";
 
-//				controllers.get("lang").service(request, response);
 				if (path.startsWith("admin/")) {
 					controllers.get("admin/").service(request, response);
 					return;
 				}
-				if (path.startsWith("student/")) {
-					controllers.get("student/").service(request, response);
+				if (path.startsWith("dev/")) {
+					controllers.get("dev/").service(request, response);
 					return;
 				}
-				if (path.startsWith("teacher/")) {
-					controllers.get("teacher/").service(request, response);
+				if (path.startsWith("cust/")) {
+					controllers.get("cust/").service(request, response);
 					return;
 				}
 				if (path.equals("language/bundle")) {
@@ -117,9 +115,9 @@ public class FrontController extends HttpServlet {
 				+ "configAutoAuthentication");
 		EnvironmentVariablesManager manager = EnvironmentVariablesManager
 				.getInstance();
-		session.setAttribute(manager.getVar("session.student.autoauth"), 1);
+		session.setAttribute(manager.getVar("session.dev.autoauth"), 1);
 		session.setAttribute(manager.getVar("session.admin.autoauth"), 1);
-		session.setAttribute(manager.getVar("session.teacher.autoauth"), 1);
+		session.setAttribute(manager.getVar("session.cust.autoauth"), 1);
 	}
 
 	@Override
@@ -127,7 +125,6 @@ public class FrontController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException
 	{
 		LOG.info(getClass().getSimpleName() + " - " + "doPost");
-		request.setCharacterEncoding("UTF-8");
 		try {
 			String path = request.getRequestURI().substring(
 					request.getContextPath().length());
@@ -138,12 +135,12 @@ public class FrontController extends HttpServlet {
 					controllers.get("admin/").service(request, response);
 					return;
 				}
-				if (path.startsWith("student/")) {
-					controllers.get("student/").service(request, response);
+				if (path.startsWith("dev/")) {
+					controllers.get("dev/").service(request, response);
 					return;
 				}
-				if (path.startsWith("teacher/")) {
-					controllers.get("teacher/").service(request, response);
+				if (path.startsWith("cust/")) {
+					controllers.get("cust/").service(request, response);
 					return;
 				}
 				controllers.get(path).service(request, response);

@@ -14,8 +14,8 @@ import java.util.List;
  * Created by ������ on 17.01.2016.
  */
 public class FeedbackJdbcDao extends GenericJdbcDao<Feedback, Integer> implements FeedbackDao {
-    public FeedbackJdbcDao(Class<Feedback> class1) throws Exception {
-        super(class1);
+    public FeedbackJdbcDao() throws Exception {
+        super(Feedback.class);
     }
 
     @Override

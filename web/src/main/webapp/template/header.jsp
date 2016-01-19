@@ -6,8 +6,8 @@
 			<div class="outer-box">
 				<div class="logo">
 					<a href="${pageContext.request.contextPath}/home">
-						<img alt="Site logo" class="img-logo img-png animated rotateIn" data-tooltip="yes"
-							title="Home" data-placement="right"
+						<img alt="Site logo" class="img-logo img-png animated rotateIn"
+							data-tooltip="yes" title="Home" data-placement="right"
 							src="${pageContext.request.contextPath}/resources/img/logo.png">
 					</a>
 				</div>
@@ -23,16 +23,16 @@
 					</div>
 
 					<div class="navbar-collapse collapse clearfix">
-						<%-- 						<sec:access role="none"> --%>
-						<ul class="navigation">
-							<li><a href="${pageContext.request.contextPath}/signin">
-									<i class="fa fa-sign-in"></i>Sign In
-								</a></li>
-							<li><a href="${pageContext.request.contextPath}/signup">
-									<i class="fa fa-user-plus"></i>Sign Up
-								</a></li>
-						</ul>
-						<%-- 						</sec:access> --%>
+						<sec:access role="none">
+							<ul class="navigation">
+								<li><a href="${pageContext.request.contextPath}/signin">
+										<i class="fa fa-sign-in"></i>Sign In
+									</a></li>
+								<li><a href="${pageContext.request.contextPath}/signup">
+										<i class="fa fa-user-plus"></i>Sign Up
+									</a></li>
+							</ul>
+						</sec:access>
 						<%-- 						<sec:access role="user"> --%>
 						<ul class="navigation">
 							<li><a

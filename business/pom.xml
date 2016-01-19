@@ -9,6 +9,11 @@
 	</parent>
 
 	<artifactId>business</artifactId>
+	
+	<build>
+		<finalName>business</finalName>
+	</build>
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -29,8 +34,10 @@
 			<artifactId>database</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.epam</groupId>
+			<artifactId>security</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
-	<build>
-		<finalName>business</finalName>
-	</build>
 </project>

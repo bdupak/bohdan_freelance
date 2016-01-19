@@ -1,13 +1,16 @@
 package com.epam.freelancer.database.dao;
 
+import java.util.List;
+
 import com.epam.freelancer.database.model.Developer;
 import com.epam.freelancer.database.model.Ordering;
-
-import java.util.List;
+import com.epam.freelancer.database.model.Worker;
 
 /**
  * Created by Максим on 18.01.2016.
  */
-public interface WorkerManyToManyDao extends  GenericManyToManyDao<Developer, Ordering, Integer> {
-    List<Ordering> getPortfolio(Integer devId);
+public interface WorkerManyToManyDao extends
+		GenericManyToManyDao<Developer, Ordering, Worker, Integer>
+{
+	List<Ordering> getPortfolio(Integer devId);
 }

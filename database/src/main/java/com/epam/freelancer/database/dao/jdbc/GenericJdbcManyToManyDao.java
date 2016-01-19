@@ -1,9 +1,5 @@
 package com.epam.freelancer.database.dao.jdbc;
 
-import com.epam.freelancer.database.dao.GenericManyToManyDao;
-import com.epam.freelancer.database.model.BaseEntity;
-import com.epam.freelancer.database.transformer.DataTransformer;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,24 +9,30 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.epam.freelancer.database.dao.GenericManyToManyDao;
+import com.epam.freelancer.database.model.BaseEntity;
+import com.epam.freelancer.database.transformer.DataTransformer;
 
-public abstract class GenericJdbcManyToManyDao<F extends BaseEntity<ID>, S extends BaseEntity<ID>, ID>
-		implements GenericManyToManyDao<F, S, ID>
+public abstract class GenericJdbcManyToManyDao<F extends BaseEntity<ID>, S extends BaseEntity<ID>, M extends BaseEntity<ID>, ID>
+		implements GenericManyToManyDao<F, S, M, ID>
 {
 	protected DataSource dataSource;
 	protected String table;
 	protected String firstTable;
-
 	protected String secondTable;
+
 	protected String firstIdName;
 	protected String secondIdName;
+
 	protected DataTransformer<F> firstTransformer;
 	protected DataTransformer<S> secondTransformer;
+	protected DataTransformer<M> middleTransformer;
 
 	public GenericJdbcManyToManyDao(String table, String firstTable,
 			String secondTable, String firstIdName, String secondIdName,
 			DataTransformer<F> firstTransformer,
-			DataTransformer<S> secondTransformer)
+			DataTransformer<S> secondTransformer,
+			DataTransformer<M> middleTransformer)
 	{
 		this.table = table;
 		this.firstTable = firstTable;
@@ -39,19 +41,7 @@ public abstract class GenericJdbcManyToManyDao<F extends BaseEntity<ID>, S exten
 		this.secondIdName = secondIdName;
 		this.firstTransformer = firstTransformer;
 		this.secondTransformer = secondTransformer;
-	}
-
-	public GenericJdbcManyToManyDao(String table, String firstTable,
-			String secondTable, DataTransformer<F> firstTransformer,
-			DataTransformer<S> secondTransformer)
-	{
-		this.table = table;
-		this.firstTable = firstTable;
-		this.secondTable = secondTable;
-		this.firstIdName = firstTable + "_id";
-		this.secondIdName = secondTable + "_id";
-		this.firstTransformer = firstTransformer;
-		this.secondTransformer = secondTransformer;
+		this.middleTransformer = middleTransformer;
 	}
 
 	@Override
@@ -116,4 +106,29 @@ public abstract class GenericJdbcManyToManyDao<F extends BaseEntity<ID>, S exten
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
+
+	// @Override
+	// public List<ObjectHolder<M, S>> getFullEntityForFirst(ID firstId) {
+	// List<ObjectHolder<M, S>> entities = new ArrayList<>();
+	// String query = "SELECT * FROM " + secondTable + ", " + table
+	// + " WHERE " + secondTable + ".id = " + table + "."
+	// + secondIdName + " AND " + table + "." + firstIdName + " = ?";
+	// try (Connection connection = dataSource.getConnection();
+	// PreparedStatement statement = connection
+	// .prepareStatement(query)) {
+	// statement.setObject(1, firstId);
+	// try (ResultSet set = statement.executeQuery()) {
+	// while (set.next()) {
+	// ObjectHolder<M, S> entity = new ObjectHolder<>();
+	// entity.setFirst(middleTransformer.getObject(set));
+	// entity.setSecond(secondTransformer.getObject(set));
+	//
+	// entities.add(entity);
+	// }
+	// }
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return entities;
+	// }
 }

@@ -11,6 +11,9 @@ import com.epam.freelancer.business.context.ApplicationContext;
 import com.epam.freelancer.business.service.UserService;
 import com.epam.freelancer.business.util.CookieManager;
 import com.epam.freelancer.business.util.EnvironmentVariablesManager;
+import com.epam.freelancer.database.model.Admin;
+import com.epam.freelancer.database.model.Customer;
+import com.epam.freelancer.database.model.Developer;
 import com.epam.freelancer.database.model.UserEntity;
 
 public class AuthenticationProvider {
@@ -73,18 +76,18 @@ public class AuthenticationProvider {
 	private boolean checkUserEntityType(Object user, String type) {
 		boolean result = false;
 		switch (type) {
-//		case "student":
-//			if (user instanceof StudentEntity)
-//				result = true;
-//			break;
-//		case "admin":
-//			if (user instanceof AdminEntity)
-//				result = true;
-//			break;
-//		case "teacher":
-//			if (user instanceof TeacherEntity)
-//				result = true;
-//			break;
+		case "developer":
+			if (user instanceof Developer)
+				result = true;
+			break;
+		case "admin":
+			if (user instanceof Admin)
+				result = true;
+			break;
+		case "customer":
+			if (user instanceof Customer)
+				result = true;
+			break;
 		default:
 			result = false;
 			break;
