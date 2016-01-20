@@ -17,6 +17,10 @@ public final class ApplicationContext {
     public static ApplicationContext getInstance() {
         return ApplicationContextHolder.INSTANCE;
     }
+    
+    public static void main(String[] args) {
+		AnswerService answerService = (AnswerService) ApplicationContext.getInstance().getBean("answerService");
+	}
 
     private void initContext() {
         initDAO();
@@ -34,6 +38,7 @@ public final class ApplicationContext {
         addBean("feedbackService", new FeedbackService());
         addBean("orderingService", new OrderingService());
         addBean("questionService", new QuestionService());
+        addBean("answerService", new AnswerService());
         addBean("testService", new TestService());
     }
 
