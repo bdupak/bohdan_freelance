@@ -54,11 +54,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.epam</groupId>
-			<artifactId>business</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.epam</groupId>
 			<artifactId>security</artifactId>
 			<version>1.0</version>
 		</dependency>

@@ -1,3 +1,7 @@
+business/target/
+database/target/
+web/target/
+securiry/target/
 /target/
 .idea
 .idea

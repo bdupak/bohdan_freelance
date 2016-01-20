@@ -43,6 +43,20 @@ public abstract class GenericJdbcManyToManyDao<F extends BaseEntity<ID>, S exten
 		this.secondTransformer = secondTransformer;
 		this.middleTransformer = middleTransformer;
 	}
+	
+	public GenericJdbcManyToManyDao(String table, String firstTable,
+			String secondTable, String firstIdName, String secondIdName,
+			DataTransformer<F> firstTransformer,
+			DataTransformer<S> secondTransformer)
+	{
+		this.table = table;
+		this.firstTable = firstTable;
+		this.secondTable = secondTable;
+		this.firstIdName = firstIdName;
+		this.secondIdName = secondIdName;
+		this.firstTransformer = firstTransformer;
+		this.secondTransformer = secondTransformer;
+	}
 
 	@Override
 	public List<S> getBasedOnFirst(ID firstId) {
