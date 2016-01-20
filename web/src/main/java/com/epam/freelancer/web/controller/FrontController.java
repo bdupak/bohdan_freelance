@@ -15,12 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.epam.freelancer.business.service.DeveloperService;
-import com.epam.freelancer.database.model.Contact;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import com.epam.freelancer.business.context.ApplicationContext;
 
 public class FrontController extends HttpServlet {
 	private final static Logger LOG = Logger.getLogger(FrontController.class);
@@ -38,15 +34,10 @@ public class FrontController extends HttpServlet {
 		LOG.info(getClass().getSimpleName() + " - " + "front controller loaded");
 		super.init(config);
 		configControllers();
-
-
-        DeveloperService developerService= (DeveloperService) ApplicationContext.getInstance().getBean("developerService");
-		Contact contact =  developerService.getContactByDevId(2);
 	}
 
     private void configControllers() {
         controllers.put("user/", new UserController());
-        System.out.println(controllers);
     }
 
 	protected void doGet(HttpServletRequest request,

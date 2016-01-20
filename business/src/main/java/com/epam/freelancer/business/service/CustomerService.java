@@ -82,10 +82,6 @@ public class CustomerService extends UserService<Customer> {
 		return map;
 	}
 
-	public GenericDao<Contact, Integer> getContactDao() {
-		return contactDao;
-	}
-
 	public void setContactDao(GenericDao<Contact, Integer> contactDao) {
 		this.contactDao = contactDao;
 		this.contactDao.setConnectionPool(DAOManager.getInstance()

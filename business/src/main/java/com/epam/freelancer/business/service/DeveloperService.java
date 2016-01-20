@@ -1,14 +1,24 @@
 package com.epam.freelancer.business.service;
 
-import com.epam.freelancer.business.util.ValidationParametersBuilder;
-import com.epam.freelancer.database.dao.*;
-import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.*;
-
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.epam.freelancer.business.util.ValidationParametersBuilder;
+import com.epam.freelancer.database.dao.ContactDao;
+import com.epam.freelancer.database.dao.DeveloperDao;
+import com.epam.freelancer.database.dao.GenericDao;
+import com.epam.freelancer.database.dao.GenericManyToManyDao;
+import com.epam.freelancer.database.dao.WorkerManyToManyDao;
+import com.epam.freelancer.database.dao.jdbc.DAOManager;
+import com.epam.freelancer.database.model.BaseEntity;
+import com.epam.freelancer.database.model.Contact;
+import com.epam.freelancer.database.model.Developer;
+import com.epam.freelancer.database.model.Ordering;
+import com.epam.freelancer.database.model.Technology;
+import com.epam.freelancer.database.model.Worker;
 
 /**
  * Created by Максим on 18.01.2016.
@@ -44,7 +54,7 @@ public class DeveloperService extends UserService<Developer> {
 		entity.setUuid(value != null ? value[0] : null);
 		value = data.get("reg_url");
 		entity.setRegUrl(value != null ? value[0] : null);
-		entity.setRegDate(new Date(new java.util.Date().getTime()));
+		entity.setRegDate(new Timestamp(new Date().getTime()));
 		value = data.get("password");
 		entity.setPassword(value != null ? value[0] : null);
 
@@ -91,6 +101,8 @@ public class DeveloperService extends UserService<Developer> {
 			GenericManyToManyDao<Developer, Ordering, Worker, Integer> workerMTMDao)
 	{
 		this.workerMTMDao = workerMTMDao;
+		this.workerMTMDao.setConnectionPool(DAOManager.getInstance()
+				.getConnectionPool());
 	}
 
 	public void setWorkerDao(GenericDao<Worker, Integer> workerDao) {
@@ -105,15 +117,12 @@ public class DeveloperService extends UserService<Developer> {
 				.getConnectionPool());
 	}
 
-	public GenericManyToManyDao<Developer, Technology, BaseEntity<Integer>, Integer> getDevMTMtechDao()
-	{
-		return devMTMtechDao;
-	}
-
 	public void setDevMTMtechDao(
 			GenericManyToManyDao<Developer, Technology, BaseEntity<Integer>, Integer> devMTMtechDao)
 	{
 		this.devMTMtechDao = devMTMtechDao;
+		this.devMTMtechDao.setConnectionPool(DAOManager.getInstance()
+				.getConnectionPool());
 	}
 
 	public Worker createWorker(Worker worker) {
