@@ -58,5 +58,7 @@ public class UserController extends HttpServlet {
         System.out.println("email: " + email);
         System.out.println("password: " + password);
         System.out.println("password_confirmation: " + password_confirmation);
+
+
     }
 }

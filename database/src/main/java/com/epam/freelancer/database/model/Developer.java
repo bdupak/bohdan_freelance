@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import java.util.Locale;
 
 /**
- * Created by ������ on 15.01.2016.
+ * Created by Max on 15.01.2016.
  */
 @Table(name = "developer")
 public class Developer implements UserEntity {
@@ -25,7 +25,6 @@ public class Developer implements UserEntity {
     private String lname;
     @Column
     private Double hourly;
-    @Column
     private Timestamp zone;
     private Locale locale;
     @Column
