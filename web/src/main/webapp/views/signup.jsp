@@ -52,7 +52,7 @@
 							</div>
 						</c:if>
 						<form role="form" method="post" id="registerForm"
-							action="${pageContext.request.contextPath}/student/create"
+                              action="${pageContext.request.contextPath}/user/create"
 							class="animated fadeInUp">
 							<div class="row">
 								<div class="col-xs-6 col-sm-6 col-md-6">

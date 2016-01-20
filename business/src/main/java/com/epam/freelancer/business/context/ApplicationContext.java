@@ -1,13 +1,6 @@
 package com.epam.freelancer.business.context;
 
-import com.epam.freelancer.business.service.AdminService;
-import com.epam.freelancer.business.service.CustomerService;
-import com.epam.freelancer.business.service.DeveloperQAService;
-import com.epam.freelancer.business.service.DeveloperService;
-import com.epam.freelancer.business.service.FeedbackService;
-import com.epam.freelancer.business.service.OrderingService;
-import com.epam.freelancer.business.service.QuestionService;
-import com.epam.freelancer.business.service.TestService;
+import com.epam.freelancer.business.service.*;
 import com.epam.freelancer.database.dao.*;
 import com.epam.freelancer.database.dao.jdbc.*;
 import com.epam.freelancer.database.model.Contact;
@@ -19,6 +12,10 @@ public final class ApplicationContext {
     private Map<String, Object> beans = new ConcurrentHashMap<>();
 
     private ApplicationContext() {
+    }
+
+    public static ApplicationContext getInstance() {
+        return ApplicationContextHolder.INSTANCE;
     }
 
     private void initContext() {
@@ -48,6 +45,7 @@ public final class ApplicationContext {
             daoManager.addDao(Contact.class.getSimpleName(), new ContactJdbcDao());
             daoManager.addDao(CustomerDao.class.getSimpleName(), new CustomerJdbcDao());
             daoManager.addDao(DeveloperDao.class.getSimpleName(), new DeveloperJdbcDao());
+            daoManager.addDao(DeveloperQADao.class.getSimpleName(), new DeveloperQAJdbcDao());
             daoManager.addDao(DevTechManyToManyDao.class.getSimpleName(), new DevTechManyToManyJdbcDao());
             daoManager.addDao(FeedbackDao.class.getSimpleName(), new FeedbackJdbcDao());
 //            daoManager.addDao(FollowerDao.class.getSimpleName(), new Folo);
@@ -64,24 +62,20 @@ public final class ApplicationContext {
 
     }
 
-    private static final class ApplicationContextHolder {
-        private static final ApplicationContext INSTANCE = new ApplicationContext();
-
-        static {
-            INSTANCE.initContext();
-        }
-    }
-
-    public static ApplicationContext getInstance() {
-        return ApplicationContextHolder.INSTANCE;
-    }
-
     public Object getBean(String key) {
         return beans.get(key);
     }
 
     public Object addBean(String key, Object bean) {
         return beans.put(key, bean);
+    }
+
+    private static final class ApplicationContextHolder {
+        private static final ApplicationContext INSTANCE = new ApplicationContext();
+
+        static {
+            INSTANCE.initContext();
+        }
     }
 
 }
