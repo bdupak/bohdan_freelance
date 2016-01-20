@@ -1,7 +1,13 @@
 package com.epam.freelancer.business.context;
 
 import com.epam.freelancer.business.service.AdminService;
+import com.epam.freelancer.business.service.CustomerService;
+import com.epam.freelancer.business.service.DeveloperQAService;
 import com.epam.freelancer.business.service.DeveloperService;
+import com.epam.freelancer.business.service.FeedbackService;
+import com.epam.freelancer.business.service.OrderingService;
+import com.epam.freelancer.business.service.QuestionService;
+import com.epam.freelancer.business.service.TestService;
 import com.epam.freelancer.database.dao.*;
 import com.epam.freelancer.database.dao.jdbc.*;
 import com.epam.freelancer.database.model.Contact;
@@ -21,23 +27,37 @@ public final class ApplicationContext {
 
         DeveloperService developerService = new DeveloperService();
         developerService.setWorkerMTMDao(daoManager.getManyToManyDAO(WorkerManyToManyDao.class.getSimpleName()));
-        developerService.setDevMTMtechDao(daoManager.getManyToManyDAO(DevMTMTechDao.class.getSimpleName()));
+        developerService.setDevMTMtechDao(daoManager.getManyToManyDAO(DevTechManyToManyDao.class.getSimpleName()));
         developerService.setWorkerDao(daoManager.getDAO(WorkerDao.class.getSimpleName()));
         developerService.setContactDao(daoManager.getDAO(ContactDao.class.getSimpleName()));
         addBean("developerService", developerService);
-        AdminService adminService = new AdminService();
-        addBean("adminService", adminService);
+        addBean("adminService", new AdminService());
+        addBean("customerService", new CustomerService());
+        addBean("developerQAService", new DeveloperQAService());
+        addBean("feedbackService", new FeedbackService());
+        addBean("orderingService", new OrderingService());
+        addBean("questionService", new QuestionService());
+        addBean("testService", new TestService());
     }
 
     private void initDAO() {
         DAOManager daoManager = DAOManager.getInstance();
         try {
             daoManager.addDao(AdminDao.class.getSimpleName(), new AdminJdbcDao());
-            daoManager.addDao(WorkerManyToManyDao.class.getSimpleName(), new WorkerManyToManyJdbcDao());
-            daoManager.addDao(DevMTMTechDao.class.getSimpleName(), new DevMTMTechJdbcDao());
+            daoManager.addDao(AnswerDao.class.getSimpleName(), new AnswerJdbcDao());
+            daoManager.addDao(Contact.class.getSimpleName(), new ContactJdbcDao());
+            daoManager.addDao(CustomerDao.class.getSimpleName(), new CustomerJdbcDao());
+            daoManager.addDao(DeveloperDao.class.getSimpleName(), new DeveloperJdbcDao());
+            daoManager.addDao(DevTechManyToManyDao.class.getSimpleName(), new DevTechManyToManyJdbcDao());
+            daoManager.addDao(FeedbackDao.class.getSimpleName(), new FeedbackJdbcDao());
+//            daoManager.addDao(FollowerDao.class.getSimpleName(), new Folo);
+//            daoManager.addDao(FollowerManyToManyDao.class.getSimpleName(), new fo);
+            daoManager.addDao(OrderingDao.class.getSimpleName(), new OrderingJdbcDao());
+            daoManager.addDao(QuestionDao.class.getSimpleName(), new QuestionJdbcDao());
+            daoManager.addDao(TechnologyDao.class.getSimpleName(), new TechnologyJdbcDao());
             daoManager.addDao(TestDao.class.getSimpleName(), new TestJdbcDao());
             daoManager.addDao(WorkerDao.class.getSimpleName(), new WorkerJdbcDao());
-            daoManager.addDao(Contact.class.getSimpleName(), new ContactJdbcDao());
+            daoManager.addDao(WorkerManyToManyDao.class.getSimpleName(), new WorkerManyToManyJdbcDao());
         } catch (Exception e) {
             e.printStackTrace();
         }
