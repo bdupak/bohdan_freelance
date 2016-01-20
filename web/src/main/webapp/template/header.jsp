@@ -28,7 +28,7 @@
 								<li><a href="${pageContext.request.contextPath}/signin">
 										<i class="fa fa-sign-in"></i>Sign In
 									</a></li>
-								<li><a href="${pageContext.request.contextPath}/signup">
+                                <li><a href="${pageContext.request.contextPath}/chooserole">
 										<i class="fa fa-user-plus"></i>Sign Up
 									</a></li>
 							</ul>
