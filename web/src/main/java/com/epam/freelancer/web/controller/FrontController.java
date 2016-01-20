@@ -1,16 +1,5 @@
 package com.epam.freelancer.web.controller;
 
-import com.epam.freelancer.business.context.ApplicationContext;
-import com.epam.freelancer.business.service.AdminService;
-import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -18,6 +7,20 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.epam.freelancer.business.service.DeveloperService;
+import com.epam.freelancer.database.model.Contact;
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.epam.freelancer.business.context.ApplicationContext;
 
 public class FrontController extends HttpServlet {
 	private final static Logger LOG = Logger.getLogger(FrontController.class);
@@ -35,8 +38,10 @@ public class FrontController extends HttpServlet {
 		LOG.info(getClass().getSimpleName() + " - " + "front controller loaded");
 		super.init(config);
 		configControllers();
-        AdminService adminService = (AdminService) ApplicationContext.getInstance().getBean("adminService");
 
+
+        DeveloperService developerService= (DeveloperService) ApplicationContext.getInstance().getBean("developerService");
+		Contact contact =  developerService.getContactByDevId(2);
 	}
 
     private void configControllers() {

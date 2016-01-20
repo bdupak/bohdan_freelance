@@ -17,103 +17,107 @@ import java.util.Map;
  * Created by Максим on 18.01.2016.
  */
 public class CustomerService extends UserService<Customer> {
+	private GenericDao<Contact, Integer> contactDao;
 
-    private GenericDao<Contact, Integer> contactDao;
+	public CustomerService() {
+		super(DAOManager.getInstance()
+				.getDAO(CustomerDao.class.getSimpleName()));
+		DAOManager daoManager = DAOManager.getInstance();
+		genericDao.setConnectionPool(daoManager.getConnectionPool());
+	}
 
-    public CustomerService() {
-        super(DAOManager.getInstance().getDAO(CustomerDao.class.getSimpleName()));
-        DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setConnectionPool(daoManager.getConnectionPool());
-    }
+	@Override
+	public Customer create(Map<String, String[]> data) {
+		if (!isDataValid(prepareData(data)))
+			throw new RuntimeException("Validation exception");
 
-    @Override
-    public Customer create(Map<String, String[]> data) {
-        if (!isDataValid(prepareData(data)))
-            throw new RuntimeException("Validation exception");
+		Customer entity = new Customer();
+		String[] value = data.get("first_name");
+		entity.setFname(value != null ? value[0] : null);
+		value = data.get("last_name");
+		entity.setLname(value != null ? value[0] : null);
+		value = data.get("email");
+		entity.setEmail(value != null ? value[0] : null);
+		value = data.get("lang");
+		entity.setLang(value != null ? value[0] : "en");
+		value = data.get("uuid");
+		entity.setUuid(value != null ? value[0] : null);
+		value = data.get("reg_url");
+		entity.setRegUrl(value != null ? value[0] : null);
+		entity.setRegDate(new Date(new java.util.Date().getTime()));
+		value = data.get("password");
+		entity.setPassword(value != null ? value[0] : null);
 
-        Customer entity = new Customer();
-        String[] value = data.get("first_name");
-        entity.setFname(value != null ? value[0] : null);
-        value = data.get("last_name");
-        entity.setLname(value != null ? value[0] : null);
-        value = data.get("email");
-        entity.setEmail(value != null ? value[0] : null);
-        value = data.get("lang");
-        entity.setLang(value != null ? value[0] : "en");
-        value = data.get("uuid");
-        entity.setUuid(value != null ? value[0] : null);
-        value = data.get("reg_url");
-        entity.setRegUrl(value != null ? value[0] : null);
-        entity.setRegDate(new Date(new java.util.Date().getTime()));
-        value = data.get("password");
-        entity.setPassword(value != null ? value[0] : null);
+		encodePassword(entity);
 
-        encodePassword(entity);
+		return genericDao.save(entity);
+	}
 
-        return genericDao.save(entity);
-    }
+	public void deleteCustomer(Customer Customer) {
+		genericDao.delete(Customer);
+	}
 
-    public void deleteCustomer(Customer Customer){
-        genericDao.delete(Customer);
-    }
+	public Customer updateCustomer(Customer Customer) {
+		return genericDao.update(Customer);
+	}
 
-    public Customer updateCustomer(Customer Customer){
-        return genericDao.update(Customer);
-    }
+	public Customer getCustomer(Integer id) {
+		return genericDao.getById(id);
+	}
 
-    public Customer getCustomer(Integer id){
-        return genericDao.getById(id);
-    }
+	public List<Customer> getAllCustomers() {
+		return genericDao.getAll();
+	}
 
-    public List<Customer> getAllCustomers(){
-        return genericDao.getAll();
-    }
+	private Map<ValidationParametersBuilder.Parameters, String> prepareData(
+			Map<String, String[]> data)
+	{
+		Map<ValidationParametersBuilder.Parameters, String> map = new HashMap<>();
+		map.put(ValidationParametersBuilder.createParameters(false)
+				.maxLength(50).minLength(1),
+				data.get("first_name") == null ? null
+						: data.get("first_name")[0]);
+		map.put(ValidationParametersBuilder.createParameters(false)
+				.maxLength(50).minLength(1),
+				data.get("last_name") == null ? null : data.get("last_name")[0]);
+		map.put(ValidationParametersBuilder.createParameters(false)
+				.maxLength(50).minLength(1), data.get("lang") == null ? null
+				: data.get("lang")[0]);
+		map.put(ValidationParametersBuilder.createParameters(false)
+				.maxLength(50).minLength(1), data.get("uuid") == null ? null
+				: data.get("uuid")[0]);
+		map.put(ValidationParametersBuilder.createParameters(false)
+				.maxLength(140).minLength(1),
+				data.get("password") == null ? null : data.get("password")[0]);
+		map.put(ValidationParametersBuilder
+				.createParameters(false)
+				.maxLength(50)
+				.pattern(
+						"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]+)"),
+				data.get("email") == null ? null : data.get("email")[0]);
 
-    private Map<ValidationParametersBuilder.Parameters, String> prepareData(Map<String, String[]> data) {
-        Map<ValidationParametersBuilder.Parameters, String> map = new HashMap<>();
-        map.put(ValidationParametersBuilder.createParameters(false).maxLength(50)
-                        .minLength(1),
-                data.get("first_name") == null ? null
-                        : data.get("first_name")[0]);
-        map.put(ValidationParametersBuilder.createParameters(false).maxLength(50)
-                        .minLength(1),
-                data.get("last_name") == null ? null : data.get("last_name")[0]);
-        map.put(ValidationParametersBuilder.createParameters(false).maxLength(50)
-                        .minLength(1),
-                data.get("lang") == null ? null : data.get("lang")[0]);
-        map.put(ValidationParametersBuilder.createParameters(false).maxLength(50)
-                        .minLength(1),
-                data.get("uuid") == null ? null : data.get("uuid")[0]);
-        map.put(ValidationParametersBuilder.createParameters(false).maxLength(140)
-                        .minLength(1),
-                data.get("password") == null ? null : data.get("password")[0]);
-        map.put(ValidationParametersBuilder
-                        .createParameters(false)
-                        .maxLength(50)
-                        .pattern(
-                                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]+)"),
-                data.get("email") == null ? null : data.get("email")[0]);
+		return map;
+	}
 
-        return map;
-    }
+	public GenericDao<Contact, Integer> getContactDao() {
+		return contactDao;
+	}
 
-    public GenericDao<Contact, Integer> getContactDao() {
-        return contactDao;
-    }
+	public void setContactDao(GenericDao<Contact, Integer> contactDao) {
+		this.contactDao = contactDao;
+		this.contactDao.setConnectionPool(DAOManager.getInstance()
+				.getConnectionPool());
+	}
 
-    public void setContactDao(GenericDao<Contact, Integer> contactDao) {
-        this.contactDao = contactDao;
-    }
+	public Contact getContactByCustomerId(Integer id) {
+		return ((ContactDao) contactDao).getContactByCustId(id);
+	}
 
-    public Contact getContactByCustomerId(Integer id){
-        return ((ContactDao)contactDao).getContactByCustId(id);
-    }
+	public Contact updateContact(Contact contact) {
+		return contactDao.update(contact);
+	}
 
-    public Contact updateContact(Contact contact){
-        return contactDao.update(contact);
-    }
-
-    public void deleteContact(Contact contact){
-        contactDao.delete(contact);
-    }
+	public void deleteContact(Contact contact) {
+		contactDao.delete(contact);
+	}
 }
