@@ -26,9 +26,6 @@ public class Test implements BaseEntity<Integer> {
     @Column
     private Integer version;
 
-    public Test() {
-    }
-
     public Integer getTechId() {
         return techId;
     }

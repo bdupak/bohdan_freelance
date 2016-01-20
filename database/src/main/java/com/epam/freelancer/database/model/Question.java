@@ -24,9 +24,6 @@ public class Question implements BaseEntity<Integer> {
     @Column
     private Integer version;
 
-    public Question() {
-    }
-
     public String getName() {
         return name;
     }

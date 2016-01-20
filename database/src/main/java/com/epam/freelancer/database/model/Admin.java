@@ -11,11 +11,11 @@ import java.util.Locale;
  */
 @Table(name = "admin")
 public class Admin implements UserEntity {
-
     @Id
     private Integer id;
     @Column
     private String email;
+    @Column
     private String password;
     @Column(name = "name")
     private String fname;
@@ -32,9 +32,6 @@ public class Admin implements UserEntity {
     private Integer version;
     @Column
     private String salt;
-
-    public Admin() {
-    }
 
     @Override
     public String getSalt() {
