@@ -1,20 +1,20 @@
 package com.epam.freelancer.business.service;
 
-import com.epam.freelancer.business.util.ValidationParametersBuilder;
-import com.epam.freelancer.database.dao.GenericDao;
-import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.DeveloperQA;
-
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.epam.freelancer.business.util.ValidationParametersBuilder;
+import com.epam.freelancer.database.dao.DeveloperQADao;
+import com.epam.freelancer.database.dao.jdbc.DAOManager;
+import com.epam.freelancer.database.model.DeveloperQA;
 
 /**
  * Created by Максим on 18.01.2016.
  */
 public class DeveloperQAService extends GenericService<DeveloperQA, Integer> {
-    public DeveloperQAService(GenericDao<DeveloperQA, Integer> genericDao) {
-        super(genericDao);
+    public DeveloperQAService() {
+        super(DAOManager.getInstance().getDAO(DeveloperQADao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
         genericDao.setDataSource(daoManager.getDataSource());
     }

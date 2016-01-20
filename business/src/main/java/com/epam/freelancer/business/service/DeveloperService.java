@@ -8,13 +8,12 @@ import java.util.Map;
 
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
 import com.epam.freelancer.database.dao.ContactDao;
-import com.epam.freelancer.database.dao.DevMTMTechDao;
+import com.epam.freelancer.database.dao.DevTechManyToManyDao;
 import com.epam.freelancer.database.dao.DeveloperDao;
 import com.epam.freelancer.database.dao.GenericDao;
 import com.epam.freelancer.database.dao.GenericManyToManyDao;
 import com.epam.freelancer.database.dao.WorkerManyToManyDao;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.BaseEntity;
 import com.epam.freelancer.database.model.Contact;
 import com.epam.freelancer.database.model.Developer;
 import com.epam.freelancer.database.model.Ordering;
@@ -26,7 +25,7 @@ import com.epam.freelancer.database.model.Worker;
  */
 public class DeveloperService extends UserService<Developer> {
 	private GenericManyToManyDao<Developer, Ordering, Worker, Integer> workerMTMDao;
-	private GenericManyToManyDao<Developer, Technology, BaseEntity<Integer>, Integer> devMTMtechDao;
+	private GenericManyToManyDao<Developer, Technology, Worker, Integer> devMTMtechDao;
 	private GenericDao<Worker, Integer> workerDao;
 	private GenericDao<Contact, Integer> contactDao;
 
@@ -137,13 +136,13 @@ public class DeveloperService extends UserService<Developer> {
 		this.contactDao = contactDao;
 	}
 
-	public GenericManyToManyDao<Developer, Technology, BaseEntity<Integer>, Integer> getDevMTMtechDao()
+	public GenericManyToManyDao<Developer, Technology, Worker, Integer> getDevMTMtechDao()
 	{
 		return devMTMtechDao;
 	}
 
 	public void setDevMTMtechDao(
-			GenericManyToManyDao<Developer, Technology, BaseEntity<Integer>, Integer> devMTMtechDao)
+			GenericManyToManyDao<Developer, Technology, Worker, Integer> devMTMtechDao)
 	{
 		this.devMTMtechDao = devMTMtechDao;
 	}
@@ -181,6 +180,6 @@ public class DeveloperService extends UserService<Developer> {
 	}
 
 	public List<Technology> getTechnologiesByDevId(Integer id) {
-		return ((DevMTMTechDao) devMTMtechDao).getTechnologiesByDevId(id);
+		return ((DevTechManyToManyDao) devMTMtechDao).getTechnologiesByDevId(id);
 	}
 }
