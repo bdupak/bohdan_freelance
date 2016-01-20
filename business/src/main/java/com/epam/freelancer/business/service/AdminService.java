@@ -1,5 +1,6 @@
 package com.epam.freelancer.business.service;
 
+import com.epam.freelancer.business.context.ApplicationContext;
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
 import com.epam.freelancer.database.dao.AdminDao;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
