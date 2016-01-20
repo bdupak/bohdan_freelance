@@ -4,7 +4,9 @@ import com.epam.freelancer.business.service.*;
 import com.epam.freelancer.database.dao.*;
 import com.epam.freelancer.database.dao.jdbc.*;
 import com.epam.freelancer.database.model.Contact;
+import com.epam.freelancer.database.model.Developer;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +21,9 @@ public final class ApplicationContext {
     }
     
     public static void main(String[] args) {
-		AnswerService answerService = (AnswerService) ApplicationContext.getInstance().getBean("answerService");
+    	DeveloperService developerService = (DeveloperService) ApplicationContext.getInstance().getBean("developerService");
+    	System.out.println(developerService.getAllDevelopers());
+
 	}
 
     private void initContext() {
@@ -47,7 +51,7 @@ public final class ApplicationContext {
         try {
             daoManager.addDao(AdminDao.class.getSimpleName(), new AdminJdbcDao());
             daoManager.addDao(AnswerDao.class.getSimpleName(), new AnswerJdbcDao());
-            daoManager.addDao(Contact.class.getSimpleName(), new ContactJdbcDao());
+            daoManager.addDao(ContactDao.class.getSimpleName(), new ContactJdbcDao());
             daoManager.addDao(CustomerDao.class.getSimpleName(), new CustomerJdbcDao());
             daoManager.addDao(DeveloperDao.class.getSimpleName(), new DeveloperJdbcDao());
             daoManager.addDao(DeveloperQADao.class.getSimpleName(), new DeveloperQAJdbcDao());
