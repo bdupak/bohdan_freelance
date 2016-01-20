@@ -16,45 +16,34 @@ public final class DAOManager {
     private ConnectionPool connectionPool;
     private Map<String, Object> daos = new HashMap<>();
 
-    public DAOManager() {
+    private DAOManager() {
     }
 
     public static DAOManager getInstance() {
         return DAOManagerHolder.INSTANCE;
     }
 
-    private void initConnectionPool() throws IOException, SQLException, ClassNotFoundException {
+    private void initConnectionPool() throws ClassNotFoundException,
+            IOException, SQLException, InstantiationException,
+            IllegalAccessException {
         Properties properties = getDatasourceProperties("/database.properties");
         connectionPool = new ConnectionPool(properties);
-        System.out.println(connectionPool);
-
-		/*Properties properties = getDatasourceProperties("/datasource.properties");
-
-		Class.forName(properties.getProperty("driver"));
-		connectionPool = new DataSource();
-
-		connectionPool.setUsername(properties.getProperty("user"));
-		connectionPool.setPassword(properties.getProperty("password"));
-
-		connectionPool.setDriverClassName(properties.getProperty("driver"));
-		connectionPool.setUrl(properties.getProperty("url"));
-		connectionPool.setInitialSize(200);*/
     }
 
-	private Properties getDatasourceProperties(String path) throws IOException {
-		Properties properties = new Properties();
+    private Properties getDatasourceProperties(String path) throws IOException {
+        Properties properties = new Properties();
         try (InputStream file = GenericDao.class.getResourceAsStream(path)) {
             properties.load(file);
-		}
-		return properties;
-	}
+        }
+        return properties;
+    }
 
     public ConnectionPool getConnectionPool() {
         return connectionPool;
-	}
+    }
 
-	public void addDao(String name, Object dao) {
-		daos.put(name, dao);
+    public void addDao(String name, Object dao) {
+        daos.put(name, dao);
     }
 
     @SuppressWarnings("unchecked")
@@ -63,16 +52,14 @@ public final class DAOManager {
         return (GenericDao<T, ID>) daos.get(daoName);
     }
 
-	@SuppressWarnings("unchecked")
-	public <F extends BaseEntity<ID>, S extends BaseEntity<ID>, ID> GenericManyToManyDao<F, S, ID> getManyToManyDAO(
-			String daoName)
-	{
-		return (GenericManyToManyDao<F, S, ID>) daos.get(daoName);
+    @SuppressWarnings("unchecked")
+    public <F extends BaseEntity<ID>, S extends BaseEntity<ID>, M extends BaseEntity<ID>, ID> GenericManyToManyDao<F, S, M, ID> getManyToManyDAO(
+            String daoName) {
+        return (GenericManyToManyDao<F, S, M, ID>) daos.get(daoName);
     }
 
     private static final class DAOManagerHolder {
         private static final DAOManager INSTANCE = new DAOManager();
-
         static {
             try {
                 INSTANCE.initConnectionPool();
