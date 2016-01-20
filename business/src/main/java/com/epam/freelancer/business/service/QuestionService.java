@@ -17,7 +17,7 @@ public class QuestionService extends GenericService<Question, Integer> {
     public QuestionService() {
         super(DAOManager.getInstance().getDAO(QuestionDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setDataSource(daoManager.getDataSource());
+        genericDao.setConnectionPool(daoManager.getConnectionPool());
     }
 
     @Override

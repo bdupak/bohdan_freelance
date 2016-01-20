@@ -1,13 +1,17 @@
 package com.epam.freelancer.business.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.epam.freelancer.business.encode.Encryption;
+import com.epam.freelancer.business.encode.SHA256Util;
+import com.epam.freelancer.business.encode.SaltUtil;
 import com.epam.freelancer.business.util.ValidationParametersBuilder.Parameters;
 import com.epam.freelancer.business.util.Validator;
 import com.epam.freelancer.database.dao.GenericDao;
 import com.epam.freelancer.database.model.BaseEntity;
+import com.epam.freelancer.database.model.UserEntity;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class GenericService<T extends BaseEntity<ID>, ID> implements
 		Service<T, ID>
@@ -54,4 +58,14 @@ public abstract class GenericService<T extends BaseEntity<ID>, ID> implements
 		return true;
 	}
 
+    @Override
+    public void encodePassword(UserEntity userEntity) {
+        String password = userEntity.getPassword();
+        if (password != null) {
+            String salt = SaltUtil.createSalt();
+            String hashPass = new Encryption(new SHA256Util()).crypt(password, salt);
+            userEntity.setPassword(hashPass);
+            userEntity.setSalt(salt);
+        }
+    }
 }

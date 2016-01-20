@@ -1,4 +1,4 @@
-package com.epam.freelancer.security;
+package com.epam.freelancer.business.encode;
 
 import org.apache.log4j.Logger;
 

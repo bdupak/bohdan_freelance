@@ -30,7 +30,7 @@ public class ContactJdbcDao extends GenericJdbcDao<Contact, Integer> implements 
 
     private Contact getContactByQuery(String query, Integer id) {
         Contact contact = null;
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection
                      .prepareStatement(query)) {
             statement.setInt(1, id);

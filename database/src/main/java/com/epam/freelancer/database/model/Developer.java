@@ -47,10 +47,12 @@ public class Developer implements UserEntity {
     public Developer() {
     }
 
+    @Override
     public String getSalt() {
         return salt;
     }
 
+    @Override
     public void setSalt(String salt) {
         this.salt = salt;
     }

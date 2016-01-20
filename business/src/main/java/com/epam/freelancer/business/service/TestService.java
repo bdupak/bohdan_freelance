@@ -17,7 +17,7 @@ public class TestService  extends GenericService<Test, Integer> {
     public TestService() {
         super(DAOManager.getInstance().getDAO(TestDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setDataSource(daoManager.getDataSource());
+        genericDao.setConnectionPool(daoManager.getConnectionPool());
     }
 
     @Override

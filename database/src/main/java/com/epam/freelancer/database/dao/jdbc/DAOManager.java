@@ -1,5 +1,10 @@
 package com.epam.freelancer.database.dao.jdbc;
 
+import com.epam.freelancer.database.dao.GenericDao;
+import com.epam.freelancer.database.dao.GenericManyToManyDao;
+import com.epam.freelancer.database.model.BaseEntity;
+import com.epam.freelancer.database.persistence.ConnectionPool;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -7,72 +12,74 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
-import com.epam.freelancer.database.dao.GenericDao;
-import com.epam.freelancer.database.dao.GenericManyToManyDao;
-import com.epam.freelancer.database.model.BaseEntity;
-
 public final class DAOManager {
-	private DataSource connectionPool;
-	private Map<String, Object> daos = new HashMap<>();
+    private ConnectionPool connectionPool;
+    private Map<String, Object> daos = new HashMap<>();
 
-	private DAOManager() {
-	}
+    public DAOManager() {
+    }
 
-	private static final class DAOManagerHolder {
-		private static final DAOManager INSTANCE = new DAOManager();
-		static {
-			try {
-				INSTANCE.initConnectionPool();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    public static DAOManager getInstance() {
+        return DAOManagerHolder.INSTANCE;
+    }
 
-	public static DAOManager getInstance() {
-		return DAOManagerHolder.INSTANCE;
-	}
+    private void initConnectionPool() throws IOException, SQLException, ClassNotFoundException {
+        Properties properties = getDatasourceProperties("/database.properties");
+        connectionPool = new ConnectionPool(properties);
+        System.out.println(connectionPool);
 
-	private void initConnectionPool() throws ClassNotFoundException,
-			IOException, SQLException, InstantiationException,
-			IllegalAccessException
-	{
-		Properties properties = getDatasourceProperties("/datasource.properties");
+		/*Properties properties = getDatasourceProperties("/datasource.properties");
 
 		Class.forName(properties.getProperty("driver"));
-		// init connection pool
-	}
+		connectionPool = new DataSource();
+
+		connectionPool.setUsername(properties.getProperty("user"));
+		connectionPool.setPassword(properties.getProperty("password"));
+
+		connectionPool.setDriverClassName(properties.getProperty("driver"));
+		connectionPool.setUrl(properties.getProperty("url"));
+		connectionPool.setInitialSize(200);*/
+    }
 
 	private Properties getDatasourceProperties(String path) throws IOException {
 		Properties properties = new Properties();
-		try (InputStream file = GenericDao.class.getResourceAsStream(path);) {
-			properties.load(file);
+        try (InputStream file = GenericDao.class.getResourceAsStream(path)) {
+            properties.load(file);
 		}
 		return properties;
 	}
 
-	public DataSource getDataSource() {
-		return connectionPool;
+    public ConnectionPool getConnectionPool() {
+        return connectionPool;
 	}
 
 	public void addDao(String name, Object dao) {
 		daos.put(name, dao);
-	}
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends BaseEntity<ID>, ID> GenericDao<T, ID> getDAO(
+            String daoName) {
+        return (GenericDao<T, ID>) daos.get(daoName);
+    }
 
 	@SuppressWarnings("unchecked")
-	public <T extends BaseEntity<ID>, ID> GenericDao<T, ID> getDAO(
+	public <F extends BaseEntity<ID>, S extends BaseEntity<ID>, ID> GenericManyToManyDao<F, S, ID> getManyToManyDAO(
 			String daoName)
 	{
-		return (GenericDao<T, ID>) daos.get(daoName);
-	}
+		return (GenericManyToManyDao<F, S, ID>) daos.get(daoName);
+    }
 
-	@SuppressWarnings("unchecked")
-	public <F extends BaseEntity<ID>, S extends BaseEntity<ID>, M extends BaseEntity<ID>, ID> GenericManyToManyDao<F, S, M, ID> getManyToManyDAO(
-			String daoName)
-	{
-		return (GenericManyToManyDao<F, S, M, ID>) daos.get(daoName);
-	}
+    private static final class DAOManagerHolder {
+        private static final DAOManager INSTANCE = new DAOManager();
+
+        static {
+            try {
+                INSTANCE.initConnectionPool();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

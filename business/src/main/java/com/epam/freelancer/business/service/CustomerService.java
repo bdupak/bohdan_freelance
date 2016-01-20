@@ -8,7 +8,6 @@ import com.epam.freelancer.database.dao.jdbc.DAOManager;
 import com.epam.freelancer.database.model.Contact;
 import com.epam.freelancer.database.model.Customer;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,7 @@ public class CustomerService extends UserService<Customer> {
     public CustomerService() {
         super(DAOManager.getInstance().getDAO(CustomerDao.class.getSimpleName()));
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setDataSource(daoManager.getDataSource());
+        genericDao.setConnectionPool(daoManager.getConnectionPool());
     }
 
     @Override
@@ -47,11 +46,10 @@ public class CustomerService extends UserService<Customer> {
         entity.setRegUrl(value != null ? value[0] : null);
         entity.setRegDate(new Date(new java.util.Date().getTime()));
         value = data.get("password");
-        try {
-            entity.setPassword(value != null ? encodePassword(value[0]) : null);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        entity.setPassword(value != null ? value[0] : null);
+
+        encodePassword(entity);
+
         return genericDao.save(entity);
     }
 

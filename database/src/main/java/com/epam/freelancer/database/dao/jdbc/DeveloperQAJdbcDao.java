@@ -20,7 +20,7 @@ public class DeveloperQAJdbcDao extends GenericJdbcDao<DeveloperQA, Integer> imp
     public DeveloperQA getDevQAByDevId(Integer id) {
         String query = "SELECT * FROM " + table + " WHERE dev_id = ?";
         DeveloperQA devQA = null;
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection
                      .prepareStatement(query)) {
             statement.setInt(1, id);

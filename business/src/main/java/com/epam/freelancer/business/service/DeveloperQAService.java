@@ -16,7 +16,7 @@ public class DeveloperQAService extends GenericService<DeveloperQA, Integer> {
     public DeveloperQAService(GenericDao<DeveloperQA, Integer> genericDao) {
         super(genericDao);
         DAOManager daoManager = DAOManager.getInstance();
-        genericDao.setDataSource(daoManager.getDataSource());
+        genericDao.setConnectionPool(daoManager.getConnectionPool());
     }
 
     @Override
