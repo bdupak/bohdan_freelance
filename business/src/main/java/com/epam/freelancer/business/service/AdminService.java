@@ -1,13 +1,12 @@
 package com.epam.freelancer.business.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
 import com.epam.freelancer.database.dao.AdminDao;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
 import com.epam.freelancer.database.model.Admin;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Максим on 18.01.2016.
@@ -42,22 +41,6 @@ public class AdminService extends UserService<Admin> {
         encodePassword(entity);
 
         return genericDao.save(entity);
-    }
-
-    public void deleteAdmin(Admin admin){
-        genericDao.delete(admin);
-    }
-
-    public Admin updateAdmin(Admin admin){
-        return genericDao.update(admin);
-    }
-
-    public Admin getAdmin(Integer id){
-        return genericDao.getById(id);
-    }
-
-    public List<Admin> getAllAdmins(){
-        return genericDao.getAll();
     }
 
     private Map<ValidationParametersBuilder.Parameters, String> prepareData(Map<String, String[]> data) {

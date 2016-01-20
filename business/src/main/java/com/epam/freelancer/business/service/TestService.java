@@ -82,12 +82,4 @@ public class TestService extends GenericService<Test, Integer> {
 	public List<Test> findTestsByAdminId(Integer id) {
 		return ((TestDao) genericDao).getTestsByAdminId(id);
 	}
-
-	public void deleteTest(Test Test) {
-		genericDao.delete(Test);
-	}
-
-	public Test updateTest(Test Test) {
-		return genericDao.update(Test);
-	}
 }

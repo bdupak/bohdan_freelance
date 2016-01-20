@@ -19,7 +19,7 @@ public abstract class UserService<T extends UserEntity> extends
 		return ((UserDao<T>) genericDao).getByEmail(email);
 	}
 
-	public T getByUUID(String uuid) {
+	public T findByUUID(String uuid) {
 		if (uuid == null || uuid.isEmpty()) {
 			return null;
 		}

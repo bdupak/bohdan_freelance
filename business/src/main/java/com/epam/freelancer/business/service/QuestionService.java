@@ -64,12 +64,4 @@ public class QuestionService extends GenericService<Question, Integer> {
     public List<Question> findQuestionsByAdminId(Integer id) {
         return ((QuestionDao) genericDao).getByAdminId(id);
     }
-
-    public void deleteQuestion(Question Question){
-        genericDao.delete(Question);
-    }
-
-    public Question updateQuestion(Question Question){
-        return genericDao.update(Question);
-    }
 }

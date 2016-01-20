@@ -1,5 +1,9 @@
 package com.epam.freelancer.business.service;
 
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.epam.freelancer.business.util.ValidationParametersBuilder;
 import com.epam.freelancer.database.dao.ContactDao;
 import com.epam.freelancer.database.dao.CustomerDao;
@@ -7,11 +11,6 @@ import com.epam.freelancer.database.dao.GenericDao;
 import com.epam.freelancer.database.dao.jdbc.DAOManager;
 import com.epam.freelancer.database.model.Contact;
 import com.epam.freelancer.database.model.Customer;
-
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Максим on 18.01.2016.
@@ -51,22 +50,6 @@ public class CustomerService extends UserService<Customer> {
 		encodePassword(entity);
 
 		return genericDao.save(entity);
-	}
-
-	public void deleteCustomer(Customer Customer) {
-		genericDao.delete(Customer);
-	}
-
-	public Customer updateCustomer(Customer Customer) {
-		return genericDao.update(Customer);
-	}
-
-	public Customer getCustomer(Integer id) {
-		return genericDao.getById(id);
-	}
-
-	public List<Customer> getAllCustomers() {
-		return genericDao.getAll();
 	}
 
 	private Map<ValidationParametersBuilder.Parameters, String> prepareData(

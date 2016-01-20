@@ -14,6 +14,8 @@ public class DeveloperServiceTest {
 		DeveloperService developerService = (DeveloperService) ApplicationContext
 				.getInstance().getBean("developerService");
 		Contact contact = developerService.getContactByDevId(2);
+		
+		assertNotNull(contact);
 		System.out.println(contact);
 	}
 

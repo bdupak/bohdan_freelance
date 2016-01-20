@@ -53,22 +53,6 @@ public class DeveloperService extends UserService<Developer> {
 		return genericDao.save(entity);
 	}
 
-	public void deleteDeveloper(Developer Developer) {
-		genericDao.delete(Developer);
-	}
-
-	public Developer updateDeveloper(Developer Developer) {
-		return genericDao.update(Developer);
-	}
-
-	public Developer getDeveloper(Integer id) {
-		return genericDao.getById(id);
-	}
-
-	public List<Developer> getAllDevelopers() {
-		return genericDao.getAll();
-	}
-
 	private Map<ValidationParametersBuilder.Parameters, String> prepareData(
 			Map<String, String[]> data)
 	{
@@ -109,18 +93,10 @@ public class DeveloperService extends UserService<Developer> {
 		this.workerMTMDao = workerMTMDao;
 	}
 
-	public GenericDao<Worker, Integer> getWorkerDao() {
-		return workerDao;
-	}
-
 	public void setWorkerDao(GenericDao<Worker, Integer> workerDao) {
 		this.workerDao = workerDao;
 		this.workerDao.setConnectionPool(DAOManager.getInstance()
 				.getConnectionPool());
-	}
-
-	public GenericDao<Contact, Integer> getContactDao() {
-		return contactDao;
 	}
 
 	public void setContactDao(GenericDao<Contact, Integer> contactDao) {
