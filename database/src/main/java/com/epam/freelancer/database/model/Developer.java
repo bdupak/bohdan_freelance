@@ -5,12 +5,11 @@ import com.epam.freelancer.database.transformer.annotation.Id;
 import com.epam.freelancer.database.transformer.annotation.Table;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Locale;
 
 /**
- * Created by ������ on 15.01.2016.
+ * Created by Max on 15.01.2016.
  */
 @Table(name = "developer")
 public class Developer implements UserEntity {
@@ -26,7 +25,6 @@ public class Developer implements UserEntity {
     private String lname;
     @Column
     private Double hourly;
-
     private Timestamp zone;
     private Locale locale;
     @Column
