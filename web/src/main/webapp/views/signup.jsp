@@ -54,6 +54,14 @@
                     </div>
                 </div>
                 <div class="panel-body">
+                    <c:if test="${notAvailableEmail != null}">
+                        <div
+                                class="alert alert-message alert-message-danger animated fadeInUp">
+                            <a href="#" class="close"> &times; </a>
+                            <h4>Error</h4>
+                            <p>This email has been already used</p>
+                        </div>
+                    </c:if>
                     <c:if test="${notCorrectData != null}">
                         <div
                                 class="alert alert-message alert-message-danger animated fadeInUp">
@@ -64,7 +72,7 @@
                         </div>
                     </c:if>
                     <form role="form" method="post" id="registerForm"
-                          action="${pageContext.request.contextPath}/user/create"
+                          action="${pageContext.request.contextPath}/user/create?role=${role}"
                           class="animated fadeInUp">
 
                         <div class="row">
@@ -85,21 +93,21 @@
 
                         <div class="form-group">
                             <input name="email" id="email" class="form-control input-sm"
-                                   placeholder="Email">
+                                   placeholder="Email" required>
                         </div>
 
                         <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <input type="password" name="password" id="password"
-                                           class="form-control input-sm" placeholder="Enter password">
+                                           class="form-control input-sm" placeholder="Enter password" required>
                                 </div>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <input type="password" name="password_confirmation"
                                            id="password_confirmation" class="form-control input-sm"
-                                           placeholder="Confirm password">
+                                           placeholder="Confirm password" required>
                                 </div>
                             </div>
                         </div>
