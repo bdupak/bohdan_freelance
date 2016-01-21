@@ -35,6 +35,8 @@ public class CustomerService extends UserService<Customer> {
 		value = data.get("last_name");
 		entity.setLname(value != null ? value[0] : null);
 		value = data.get("email");
+		entity.setEmail(value != null ? value[0] : null);
+		value = data.get("lang");
 		entity.setLang(value != null ? value[0] : "en");
 		value = data.get("uuid");
 		entity.setUuid(value != null ? value[0] : null);
