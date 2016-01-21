@@ -18,8 +18,8 @@ import java.util.Enumeration;
 import java.util.UUID;
 
 public class UserController extends HttpServlet {
-
-    public static final Logger LOG = Logger.getLogger(UserController.class);
+	private static final long serialVersionUID = -2356506023594947745L;
+	public static final Logger LOG = Logger.getLogger(UserController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

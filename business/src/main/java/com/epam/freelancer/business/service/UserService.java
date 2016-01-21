@@ -32,9 +32,14 @@ public abstract class UserService<T extends UserEntity> extends
 		return ((UserDao<T>) genericDao).emailAvailable(email);
 	}
 
-    public boolean validCredentials(String inputPass, UserEntity ue) {
-        String hashPass = new Encryption(new SHA256Util()).crypt(inputPass, ue.getSalt());
+	public boolean uuidAvailable(String uuid) {
+		return ((UserDao<T>) genericDao).uuidAvailable(uuid);
+	}
 
-        return ue.getPassword().equals(hashPass);
-    }
+	public boolean validCredentials(String inputPass, UserEntity ue) {
+		String hashPass = new Encryption(new SHA256Util()).crypt(inputPass,
+				ue.getSalt());
+
+		return ue.getPassword().equals(hashPass);
+	}
 }
