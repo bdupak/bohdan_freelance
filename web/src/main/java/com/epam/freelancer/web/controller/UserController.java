@@ -123,6 +123,7 @@ public class UserController extends HttpServlet {
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
                 return;
             }
+            request.getRequestDispatcher("/views/home.jsp").forward(request, response);
         } else {
             request.setAttribute("notCorrectData", "Invalid credentials");
             request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
@@ -140,6 +141,7 @@ public class UserController extends HttpServlet {
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", customer);
                 }
+                request.getRequestDispatcher("/views/home.jsp").forward(request, response);
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
@@ -163,12 +165,12 @@ public class UserController extends HttpServlet {
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", admin);
                 }
+                request.getRequestDispatcher("/views/home.jsp").forward(request, response);
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
             }
         } else {
-
             request.setAttribute("notCorrectData", "Invalid credentials");
             request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
             return;
