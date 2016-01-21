@@ -37,7 +37,7 @@ public class UserController extends HttpServlet {
                     break;
                 case "user/signin":
                     signIn(request, response);
-                    break;
+                    return;
                 case "user/create":
                     create(request, response);
                     break;
@@ -107,70 +107,77 @@ public class UserController extends HttpServlet {
         AuthenticationProvider authenticationProvider = (AuthenticationProvider) ApplicationContext.
                 getInstance().getBean("authenticationProvider");
 
-        DeveloperService ds = new DeveloperService();
+        DeveloperService ds = (DeveloperService) ApplicationContext.getInstance().getBean("developerService");
         Developer developer = ds.findByEmail(email);
+
+        boolean authorized = false;
 
         if (developer != null) {
             if (ds.validCredentials(email, password, developer)) {
                 session.setAttribute("user", developer);
+                authorized = true;
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", developer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", developer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 }
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
                 return;
             }
-            request.getRequestDispatcher("/views/home.jsp").forward(request, response);
-        } else {
+        } else if (!authorized) {
             request.setAttribute("notCorrectData", "Invalid credentials");
             request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
             return;
         }
 
-        CustomerService cs = new CustomerService();
+        CustomerService cs = (CustomerService) ApplicationContext.getInstance().getBean("customerService");
         Customer customer = cs.findByEmail(email);
 
         if (customer != null) {
             if (cs.validCredentials(email, password, customer)) {
                 session.setAttribute("user", customer);
+                authorized = true;
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", customer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", customer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 }
-                request.getRequestDispatcher("/views/home.jsp").forward(request, response);
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
                 return;
             }
-        } else {
-
+        } else if (!authorized) {
             request.setAttribute("notCorrectData", "Invalid credentials");
             request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
             return;
         }
 
-        AdminService as = new AdminService();
+        AdminService as = (AdminService) ApplicationContext.getInstance().getBean("adminService");
         Admin admin = as.findByEmail(email);
 
         if (admin != null) {
             if (as.validCredentials(email, password, admin)) {
                 session.setAttribute("user", admin);
+                authorized = true;
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", admin);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", admin);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 }
-                request.getRequestDispatcher("/views/home.jsp").forward(request, response);
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
             }
-        } else {
+        } else if (!authorized) {
             request.setAttribute("notCorrectData", "Invalid credentials");
             request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
             return;

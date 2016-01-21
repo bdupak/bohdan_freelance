@@ -78,7 +78,7 @@ public class FrontController extends HttpServlet {
 					return;
 				case "logout":
 					logout(request, response);
-                    break;
+                    return;
                     default:
 					if (path.startsWith("admin/")) {
 						controllers.get("admin/").service(request, response);
