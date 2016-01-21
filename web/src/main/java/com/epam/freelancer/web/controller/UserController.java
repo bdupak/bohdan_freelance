@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 public class UserController extends HttpServlet {
 	public static final Logger LOG = Logger.getLogger(UserController.class);
@@ -49,26 +50,39 @@ public class UserController extends HttpServlet {
         }
     }
 
-    public void create(HttpServletRequest request, HttpServletResponse response) {
-        String param = request.getQueryString();
-        System.out.println("QUERY = " + param);
-       /* String firstName = request.getParameter("first_name");
-        String lastName = request.getParameter("last_name");
+    public void create(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String role = request.getParameter("role");
+        if (role == null || role.isEmpty()) {
+            response.sendRedirect("/chooserole");
+            return;
+        }
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String password_confirmation = request.getParameter("password_confirmation");
+        if (!isAvailable(email)) {
+            request.setAttribute("notAvailableEmail", true);
+            request.getRequestDispatcher(FrontController.getPath(request));
+        }
 
-        System.out.println("FirstName: " + firstName);
-        System.out.println("LastName: " + lastName);
-        System.out.println("email: " + email);
-        System.out.println("password: " + password);
-        System.out.println("password_confirmation: " + password_confirmation);
+        request.getParameterMap().put("uuid", new String[]{UUID.randomUUID().toString()});
 
-        DeveloperService ds = new DeveloperService();
+        if (role.equals("developer")) {
+            DeveloperService developerService = (DeveloperService) ApplicationContext.getInstance().getBean("developerService");
+            developerService.create(request.getParameterMap());
+        } else if (role.equals("customer")) {
+            CustomerService customerService = (CustomerService) ApplicationContext.getInstance().getBean("customerService");
+            customerService.create(request.getParameterMap());
+        }
+        request.setAttribute("confirm_email", true);
+        response.sendRedirect("/signin");
+    }
 
-        if(ds.emailAvailable(email)) {
-            ds.create(request.getParameterMap());
-        }*/
+    private boolean isAvailable(String email) {
+        boolean result = false;
+        if (((AdminService) ApplicationContext.getInstance().getBean("adminService")).emailAvailable(email) &&
+                ((DeveloperService) ApplicationContext.getInstance().getBean("developerService")).emailAvailable(email) &&
+                ((CustomerService) ApplicationContext.getInstance().getBean("customerService")).emailAvailable(email)) {
+            result = true;
+        }
+        return result;
     }
 
     public void signIn(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
