@@ -1,12 +1,12 @@
 package com.epam.freelancer.web.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.ResourceBundle;
+import com.epam.freelancer.business.context.ApplicationContext;
+import com.epam.freelancer.business.manager.UserManager;
+import com.epam.freelancer.business.service.OrderingService;
+import com.epam.freelancer.database.model.UserEntity;
+import com.epam.freelancer.security.provider.AuthenticationProvider;
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,15 +14,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import com.epam.freelancer.business.context.ApplicationContext;
-import com.epam.freelancer.business.manager.UserManager;
-import com.epam.freelancer.business.service.OrderingService;
-import com.epam.freelancer.database.model.UserEntity;
-import com.epam.freelancer.security.provider.AuthenticationProvider;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.ResourceBundle;
 
 public class FrontController extends HttpServlet {
 	private final static Logger LOG = Logger.getLogger(FrontController.class);
@@ -187,16 +185,16 @@ public class FrontController extends HttpServlet {
 	}
 
 	public void logout(HttpServletRequest request, HttpServletResponse response)
-			throws IOException
-	{
-		LOG.info(getClass().getSimpleName() + " - " + "logout");
+            throws IOException {
+        LOG.info(getClass().getSimpleName() + " - " + "logout");
 		UserEntity userEntity = (UserEntity) request.getSession().getAttribute(
 				"user");
 		AuthenticationProvider authenticationProvider = (AuthenticationProvider) ApplicationContext
 				.getInstance().getBean("authenticationProvider");
 		authenticationProvider.invalidateUserCookie(response,
-				"freelancerRememberMeCookie", userEntity);
-		request.getSession().removeAttribute("user");
+                "freelancerRememberMeCookie", userEntity);
+        userManager.modifyUser(userEntity);
+        request.getSession().removeAttribute("user");
 		response.sendRedirect(request.getContextPath() + "/");
 	}
 }
