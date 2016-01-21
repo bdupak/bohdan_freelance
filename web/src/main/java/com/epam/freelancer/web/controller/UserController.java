@@ -39,7 +39,7 @@ public class UserController extends HttpServlet {
                     return;
                 case "user/create":
                     create(request, response);
-                    break;
+                    return;
 
                 default:
             }
