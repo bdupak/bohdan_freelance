@@ -18,9 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class UserController extends HttpServlet {
-	private static final long serialVersionUID = -2356506023594947745L;
 	public static final Logger LOG = Logger.getLogger(UserController.class);
-
+    private static final long serialVersionUID = -2356506023594947745L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -98,7 +97,7 @@ public class UserController extends HttpServlet {
         Developer developer = ds.findByEmail(email);
 
         if (developer != null) {
-            if (ds.validCredentials(password, developer)) {
+            if (ds.validCredentials(email, password, developer)) {
                 session.setAttribute("user", developer);
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", developer);
@@ -110,13 +109,17 @@ public class UserController extends HttpServlet {
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
                 return;
             }
+        } else {
+            request.setAttribute("notCorrectData", "Invalid credentials");
+            request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
+            return;
         }
 
         CustomerService cs = new CustomerService();
         Customer customer = cs.findByEmail(email);
 
         if (customer != null) {
-            if (cs.validCredentials(password, customer)) {
+            if (cs.validCredentials(email, password, customer)) {
                 session.setAttribute("user", customer);
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", customer);
@@ -128,13 +131,18 @@ public class UserController extends HttpServlet {
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
                 return;
             }
+        } else {
+
+            request.setAttribute("notCorrectData", "Invalid credentials");
+            request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
+            return;
         }
 
         AdminService as = new AdminService();
         Admin admin = as.findByEmail(email);
 
         if (admin != null) {
-            if (as.validCredentials(password, admin)) {
+            if (as.validCredentials(email, password, admin)) {
                 session.setAttribute("user", admin);
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", admin);
@@ -145,6 +153,11 @@ public class UserController extends HttpServlet {
                 request.setAttribute("notCorrectData", "Invalid credentials");
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
             }
+        } else {
+
+            request.setAttribute("notCorrectData", "Invalid credentials");
+            request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
+            return;
         }
     }
 }
