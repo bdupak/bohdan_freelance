@@ -94,6 +94,11 @@ public class FrontController extends HttpServlet {
 						controllers.get("cust/").service(request, response);
 						return;
 					}
+					if (path.startsWith("signup")) {
+						request.setAttribute("role",request.getParameter("role"));
+						request.getRequestDispatcher("/views/signup.jsp").forward(request,response);
+						return;
+					}
 
 				}
 				request.getRequestDispatcher("/views/" + path + ".jsp")
