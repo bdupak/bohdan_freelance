@@ -29,7 +29,6 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             switch (FrontController.getPath(request)) {
                 case "user/email":
