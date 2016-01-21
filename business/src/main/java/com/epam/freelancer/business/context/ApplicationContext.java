@@ -3,6 +3,7 @@ package com.epam.freelancer.business.context;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.epam.freelancer.business.manager.UserManager;
 import com.epam.freelancer.business.service.AdminService;
 import com.epam.freelancer.business.service.CustomerService;
 import com.epam.freelancer.business.service.DeveloperQAService;
@@ -75,6 +76,12 @@ public final class ApplicationContext {
 		addBean("orderingService", new OrderingService());
 		addBean("questionService", new QuestionService());
 		addBean("testService", new TestService());
+
+		UserManager userManager = new UserManager();
+		userManager.setCustomerService(customerService);
+		userManager.setDeveloperService(developerService);
+		userManager.setAdminService((AdminService) getBean("adminService"));
+		addBean("userManager", userManager);
 	}
 
 	private void initDAO() {

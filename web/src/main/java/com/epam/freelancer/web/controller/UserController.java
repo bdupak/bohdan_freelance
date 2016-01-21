@@ -14,8 +14,8 @@ import com.epam.freelancer.business.service.DeveloperService;
 import com.epam.freelancer.database.model.Contact;
 
 public class UserController extends HttpServlet {
-
-    public static final Logger LOG = Logger.getLogger(UserController.class);
+	private static final long serialVersionUID = -2356506023594947745L;
+	public static final Logger LOG = Logger.getLogger(UserController.class);
 
 
     @Override

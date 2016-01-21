@@ -17,6 +17,8 @@ public class OrderingService extends GenericService<Ordering, Integer> {
 	public OrderingService() {
 		super(DAOManager.getInstance()
 				.getDAO(OrderingDao.class.getSimpleName()));
+		DAOManager daoManager = DAOManager.getInstance();
+		genericDao.setConnectionPool(daoManager.getConnectionPool());
 	}
 
 	@Override

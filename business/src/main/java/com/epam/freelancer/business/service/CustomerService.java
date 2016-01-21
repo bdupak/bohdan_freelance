@@ -1,6 +1,6 @@
 package com.epam.freelancer.business.service;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +43,7 @@ public class CustomerService extends UserService<Customer> {
 		entity.setUuid(value != null ? value[0] : null);
 		value = data.get("reg_url");
 		entity.setRegUrl(value != null ? value[0] : null);
-		entity.setRegDate(new Date(new java.util.Date().getTime()));
+		entity.setRegDate(new Timestamp(new java.util.Date().getTime()));
 		value = data.get("password");
 		entity.setPassword(value != null ? value[0] : null);
 

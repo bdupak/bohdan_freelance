@@ -7,5 +7,7 @@ public interface UserDao<T extends UserEntity> extends GenericDao<T, Integer> {
 
 	boolean emailAvailable(String email);
 
+	boolean uuidAvailable(String uuid);
+
 	T getByUUID(String uuid);
 }

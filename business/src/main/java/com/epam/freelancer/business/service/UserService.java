@@ -29,4 +29,8 @@ public abstract class UserService<T extends UserEntity> extends
 	public boolean emailAvailable(String email) {
 		return ((UserDao<T>) genericDao).emailAvailable(email);
 	}
+
+	public boolean uuidAvailable(String uuid) {
+		return ((UserDao<T>) genericDao).uuidAvailable(uuid);
+	}
 }
