@@ -118,19 +118,17 @@ public class UserController extends HttpServlet {
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", developer);
                     request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", developer);
                     request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
                 }
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
                 return;
             }
-        } else if (!authorized) {
-            request.setAttribute("notCorrectData", "Invalid credentials");
-            request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
-            return;
         }
 
         CustomerService cs = (CustomerService) ApplicationContext.getInstance().getBean("customerService");
@@ -143,19 +141,17 @@ public class UserController extends HttpServlet {
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", customer);
                     request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", customer);
                     request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
                 }
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
                 return;
             }
-        } else if (!authorized) {
-            request.setAttribute("notCorrectData", "Invalid credentials");
-            request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
-            return;
         }
 
         AdminService as = (AdminService) ApplicationContext.getInstance().getBean("adminService");
