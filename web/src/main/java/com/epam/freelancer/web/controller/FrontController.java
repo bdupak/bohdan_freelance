@@ -19,13 +19,17 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.epam.freelancer.business.context.ApplicationContext;
+import com.epam.freelancer.business.manager.UserManager;
 import com.epam.freelancer.business.service.OrderingService;
+import com.epam.freelancer.database.model.UserEntity;
+import com.epam.freelancer.security.provider.AuthenticationProvider;
 
 public class FrontController extends HttpServlet {
 	private final static Logger LOG = Logger.getLogger(FrontController.class);
 	private static final long serialVersionUID = 1L;
 	private Map<String, HttpServlet> controllers = new HashMap<>();
 	private OrderingService orderingService;
+	private UserManager userManager;
 
 	public static String getPath(HttpServletRequest request) {
 		return request.getRequestURI()
@@ -38,6 +42,10 @@ public class FrontController extends HttpServlet {
 		LOG.info(getClass().getSimpleName() + " - " + "front controller loaded");
 		orderingService = (OrderingService) ApplicationContext.getInstance()
 				.getBean("orderingService");
+		ApplicationContext.getInstance().addBean("authenticationProvider",
+				new AuthenticationProvider());
+		userManager = (UserManager) ApplicationContext.getInstance().getBean(
+				"userManager");
 		super.init(config);
 		configControllers();
 	}
@@ -69,6 +77,9 @@ public class FrontController extends HttpServlet {
 					break;
 				case "language/bundle":
 					sendBundle(request, response);
+					return;
+				case "logout":
+					logout(request, response);
 					return;
 				default:
 					if (path.startsWith("admin/")) {
@@ -149,23 +160,12 @@ public class FrontController extends HttpServlet {
 			String path = request.getRequestURI().substring(
 					request.getContextPath().length());
 
-			if (path.startsWith("/front/")) {
-				path = path.substring("/front/".length());
-				/*
-				 * if (path.startsWith("admin/")) {
-				 * controllers.get("admin/").service(request, response); return;
-				 * } if (path.startsWith("dev/")) {
-				 * controllers.get("dev/").service(request, response); return; }
-				 * if (path.startsWith("cust/")) {
-				 * controllers.get("cust/").service(request, response); return;
-				 * }
-				 */
-				if (path.startsWith("user/")) {
-					controllers.get("user/").service(request, response);
-					return;
-				}
-				controllers.get(path).service(request, response);
+			path = path.substring("/front/".length());
+			if (path.startsWith("user/")) {
+				controllers.get("user/").service(request, response);
+				return;
 			}
+			controllers.get(path).service(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.fatal(getClass().getSimpleName() + " - " + "doPost");
@@ -179,5 +179,19 @@ public class FrontController extends HttpServlet {
 		for (Entry<String, HttpServlet> controller : controllers.entrySet()) {
 			controller.getValue().destroy();
 		}
+	}
+
+	public void logout(HttpServletRequest request, HttpServletResponse response)
+			throws IOException
+	{
+		LOG.info(getClass().getSimpleName() + " - " + "logout");
+		UserEntity userEntity = (UserEntity) request.getSession().getAttribute(
+				"user");
+		AuthenticationProvider authenticationProvider = (AuthenticationProvider) ApplicationContext
+				.getInstance().getBean("authenticationProvider");
+		authenticationProvider.invalidateUserCookie(response,
+				"freelancerRememberMeCookie", userEntity);
+		request.getSession().removeAttribute("user");
+		response.sendRedirect(request.getContextPath() + "/");
 	}
 }

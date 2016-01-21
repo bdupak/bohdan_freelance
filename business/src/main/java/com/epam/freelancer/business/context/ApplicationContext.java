@@ -12,6 +12,7 @@ import com.epam.freelancer.business.service.FeedbackService;
 import com.epam.freelancer.business.service.OrderingService;
 import com.epam.freelancer.business.service.QuestionService;
 import com.epam.freelancer.business.service.TestService;
+import com.epam.freelancer.business.util.CookieManager;
 import com.epam.freelancer.database.dao.AdminDao;
 import com.epam.freelancer.database.dao.AnswerDao;
 import com.epam.freelancer.database.dao.ContactDao;
@@ -58,22 +59,22 @@ public final class ApplicationContext {
 
 		DeveloperService developerService = new DeveloperService();
 		developerService.setWorkerMTMDao(daoManager
-				.getManyToManyDAO(WorkerManyToManyDao.class.getSimpleName()));
-		developerService.setDevMTMtechDao(daoManager
-				.getManyToManyDAO(DevTechManyToManyDao.class.getSimpleName()));
-		developerService.setWorkerDao(daoManager.getDAO(WorkerDao.class
-				.getSimpleName()));
-		developerService.setContactDao(daoManager.getDAO(ContactDao.class
-				.getSimpleName()));
-		addBean("developerService", developerService);
-		addBean("adminService", new AdminService());
-		CustomerService customerService = new CustomerService();
-		customerService.setContactDao(daoManager.getDAO(ContactDao.class
-				.getSimpleName()));
-		addBean("customerService", customerService);
-		addBean("developerQAService", new DeveloperQAService());
-		addBean("feedbackService", new FeedbackService());
-		addBean("orderingService", new OrderingService());
+                .getManyToManyDAO(WorkerManyToManyDao.class.getSimpleName()));
+        developerService.setDevMTMtechDao(daoManager
+                .getManyToManyDAO(DevTechManyToManyDao.class.getSimpleName()));
+        developerService.setWorkerDao(daoManager.getDAO(WorkerDao.class
+                .getSimpleName()));
+        developerService.setContactDao(daoManager.getDAO(ContactDao.class
+                .getSimpleName()));
+        addBean("developerService", developerService);
+        addBean("adminService", new AdminService());
+        CustomerService customerService = new CustomerService();
+        customerService.setContactDao(daoManager.getDAO(ContactDao.class
+                .getSimpleName()));
+        addBean("customerService", customerService);
+        addBean("developerQAService", new DeveloperQAService());
+        addBean("feedbackService", new FeedbackService());
+        addBean("orderingService", new OrderingService());
 		addBean("questionService", new QuestionService());
 		addBean("testService", new TestService());
 
@@ -82,6 +83,7 @@ public final class ApplicationContext {
 		userManager.setDeveloperService(developerService);
 		userManager.setAdminService((AdminService) getBean("adminService"));
 		addBean("userManager", userManager);
+		addBean("cookieManager", new CookieManager());
 	}
 
 	private void initDAO() {
