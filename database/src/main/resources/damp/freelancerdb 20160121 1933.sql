@@ -1,7 +1,7 @@
 ﻿--
 -- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 6.3.358.0
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 20.01.2016 1:59:11
+-- Дата скрипта: 21.01.2016 19:33:54
 -- Версия сервера: 5.6.28-log
 -- Версия клиента: 4.1
 --
@@ -47,7 +47,6 @@ CREATE TABLE admin (
 )
 ENGINE = INNODB
 AUTO_INCREMENT = 2
-AVG_ROW_LENGTH = 16384
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -66,7 +65,7 @@ CREATE TABLE customer (
   uuid VARCHAR(140) DEFAULT NULL,
   reg_url VARCHAR(150) DEFAULT NULL,
   reg_date DATETIME DEFAULT NULL,
-  version INT(11) NOT NULL DEFAULT 0,
+  version INT(11) DEFAULT 0,
   is_deleted BIT(1) DEFAULT b'0',
   salt VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id),
@@ -75,8 +74,8 @@ CREATE TABLE customer (
   UNIQUE INDEX uuid (uuid)
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 6
-AVG_ROW_LENGTH = 3276
+AUTO_INCREMENT = 8
+AVG_ROW_LENGTH = 2340
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -104,8 +103,8 @@ CREATE TABLE developer (
   UNIQUE INDEX uuid (uuid)
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 11
-AVG_ROW_LENGTH = 1638
+AUTO_INCREMENT = 17
+AVG_ROW_LENGTH = 1092
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -311,7 +310,7 @@ CREATE TABLE answer (
     REFERENCES question(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 37
+AUTO_INCREMENT = 1
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -396,7 +395,9 @@ INSERT INTO customer VALUES
 (2, 'ryzkov@gmail.com', 'Ryzkov', 'Anton', 'Ryzkov', '2009-05-02 13:23:21', 'en', NULL, NULL, '2010-06-21 00:00:00', 0, False, 'Ryzkov'),
 (3, 'strinic@gmail.com', 'Strinic', 'Ivan', 'Strinic', '2006-02-19 16:03:34', 'en', NULL, NULL, '2003-02-11 00:00:00', 0, False, 'Strinic'),
 (4, 'belousov@gmail.com', 'Belousov', 'Nikolai', 'Belousov', '2009-11-28 22:26:01', 'en', NULL, NULL, '2009-06-13 00:00:00', 0, False, 'Belousov'),
-(5, 'mungki@gmail.com', 'Laulau', 'MungKi', 'Lau', '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Lau');
+(5, 'mungki@gmail.com', 'Laulau', 'MungKi', 'Lau', '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Lau'),
+(6, 'sadamaza@gmail.com', '6e4938ca228ebe9b6d54b1989940fe5e2c714d93711f4cf8e79f8689f59dc3c8', 'sada', 'maza', NULL, NULL, '7131b214-c305-4dcc-93da-a73f6bab5ba4', NULL, '2016-01-21 00:00:00', NULL, NULL, 'UTQZNuHYMAVzabbGSGfTFTUzHbgsUALugVoggepYNlLfrzYQoq'),
+(7, 'fff@mail.ru', '79e5b9fe1d8a68d3f5eea4affe27348fb199a364bd10b261b50bc61eefdf6fd8', 'fff', 'fff', NULL, NULL, '95edc503-e7f1-46d1-9606-2332429d62d1', NULL, '2016-01-21 18:30:32', NULL, NULL, 'eWmRkNIsAYIZiiKtibBwDxBbbRfOerkUibGUgZoTjKmfjITwxA');
 
 -- 
 -- Вывод данных для таблицы developer
@@ -411,7 +412,12 @@ INSERT INTO developer VALUES
 (7, 'ognev@gmail.com', 'Ognev', 'Ivan', 'Ognev', 25.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Ogn'),
 (8, 'gupta@gmail.com', 'Ashish', 'gupta', 'Ashish', 10.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'gupta'),
 (9, 'lamine@gmail.com', 'Jellad', 'Mohamed', 'Lamine Jellad', 14.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Mohamed'),
-(10, 'stefan@gmail.com', 'Scekic', 'Stefan', 'Scekic', 14.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Scekic');
+(10, 'stefan@gmail.com', 'Scekic', 'Stefan', 'Scekic', 14.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Scekic'),
+(11, 'mrudevich96@gmail.com', '4ef4670e5feefd3f23abd4437d26833a701043e20677713bb8a63ac7839f1223', 'Max', 'Rudevich', NULL, NULL, NULL, 'c69d4658-93a1-46b9-8209-df73602a9d1a', NULL, '2016-01-21 00:00:00', NULL, NULL, 'uGutvCmwchECwwgkvrMtHBonhLOiJEiSVEjaepMoqSSfHefjcq'),
+(13, 'max@gmail.com', '51c8b23f801d375fe1b413e8f24badd709d515e472f07bef76972a9951773df4', 'max', 'max', NULL, NULL, NULL, 'c2b9eeef-e708-480f-8af0-4726715fc5df', NULL, '2016-01-21 17:24:15', NULL, NULL, 'UVbQmQVjUPcRuUfXvbWpmznANlpZnczSIvadbaEGqdLYyKyVAF'),
+(14, 'zxc@gmail.com', '9aa7f549a95fa796bced1068a3438918c11963c7159d0d46094ef1a067847684', 'zxc', 'zxc', NULL, NULL, NULL, NULL, NULL, '2016-01-21 17:39:37', NULL, NULL, 'ipQjYmSvcrxQJHKALnhzApkKDmYSCsLmLMGGIMEnOjoMZQtZxJ'),
+(15, 'zxc@gmail.com', 'e6aee8f3372a168d13a3f063f3e6129b7372547f86aedbfd3181679758191c04', 'sad', 'das', NULL, NULL, NULL, 'edcd518c-73de-4906-a65e-564687f7653c', NULL, '2016-01-21 17:58:55', NULL, NULL, 'zyrCCyReaICZcxWukFnxYgBUmqsJJFvlfDqWucrKEfUFVWNJFK'),
+(16, 'user@gmail.com', '3dc2bbbbe9f2936e42f0db60b7f753b8c2f83394f794a60c8d847a4e1eb0f790', 'user', 'user', NULL, NULL, NULL, '6a477ccb-7b0e-4446-9845-7b77a5bdb71e', NULL, '2016-01-21 19:08:18', NULL, NULL, 'eRzTFKhvFvkxPdEIJKrfNpSQDOdDxNfrEKwLsaYHHyGAtyWlnL');
 
 -- 
 -- Вывод данных для таблицы technology
