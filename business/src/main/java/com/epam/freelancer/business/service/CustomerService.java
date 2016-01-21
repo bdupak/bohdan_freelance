@@ -29,7 +29,6 @@ public class CustomerService extends UserService<Customer> {
 	public Customer create(Map<String, String[]> data) {
 		if (!isDataValid(prepareData(data)))
 			throw new RuntimeException("Validation exception");
-
 		Customer entity = new Customer();
 		String[] value = data.get("first_name");
 		entity.setFname(value != null ? value[0] : null);
