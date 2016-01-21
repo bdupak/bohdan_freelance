@@ -41,7 +41,7 @@ public class UserController extends HttpServlet {
                     break;
                 case "user/create":
                     create(request, response);
-                    break;
+                    return;
 
                 default:
             }
@@ -59,8 +59,17 @@ public class UserController extends HttpServlet {
         }
         String email = request.getParameter("email");
         if (!isAvailable(email)) {
+            request.setAttribute("role",role);
             request.setAttribute("notAvailableEmail", true);
-            request.getRequestDispatcher(FrontController.getPath(request));
+            request.getRequestDispatcher("/views/signup.jsp").forward(request,response);
+            return;
+        }
+
+        if(!request.getParameter("password").equals(request.getParameter("password_confirmation"))){
+            request.setAttribute("role",role);
+            request.setAttribute("notEqualsPasswords",true);
+            request.getRequestDispatcher("/views/signup.jsp").forward(request,response);
+            return;
         }
 
         request.getParameterMap().put("uuid", new String[]{UUID.randomUUID().toString()});
@@ -73,7 +82,7 @@ public class UserController extends HttpServlet {
             customerService.create(request.getParameterMap());
         }
         request.setAttribute("confirm_email", true);
-        request.getRequestDispatcher("/view/signin.jsp");
+        request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
 
     }
 

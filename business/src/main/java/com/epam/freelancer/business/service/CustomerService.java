@@ -36,6 +36,8 @@ public class CustomerService extends UserService<Customer> {
 		value = data.get("last_name");
 		entity.setLname(value != null ? value[0] : null);
 		value = data.get("email");
+		entity.setEmail(value != null ? value[0] : null);
+		value = data.get("lang");
 		entity.setLang(value != null ? value[0] : "en");
 		value = data.get("uuid");
 		entity.setUuid(value != null ? value[0] : null);
@@ -61,9 +63,6 @@ public class CustomerService extends UserService<Customer> {
 		map.put(ValidationParametersBuilder.createParameters(false)
 				.maxLength(50).minLength(1),
 				data.get("last_name") == null ? null : data.get("last_name")[0]);
-		map.put(ValidationParametersBuilder.createParameters(false)
-				.maxLength(50).minLength(1), data.get("lang") == null ? null
-				: data.get("lang")[0]);
 		map.put(ValidationParametersBuilder.createParameters(false)
 				.maxLength(50).minLength(1), data.get("uuid") == null ? null
 				: data.get("uuid")[0]);

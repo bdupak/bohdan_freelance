@@ -75,6 +75,8 @@
                           action="${pageContext.request.contextPath}/user/create?role=${role}"
                           class="animated fadeInUp">
 
+                        <input type="hidden" name="role" value="${role}">
+
                         <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
