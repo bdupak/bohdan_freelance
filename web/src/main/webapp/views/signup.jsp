@@ -105,7 +105,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-xs-1">
+                            <div class="col-xs-1" data-tooltip="yes" title="Autodetect" data-placement="left">
                                 <div class="checkbox checkbox-primary checkbox-circle">
                                     <input id="autoDetect" class="styled" type="checkbox">
                                     <label for="autoDetect">
@@ -118,6 +118,8 @@
                                         id="country"></select>
                             </div>
                         </div>
+
+                        <input type="hidden" name="timeZone" id="timeZone">
 
                         <button type="submit" id="addMeBtn" class="btn btn-primary btn-block">Add
                             me!
@@ -140,5 +142,7 @@
 
 <!-- main.js -->
 <script src="../resources/js/signup/signup.js"></script>
+<script charset="UTF-8" src="/resources/js/home.js"></script>
+
 </body>
 </html>

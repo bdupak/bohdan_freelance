@@ -10,6 +10,7 @@ $('#addMeBtn').click(function(){
     }else{
         time_zone = $('#country').val();
     }
+    $('#timeZone').val(time_zone);
     console.log(time_zone);
 });
 
