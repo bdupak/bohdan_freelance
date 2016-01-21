@@ -41,9 +41,6 @@ public class Customer implements UserEntity {
     @Column
     private String salt;
 
-    public Customer() {
-    }
-
     public Locale getLocale() {
         return locale;
     }

@@ -6,11 +6,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Home page</title>
+<title>Orders</title>
 <jsp:include page="/template/headImport.jsp" />
 </head>
 <body>
 	<jsp:include page="/template/header.jsp" />
+	
+	
 	<jsp:include page="/template/footImport.jsp" />
 </body>
 </html>

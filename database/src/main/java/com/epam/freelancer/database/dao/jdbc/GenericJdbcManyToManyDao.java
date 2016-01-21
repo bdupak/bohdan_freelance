@@ -3,20 +3,18 @@ package com.epam.freelancer.database.dao.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import com.epam.freelancer.database.dao.GenericManyToManyDao;
 import com.epam.freelancer.database.model.BaseEntity;
+import com.epam.freelancer.database.persistence.ConnectionPool;
 import com.epam.freelancer.database.transformer.DataTransformer;
 
 public abstract class GenericJdbcManyToManyDao<F extends BaseEntity<ID>, S extends BaseEntity<ID>, M extends BaseEntity<ID>, ID>
 		implements GenericManyToManyDao<F, S, M, ID>
 {
-	protected DataSource dataSource;
+	protected ConnectionPool dataSource;
 	protected String table;
 	protected String firstTable;
 	protected String secondTable;
@@ -43,7 +41,7 @@ public abstract class GenericJdbcManyToManyDao<F extends BaseEntity<ID>, S exten
 		this.secondTransformer = secondTransformer;
 		this.middleTransformer = middleTransformer;
 	}
-	
+
 	public GenericJdbcManyToManyDao(String table, String firstTable,
 			String secondTable, String firstIdName, String secondIdName,
 			DataTransformer<F> firstTransformer,
@@ -111,14 +109,14 @@ public abstract class GenericJdbcManyToManyDao<F extends BaseEntity<ID>, S exten
 			statement.setObject(1, firstId);
 			statement.setObject(2, secondId);
 			statement.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
+	public void setConnectionPool(ConnectionPool connectionPool) {
+		this.dataSource = connectionPool;
 	}
 
 	// @Override

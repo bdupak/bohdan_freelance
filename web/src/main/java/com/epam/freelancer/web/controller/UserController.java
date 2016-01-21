@@ -1,16 +1,22 @@
 package com.epam.freelancer.web.controller;
 
-import org.apache.log4j.Logger;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
+import com.epam.freelancer.business.context.ApplicationContext;
+import com.epam.freelancer.business.service.DeveloperService;
+import com.epam.freelancer.database.model.Contact;
 
 public class UserController extends HttpServlet {
 
     public static final Logger LOG = Logger.getLogger(UserController.class);
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -19,6 +25,7 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         try {
             switch (FrontController.getPath(request)) {
                 case "user/email":

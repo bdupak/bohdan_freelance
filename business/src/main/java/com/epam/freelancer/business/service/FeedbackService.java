@@ -41,7 +41,7 @@ public class FeedbackService extends GenericService<Feedback, Integer> {
         feedback.setAuthor(value != null ? value[0] : null);
 
         feedback = genericDao.save(feedback);
-
+        
         return feedback;
     }
 
@@ -68,13 +68,5 @@ public class FeedbackService extends GenericService<Feedback, Integer> {
 
     public List<Feedback> findFeedbacksByDevId(Integer id) {
         return ((FeedbackDao) genericDao).getFeedbacksByDevId(id);
-    }
-
-    public void deleteFeedback(Feedback Feedback) {
-        genericDao.delete(Feedback);
-    }
-
-    public Feedback updateFeedback(Feedback Feedback) {
-        return genericDao.update(Feedback);
     }
 }
