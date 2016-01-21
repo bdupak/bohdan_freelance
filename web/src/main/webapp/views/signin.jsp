@@ -48,12 +48,13 @@
 								class="alert alert-message alert-message-danger animated fadeInUp">
 								<a href="#" class="close"> &times; </a>
 								<h4>Error</h4>
-								<p>You fail while signup</p>
+
+                                <p>${requestScope.notCorrectData}</p>
 							</div>
 						</c:if>
 						<form id="loginform" class="form-horizontal animated fadeInUp"
 							role="form" method="post"
-							action="${pageContext.request.contextPath}/teacher/trylogin">
+                              action="${pageContext.request.contextPath}/user/signin">
 							<div class="input-group padding-bottom cabinet-top">
 								<span class="input-group-addon">
 									<i class="glyphicon glyphicon-user"></i>

@@ -1,5 +1,7 @@
 package com.epam.freelancer.business.service;
 
+import com.epam.freelancer.business.encode.Encryption;
+import com.epam.freelancer.business.encode.SHA256Util;
 import com.epam.freelancer.database.dao.GenericDao;
 import com.epam.freelancer.database.dao.UserDao;
 import com.epam.freelancer.database.model.UserEntity;
@@ -29,4 +31,10 @@ public abstract class UserService<T extends UserEntity> extends
 	public boolean emailAvailable(String email) {
 		return ((UserDao<T>) genericDao).emailAvailable(email);
 	}
+
+    public boolean validCredentials(String inputPass, UserEntity ue) {
+        String hashPass = new Encryption(new SHA256Util()).crypt(inputPass, ue.getSalt());
+
+        return ue.getPassword().equals(hashPass);
+    }
 }
