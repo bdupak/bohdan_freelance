@@ -1,6 +1,6 @@
 package com.epam.freelancer.business.service;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +17,8 @@ public class OrderingService extends GenericService<Ordering, Integer> {
 	public OrderingService() {
 		super(DAOManager.getInstance()
 				.getDAO(OrderingDao.class.getSimpleName()));
+		DAOManager daoManager = DAOManager.getInstance();
+		genericDao.setConnectionPool(daoManager.getConnectionPool());
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class OrderingService extends GenericService<Ordering, Integer> {
 		if (integer == null)
 			throw new RuntimeException("Validation exception");
 		order.setCustomerId(integer);
-		order.setDate(new Date(new java.util.Date().getTime()));
+		order.setDate(new Timestamp(new java.util.Date().getTime()));
 		value = data.get("payment");
 		Double doub = value != null ? Double.parseDouble(value[0]) : null;
 		if (doub == null)

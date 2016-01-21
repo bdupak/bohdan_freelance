@@ -1,10 +1,10 @@
 package com.epam.freelancer.database.model;
 
+import java.sql.Timestamp;
+
 import com.epam.freelancer.database.transformer.annotation.Column;
 import com.epam.freelancer.database.transformer.annotation.Id;
 import com.epam.freelancer.database.transformer.annotation.Table;
-
-import java.sql.Date;
 
 /**
  * Created by ������ on 16.01.2016.
@@ -22,17 +22,17 @@ public class Ordering implements BaseEntity<Integer> {
     @Column(name = "customer_id")
     private Integer customerId;
     @Column
-    private Date date;
+    private Timestamp date;
     @Column
     private Double payment;
     @Column
     private Boolean started;
     @Column(name = "started_date")
-    private Date startedDate;
+    private Timestamp startedDate;
     @Column
     private Boolean ended;
     @Column(name = "ended_date")
-    private Date endedDate;
+    private Timestamp endedDate;
     @Column(name = "private")
     private Boolean priv;
     @Column(name = "is_deleted")
@@ -75,11 +75,11 @@ public class Ordering implements BaseEntity<Integer> {
         this.customerId = customerId;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -99,11 +99,11 @@ public class Ordering implements BaseEntity<Integer> {
         this.started = started;
     }
 
-    public Date getStartedDate() {
+    public Timestamp getStartedDate() {
         return startedDate;
     }
 
-    public void setStartedDate(Date startedDate) {
+    public void setStartedDate(Timestamp startedDate) {
         this.startedDate = startedDate;
     }
 
@@ -115,11 +115,11 @@ public class Ordering implements BaseEntity<Integer> {
         this.ended = ended;
     }
 
-    public Date getEndedDate() {
+    public Timestamp getEndedDate() {
         return endedDate;
     }
 
-    public void setEndedDate(Date endedDate) {
+    public void setEndedDate(Timestamp endedDate) {
         this.endedDate = endedDate;
     }
 

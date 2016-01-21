@@ -35,7 +35,7 @@ public class AuthenticationProvider {
 		String uuid = cookieManager.getCookieValue(request, cookieName);
 
 		if (uuid != null) {
-			UserEntity user = service.getByUUID(uuid);
+			UserEntity user = service.findByUUID(uuid);
 			if (user != null)
 				request.getSession().setAttribute(sessinUserName, user);
 		}
@@ -58,7 +58,7 @@ public class AuthenticationProvider {
 			String uuid = cookieManager.getCookieValue(request, cookieName);
 
 			if (uuid != null) {
-				user = service.getByUUID(uuid);
+				user = service.findByUUID(uuid);
 
 				if (user != null) {
 					request.getSession().setAttribute(sessinUserName, user);

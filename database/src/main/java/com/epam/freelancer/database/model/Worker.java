@@ -27,9 +27,6 @@ public class Worker implements BaseEntity<Integer> {
 	private Ordering order;
 	private Developer developer;
 
-	public Worker() {
-	}
-
 	public Integer getOrderId() {
 		return orderId;
 	}

@@ -9,7 +9,6 @@ import com.epam.freelancer.database.transformer.annotation.Table;
  */
 @Table(name = "contact")
 public class Contact implements BaseEntity<Integer> {
-
     @Id
     private Integer id;
     @Column(name = "cust_id")
@@ -24,9 +23,6 @@ public class Contact implements BaseEntity<Integer> {
     private Boolean isDeleted;
     @Column
     private Integer version;
-
-    public Contact() {
-    }
 
     public Integer getCustomId() {
         return customId;

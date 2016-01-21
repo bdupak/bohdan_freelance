@@ -1,12 +1,11 @@
 package com.epam.freelancer.database.model;
 
+import java.sql.Timestamp;
+import java.util.Locale;
+
 import com.epam.freelancer.database.transformer.annotation.Column;
 import com.epam.freelancer.database.transformer.annotation.Id;
 import com.epam.freelancer.database.transformer.annotation.Table;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Locale;
 
 /**
  * Created by ������ on 15.01.2016.
@@ -33,16 +32,13 @@ public class Customer implements UserEntity {
     @Column(name = "reg_url")
     private String regUrl;
     @Column(name = "reg_date")
-    private Date regDate;
+    private Timestamp regDate;
     @Column(name = "is_deleted")
     private Boolean isDeleted;
     @Column
     private Integer version;
     @Column
     private String salt;
-
-    public Customer() {
-    }
 
     public Locale getLocale() {
         return locale;
@@ -94,11 +90,11 @@ public class Customer implements UserEntity {
         this.regUrl = regUrl;
     }
 
-    public Date getRegDate() {
+    public Timestamp getRegDate() {
         return regDate;
     }
 
-    public void setRegDate(Date regDate) {
+    public void setRegDate(Timestamp regDate) {
         this.regDate = regDate;
     }
 
