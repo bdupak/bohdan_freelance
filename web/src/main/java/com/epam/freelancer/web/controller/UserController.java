@@ -40,6 +40,9 @@ public class UserController extends HttpServlet {
                 case "user/create":
                     create(request, response);
                     break;
+                case "user/signinByGoogle":
+                    signinByGoogle(request, response);
+                    break;
 
                 default:
             }
@@ -158,6 +161,22 @@ public class UserController extends HttpServlet {
             request.setAttribute("notCorrectData", "Invalid credentials");
             request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
             return;
+        }
+    }
+
+    public void signinByGoogle(HttpServletRequest request, HttpServletResponse response) {
+        String email = request.getParameter("email");
+        String name = request.getParameter("name");
+        String img = request.getParameter("img");
+
+        System.out.println("EMAIL " + email);
+        System.out.println("NAME " + name);
+        System.out.println("IMG " + img);
+
+        DeveloperService ds = new DeveloperService();
+
+        if (ds.emailAvailable(email)) {
+
         }
     }
 }
