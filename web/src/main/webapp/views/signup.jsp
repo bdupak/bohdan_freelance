@@ -45,7 +45,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <div class="social-btn google-plus">
-                                        <img alt="LInkedin" class="social-img hvr-grow"
+                                        <img alt="Google_plus" class="social-img hvr-grow"
                                              src="${pageContext.request.contextPath}/resources/img/social_icon/google_plus_icon.png"/>
                                     </div>
                                 </div>
