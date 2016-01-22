@@ -26,16 +26,18 @@
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="social-btn linkedin">
+											<a href="${linkedinurl}" target="_blank">
 											<img alt="LInkedin" class="social-img hvr-grow"
 												src="${pageContext.request.contextPath}/resources/img/social_icon/linkedin_icon.png" />
+											</a>
 										</div>
 									</div>
 								</div>
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="social-btn google-plus">
-											<img alt="LInkedin" class="social-img hvr-grow"
-												src="${pageContext.request.contextPath}/resources/img/social_icon/google_plus_icon.png" />
+												<img alt="LInkedin" class="social-img hvr-grow"
+													src="${pageContext.request.contextPath}/resources/img/social_icon/google_plus_icon.png" />
 										</div>
 									</div>
 								</div>
@@ -52,7 +54,7 @@
 							</div>
 						</c:if>
 						<form role="form" method="post" id="registerForm"
-                              action="${pageContext.request.contextPath}/user/create"
+							action="${pageContext.request.contextPath}/user/create"
 							class="animated fadeInUp">
 							<div class="row">
 								<div class="col-xs-6 col-sm-6 col-md-6">

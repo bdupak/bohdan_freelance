@@ -42,7 +42,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body margin-top-sm">
 						<c:if test="${notCorrectData != null}">
 							<div
 								class="alert alert-message alert-message-danger animated fadeInUp">
@@ -55,7 +55,7 @@
 						<form id="loginform" class="form-horizontal animated fadeInUp"
 							role="form" method="post"
                               action="${pageContext.request.contextPath}/user/signin">
-							<div class="input-group padding-bottom cabinet-top">
+							<div class="input-group padding-bottom">
 								<span class="input-group-addon">
 									<i class="glyphicon glyphicon-user"></i>
 								</span>
