@@ -50,8 +50,7 @@ public class FrontController extends HttpServlet {
 		}
 		orderingService = (OrderingService) ApplicationContext.getInstance()
 				.getBean("orderingService");
-		ApplicationContext.getInstance().addBean("authenticationProvider",
-				new AuthenticationProvider());
+
 		userManager = (UserManager) ApplicationContext.getInstance().getBean(
 				"userManager");
 		super.init(config);

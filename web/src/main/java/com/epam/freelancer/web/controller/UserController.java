@@ -95,6 +95,7 @@ public class UserController extends HttpServlet {
             return;
         }
 
+
         if (password == null || "".equals(password)) {
             request.setAttribute("notCorrectData", "Invalid credentials");
             request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
