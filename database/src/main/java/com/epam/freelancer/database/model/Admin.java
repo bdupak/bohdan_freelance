@@ -37,6 +37,8 @@ public class Admin implements UserEntity {
 	private Integer version;
 	@Column
 	private String salt;
+	@Column(name="img_url")
+	private String imgUrl;
 
 	@Override
 	public String getSalt() {
@@ -200,5 +202,15 @@ public class Admin implements UserEntity {
 
 	public void setRegDate(Timestamp regDate) {
 		this.regDate = regDate;
+	}
+
+	@Override
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl=imgUrl;
+	}
+
+	@Override
+	public String getImgUrl() {
+		return imgUrl;
 	}
 }

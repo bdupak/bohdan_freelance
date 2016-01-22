@@ -75,9 +75,6 @@ public class DeveloperService extends UserService<Developer> {
 				.maxLength(50).minLength(1),
 				data.get("last_name") == null ? null : data.get("last_name")[0]);
 		map.put(ValidationParametersBuilder.createParameters(false)
-				.maxLength(50).minLength(1), data.get("lang") == null ? null
-				: data.get("lang")[0]);
-		map.put(ValidationParametersBuilder.createParameters(false)
 				.maxLength(50).minLength(1), data.get("uuid") == null ? null
 				: data.get("uuid")[0]);
 		map.put(ValidationParametersBuilder.createParameters(false)

@@ -39,6 +39,8 @@ public class Customer implements UserEntity {
     private Integer version;
     @Column
     private String salt;
+    @Column(name="img_url")
+    private String imgUrl;
 
     public Locale getLocale() {
         return locale;
@@ -96,6 +98,16 @@ public class Customer implements UserEntity {
 
     public void setRegDate(Timestamp regDate) {
         this.regDate = regDate;
+    }
+
+    @Override
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    @Override
+    public String getImgUrl() {
+        return imgUrl;
     }
 
     public Timestamp getZone() {
@@ -175,6 +187,8 @@ public class Customer implements UserEntity {
     public void setDeleted(Boolean deleted) {
         this.isDeleted = deleted;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

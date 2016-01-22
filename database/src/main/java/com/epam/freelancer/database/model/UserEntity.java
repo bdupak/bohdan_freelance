@@ -43,4 +43,8 @@ public interface UserEntity extends BaseEntity<Integer> {
 	public Timestamp getRegDate();
 
 	public void setRegDate(Timestamp regDate);
+
+	public void setImgUrl(String imgUrl);
+
+	public String getImgUrl();
 }

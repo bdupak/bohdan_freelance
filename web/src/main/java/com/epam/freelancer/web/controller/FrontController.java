@@ -90,8 +90,8 @@ public class FrontController extends HttpServlet {
 					return;
 				case "logout":
 					logout(request, response);
-					return;
-				default:
+                    return;
+                    default:
 					if (path.startsWith("admin/")) {
 						controllers.get("admin/").service(request, response);
 						return;
@@ -102,6 +102,11 @@ public class FrontController extends HttpServlet {
 					}
 					if (path.startsWith("cust/")) {
 						controllers.get("cust/").service(request, response);
+						return;
+					}
+					if (path.startsWith("signup")) {
+						request.setAttribute("role",request.getParameter("role"));
+						request.getRequestDispatcher("/views/signup.jsp").forward(request,response);
 						return;
 					}
 
@@ -206,16 +211,16 @@ public class FrontController extends HttpServlet {
 	}
 
 	public void logout(HttpServletRequest request, HttpServletResponse response)
-			throws IOException
-	{
-		LOG.info(getClass().getSimpleName() + " - " + "logout");
+            throws IOException {
+        LOG.info(getClass().getSimpleName() + " - " + "logout");
 		UserEntity userEntity = (UserEntity) request.getSession().getAttribute(
 				"user");
 		AuthenticationProvider authenticationProvider = (AuthenticationProvider) ApplicationContext
 				.getInstance().getBean("authenticationProvider");
 		authenticationProvider.invalidateUserCookie(response,
-				"freelancerRememberMeCookie", userEntity);
-		request.getSession().removeAttribute("user");
+                "freelancerRememberMeCookie", userEntity);
+        userManager.modifyUser(userEntity);
+        request.getSession().removeAttribute("user");
 		response.sendRedirect(request.getContextPath() + "/");
 	}
 }

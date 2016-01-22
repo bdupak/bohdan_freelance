@@ -35,7 +35,7 @@
             <h5>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, nobis!
             </h5>
-            <a href="signup?role=customer" class="btn btn-block btn-warning work"><span
+            <a href="signup?role=developer" class="btn btn-block btn-warning work"><span
                     class="glyphicon glyphicon-th"></span> Work</a>
         </div>
         <div class="col-xs-12 col-md-6 block-right">
@@ -44,7 +44,7 @@
             <h5>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, soluta.
             </h5>
-            <a href="signup?role=developer" class="btn btn-block btn-primary hire"><span
+            <a href="signup?role=customer" class="btn btn-block btn-primary hire"><span
                     class="glyphicon glyphicon-th"></span> Hire</a>
         </div>
     </div>

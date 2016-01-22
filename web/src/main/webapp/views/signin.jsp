@@ -75,7 +75,7 @@
 							<div class="row text-center">
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<input class="btn btn-warning btn-block"
-										value="Login" type="submit">
+                                           value="Login" id="login" type="submit">
 								</div>
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<label for="default" class="btn btn-default">
@@ -97,6 +97,7 @@
 		</div>
 	</div>
 
-	<jsp:include page="/template/footImport.jsp" />
+
+    <jsp:include page="/template/footImport.jsp" />
 </body>
 </html>

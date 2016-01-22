@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 public class UserController extends HttpServlet {
-	private static final long serialVersionUID = -2356506023594947745L;
 	public static final Logger LOG = Logger.getLogger(UserController.class);
-
+    private static final long serialVersionUID = -2356506023594947745L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +29,6 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             switch (FrontController.getPath(request)) {
                 case "user/email":
@@ -37,10 +36,10 @@ public class UserController extends HttpServlet {
                     break;
                 case "user/signin":
                     signIn(request, response);
-                    break;
+                    return;
                 case "user/create":
                     create(request, response);
-                    break;
+                    return;
 
                 default:
             }
@@ -50,26 +49,39 @@ public class UserController extends HttpServlet {
         }
     }
 
-    public void create(HttpServletRequest request, HttpServletResponse response) {
-        String param = request.getQueryString();
-        System.out.println("QUERY = " + param);
-       /* String firstName = request.getParameter("first_name");
-        String lastName = request.getParameter("last_name");
+    public void create(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String role = request.getParameter("role");
+        if (role == null || role.isEmpty()) {
+            response.sendRedirect("/chooserole");
+            return;
+        }
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String password_confirmation = request.getParameter("password_confirmation");
+        if (!isAvailable(email)) {
+            request.setAttribute("notAvailableEmail", true);
+            request.getRequestDispatcher(FrontController.getPath(request));
+        }
 
-        System.out.println("FirstName: " + firstName);
-        System.out.println("LastName: " + lastName);
-        System.out.println("email: " + email);
-        System.out.println("password: " + password);
-        System.out.println("password_confirmation: " + password_confirmation);
+        request.getParameterMap().put("uuid", new String[]{UUID.randomUUID().toString()});
 
-        DeveloperService ds = new DeveloperService();
+        if (role.equals("developer")) {
+            DeveloperService developerService = (DeveloperService) ApplicationContext.getInstance().getBean("developerService");
+            developerService.create(request.getParameterMap());
+        } else if (role.equals("customer")) {
+            CustomerService customerService = (CustomerService) ApplicationContext.getInstance().getBean("customerService");
+            customerService.create(request.getParameterMap());
+        }
+        request.setAttribute("confirm_email", true);
+        response.sendRedirect("/signin");
+    }
 
-        if(ds.emailAvailable(email)) {
-            ds.create(request.getParameterMap());
-        }*/
+    private boolean isAvailable(String email) {
+        boolean result = false;
+        if (((AdminService) ApplicationContext.getInstance().getBean("adminService")).emailAvailable(email) &&
+                ((DeveloperService) ApplicationContext.getInstance().getBean("developerService")).emailAvailable(email) &&
+                ((CustomerService) ApplicationContext.getInstance().getBean("customerService")).emailAvailable(email)) {
+            result = true;
+        }
+        return result;
     }
 
     public void signIn(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -94,16 +106,23 @@ public class UserController extends HttpServlet {
         AuthenticationProvider authenticationProvider = (AuthenticationProvider) ApplicationContext.
                 getInstance().getBean("authenticationProvider");
 
-        DeveloperService ds = new DeveloperService();
+        DeveloperService ds = (DeveloperService) ApplicationContext.getInstance().getBean("developerService");
         Developer developer = ds.findByEmail(email);
 
+        boolean authorized = false;
+
         if (developer != null) {
-            if (ds.validCredentials(password, developer)) {
+            if (ds.validCredentials(email, password, developer)) {
                 session.setAttribute("user", developer);
+                authorized = true;
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", developer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", developer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
                 }
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
@@ -112,16 +131,21 @@ public class UserController extends HttpServlet {
             }
         }
 
-        CustomerService cs = new CustomerService();
+        CustomerService cs = (CustomerService) ApplicationContext.getInstance().getBean("customerService");
         Customer customer = cs.findByEmail(email);
 
         if (customer != null) {
-            if (cs.validCredentials(password, customer)) {
+            if (cs.validCredentials(email, password, customer)) {
                 session.setAttribute("user", customer);
+                authorized = true;
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", customer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", customer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
                 }
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
@@ -130,21 +154,28 @@ public class UserController extends HttpServlet {
             }
         }
 
-        AdminService as = new AdminService();
+        AdminService as = (AdminService) ApplicationContext.getInstance().getBean("adminService");
         Admin admin = as.findByEmail(email);
 
         if (admin != null) {
-            if (as.validCredentials(password, admin)) {
+            if (as.validCredentials(email, password, admin)) {
                 session.setAttribute("user", admin);
+                authorized = true;
                 if (remember) {
                     authenticationProvider.loginAndRemember(response, "freelancerRememberMeCookie", admin);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 } else {
                     authenticationProvider.invalidateUserCookie(response, "freelancerRememberMeCookie", admin);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 }
             } else {
                 request.setAttribute("notCorrectData", "Invalid credentials");
                 request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
             }
+        } else if (!authorized) {
+            request.setAttribute("notCorrectData", "Invalid credentials");
+            request.getRequestDispatcher("/views/signin.jsp").forward(request, response);
+            return;
         }
     }
 }

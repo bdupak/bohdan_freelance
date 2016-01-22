@@ -39,7 +39,7 @@
 									href="${pageContext.request.contextPath}/cabinet/main">
 									<i class="fa fa-home"></i>Cabinet
 								</a></li>
-							<li><a href="${pageContext.request.contextPath}/logout">
+                            <li id="logout"><a href="${pageContext.request.contextPath}/logout">
 									<i class="fa fa-sign-out"></i>Logout
 								</a></li>
 						</ul>
