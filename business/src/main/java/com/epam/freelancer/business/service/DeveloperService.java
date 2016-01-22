@@ -1,24 +1,15 @@
 package com.epam.freelancer.business.service;
 
+import com.epam.freelancer.business.util.ValidationParametersBuilder;
+import com.epam.freelancer.database.dao.*;
+import com.epam.freelancer.database.dao.jdbc.DAOManager;
+import com.epam.freelancer.database.model.*;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.epam.freelancer.business.util.ValidationParametersBuilder;
-import com.epam.freelancer.database.dao.ContactDao;
-import com.epam.freelancer.database.dao.DeveloperDao;
-import com.epam.freelancer.database.dao.GenericDao;
-import com.epam.freelancer.database.dao.GenericManyToManyDao;
-import com.epam.freelancer.database.dao.WorkerManyToManyDao;
-import com.epam.freelancer.database.dao.jdbc.DAOManager;
-import com.epam.freelancer.database.model.BaseEntity;
-import com.epam.freelancer.database.model.Contact;
-import com.epam.freelancer.database.model.Developer;
-import com.epam.freelancer.database.model.Ordering;
-import com.epam.freelancer.database.model.Technology;
-import com.epam.freelancer.database.model.Worker;
 
 /**
  * Created by Максим on 18.01.2016.
@@ -35,6 +26,12 @@ public class DeveloperService extends UserService<Developer> {
 		DAOManager daoManager = DAOManager.getInstance();
 		genericDao.setConnectionPool(daoManager.getConnectionPool());
 	}
+
+    public Developer create(Developer developer) {
+        developer = genericDao.save(developer);
+
+        return developer;
+    }
 
 	@Override
 	public Developer create(Map<String, String[]> data) {

@@ -1,12 +1,13 @@
 package com.epam.freelancer.web.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.ResourceBundle;
+import com.epam.freelancer.business.context.ApplicationContext;
+import com.epam.freelancer.business.manager.UserManager;
+import com.epam.freelancer.business.service.OrderingService;
+import com.epam.freelancer.database.model.UserEntity;
+import com.epam.freelancer.security.provider.AuthenticationProvider;
+import com.epam.freelancer.web.social.Linkedin;
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,16 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import com.epam.freelancer.business.context.ApplicationContext;
-import com.epam.freelancer.business.manager.UserManager;
-import com.epam.freelancer.business.service.OrderingService;
-import com.epam.freelancer.database.model.UserEntity;
-import com.epam.freelancer.security.provider.AuthenticationProvider;
-import com.epam.freelancer.web.social.Linkedin;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.ResourceBundle;
 
 public class FrontController extends HttpServlet {
 	private final static Logger LOG = Logger.getLogger(FrontController.class);
@@ -184,22 +182,22 @@ public class FrontController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
-		LOG.info(getClass().getSimpleName() + " - " + "doPost");
-		try {
-			String path = request.getRequestURI().substring(
-					request.getContextPath().length());
+        LOG.info(getClass().getSimpleName() + " - " + "doPost");
+        try {
+            String path = request.getRequestURI().substring(
+                    request.getContextPath().length());
 
-			path = path.substring("/front/".length());
-			if (path.startsWith("user/")) {
-				controllers.get("user/").service(request, response);
-				return;
-			}
-			controllers.get(path).service(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-			LOG.fatal(getClass().getSimpleName() + " - " + "doPost");
-		}
-	}
+            path = path.substring("/front/".length());
+            if (path.startsWith("user/")) {
+                controllers.get("user/").service(request, response);
+                return;
+            }
+            controllers.get(path).service(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.fatal(getClass().getSimpleName() + " - " + "doPost");
+        }
+    }
 
 	@Override
 	public void destroy() {

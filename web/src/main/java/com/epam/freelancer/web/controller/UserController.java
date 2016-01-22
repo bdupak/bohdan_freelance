@@ -40,12 +40,120 @@ public class UserController extends HttpServlet {
                 case "user/create":
                     create(request, response);
                     return;
+                case "user/signinByGoogle":
+                    signInByGoogle(request, response);
+                    return;
+                case "user/signupByGoogle":
+                    signUpByGoogle(request, response);
+                    return;
 
                 default:
             }
         } catch (Exception e) {
             e.printStackTrace();
             LOG.fatal(getClass().getSimpleName() + " - " + "doPost");
+        }
+    }
+
+    public void signInByGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        System.out.println("SIGNIN");
+        String fullName = request.getParameter("name");
+        String email = request.getParameter("email");
+        String img = request.getParameter("img");
+        String[] full = fullName.split(" ");
+        String name = full[1];
+        String lastName = full[0];
+
+        HttpSession session = request.getSession();
+
+        CustomerService cs = (CustomerService) ApplicationContext.getInstance()
+                .getBean("customerService");
+        DeveloperService ds = (DeveloperService) ApplicationContext.getInstance()
+                .getBean("developerService");
+        AdminService as = (AdminService) ApplicationContext.getInstance()
+                .getBean("adminService");
+
+        if (ds.emailAvailable(email)) {
+            Developer developer = ds.findByEmail(email);
+            session.setAttribute("user", developer);
+            request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+
+        } else if (cs.emailAvailable(email)) {
+            Customer customer = cs.findByEmail(email);
+            session.setAttribute("user", customer);
+            request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+        } else if (as.emailAvailable(email)) {
+            Admin admin = as.findByEmail(email);
+            session.setAttribute("user", admin);
+            request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+        } else {
+
+        }
+    }
+
+    public void signUpByGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        System.out.println("SIGNUP");
+        String fullName = request.getParameter("name");
+        String email = request.getParameter("email");
+        String img = request.getParameter("img");
+        String role = request.getParameter("role");
+        String[] full = fullName.split(" ");
+        String name = full[1];
+        String lastName = full[0];
+
+        if (role == null || role.isEmpty()) {
+            response.sendRedirect("/chooserole");
+            return;
+        }
+
+        HttpSession session = request.getSession();
+
+        CustomerService cs = (CustomerService) ApplicationContext.getInstance()
+                .getBean("customerService");
+        DeveloperService ds = (DeveloperService) ApplicationContext.getInstance()
+                .getBean("developerService");
+        AdminService as = (AdminService) ApplicationContext.getInstance()
+                .getBean("adminService");
+
+        if (ds.emailAvailable(email)) {
+            Developer developer = ds.findByEmail(email);
+            session.setAttribute("user", developer);
+            request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+            return;
+
+        } else if (cs.emailAvailable(email)) {
+            Customer customer = cs.findByEmail(email);
+            session.setAttribute("user", customer);
+            request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+            return;
+        } else if (as.emailAvailable(email)) {
+            Admin admin = as.findByEmail(email);
+            session.setAttribute("user", admin);
+            request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+            return;
+        } else {
+
+            switch (role) {
+                case "customer":
+                    Customer customer = new Customer();
+                    customer.setEmail(email);
+                    customer.setImgUrl(img);
+                    customer.setFname(name);
+                    customer.setLname(lastName);
+                    cs.create(customer);
+                    session.setAttribute("user", customer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
+                case "developer":
+                    Developer developer = new Developer();
+                    developer.setEmail(email);
+                    developer.setImgUrl(img);
+                    developer.setFname(name);
+                    developer.setLname(lastName);
+                    session.setAttribute("user", developer);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                    return;
+            }
         }
     }
 

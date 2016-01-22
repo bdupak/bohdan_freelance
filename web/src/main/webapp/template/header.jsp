@@ -33,7 +33,7 @@
 									</a></li>
 							</ul>
 						</sec:access>
-						<%-- 						<sec:access role="user"> --%>
+                        <sec:access role="user">
 						<ul class="navigation">
 							<li><a
 									href="${pageContext.request.contextPath}/cabinet/main">
@@ -43,7 +43,7 @@
 									<i class="fa fa-sign-out"></i>Logout
 								</a></li>
 						</ul>
-						<%-- 						</sec:access> --%>
+                        </sec:access>
 					</div>
 				</nav>
 

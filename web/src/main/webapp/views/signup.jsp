@@ -6,7 +6,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="google-signin-client_id"
+          content="535548665233-q580bffq5d59n7guobvg0smqf61vk98s.apps.googleusercontent.com">
 <title>Sign up</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <jsp:include page="/template/headImport.jsp" />
 
@@ -49,8 +52,8 @@
 								</div>
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<div class="form-group">
-										<div class="social-btn google-plus">
-											<img alt="LInkedin" class="social-img hvr-grow"
+                                        <div class="g-signin2" data-onsuccess="onSignIn">
+                                            <img alt="Google"
 												src="${pageContext.request.contextPath}/resources/img/social_icon/google_plus_icon.png" />
 										</div>
 									</div>
@@ -142,6 +145,42 @@
 		</div>
 	</div>
 
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail());
+
+            var email = profile.getEmail();
+            var name = profile.getName();
+            var img = profile.getImageUrl();
+
+            $.ajax
+            (
+                    {
+                        url: 'user/signupByGoogle' + location.search,
+                        data: {email: email, name: name, img: img},
+                        type: 'post',
+                        cache: false,
+                        success: function (data) {
+                            alert('success');
+                        },
+                        error: function () {
+                            alert('error');
+                        }
+                    }
+            );
+        }
+
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+    </script>
 
 	<jsp:include page="/template/footImport.jsp" />
 
