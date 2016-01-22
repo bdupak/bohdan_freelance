@@ -1,19 +1,5 @@
 package com.epam.freelancer.web.controller;
 
-import com.epam.freelancer.business.context.ApplicationContext;
-import com.epam.freelancer.business.manager.UserManager;
-import com.epam.freelancer.business.service.OrderingService;
-import com.epam.freelancer.database.model.UserEntity;
-import com.epam.freelancer.security.provider.AuthenticationProvider;
-import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -22,12 +8,30 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.epam.freelancer.business.context.ApplicationContext;
+import com.epam.freelancer.business.manager.UserManager;
+import com.epam.freelancer.business.service.OrderingService;
+import com.epam.freelancer.database.model.UserEntity;
+import com.epam.freelancer.security.provider.AuthenticationProvider;
+import com.epam.freelancer.web.social.Linkedin;
+
 public class FrontController extends HttpServlet {
 	private final static Logger LOG = Logger.getLogger(FrontController.class);
 	private static final long serialVersionUID = 1L;
 	private Map<String, HttpServlet> controllers = new HashMap<>();
 	private OrderingService orderingService;
 	private UserManager userManager;
+	private Linkedin linkedin;
 
 	public static String getPath(HttpServletRequest request) {
 		return request.getRequestURI()
@@ -38,6 +42,12 @@ public class FrontController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		LOG.info(getClass().getSimpleName() + " - " + "front controller loaded");
+		linkedin = new Linkedin();
+		try {
+			linkedin.initKeys("/social.properties");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		orderingService = (OrderingService) ApplicationContext.getInstance()
 				.getBean("orderingService");
 		ApplicationContext.getInstance().addBean("authenticationProvider",
@@ -65,7 +75,6 @@ public class FrontController extends HttpServlet {
 
 			if (path.startsWith("/front/")) {
 				path = path.substring("/front/".length());
-
 				switch (path) {
 				case "":
 					path = "home";
@@ -73,12 +82,15 @@ public class FrontController extends HttpServlet {
 				case "orders":
 					fillOrdering(request, response);
 					break;
+				case "signup":
+					fillSignup(request, response);
+					break;
 				case "language/bundle":
 					sendBundle(request, response);
 					return;
 				case "logout":
 					logout(request, response);
-                    break;
+                    return;
                     default:
 					if (path.startsWith("admin/")) {
 						controllers.get("admin/").service(request, response);
@@ -92,6 +104,11 @@ public class FrontController extends HttpServlet {
 						controllers.get("cust/").service(request, response);
 						return;
 					}
+					if (path.startsWith("signup")) {
+						request.setAttribute("role",request.getParameter("role"));
+						request.getRequestDispatcher("/views/signup.jsp").forward(request,response);
+						return;
+					}
 
 				}
 				request.getRequestDispatcher("/views/" + path + ".jsp")
@@ -101,6 +118,20 @@ public class FrontController extends HttpServlet {
 			e.printStackTrace();
 			LOG.fatal(getClass().getSimpleName() + " - " + "doGet");
 		}
+	}
+
+	private void fillSignup(HttpServletRequest request,
+			HttpServletResponse response)
+	{
+		request.setAttribute("linkedinurl",
+				linkedin.getAuthentificationUrl("http://localhost:8081/signin"));
+		// request.setAttribute(
+		// "linkedinurl",
+		// linkedin.getAuthentificationUrl(request.getRemoteHost()
+		// + ":"
+		// + request.get
+		// + (request.getContextPath().isEmpty() ? "" : "/" + "/"
+		// + request.getContextPath()) + "/signin"));
 	}
 
 	private void fillOrdering(HttpServletRequest request,

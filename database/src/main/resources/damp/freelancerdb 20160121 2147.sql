@@ -1,7 +1,7 @@
 ﻿--
 -- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 6.3.358.0
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 20.01.2016 1:59:11
+-- Дата скрипта: 21.01.2016 21:47:50
 -- Версия сервера: 5.6.28-log
 -- Версия клиента: 4.1
 --
@@ -38,11 +38,15 @@ CREATE TABLE admin (
   name VARCHAR(50) DEFAULT NULL,
   last_name VARCHAR(50) DEFAULT NULL,
   lang ENUM('en','uk-UA') DEFAULT 'en',
+  reg_url VARCHAR(150) DEFAULT NULL,
+  reg_date DATETIME DEFAULT NULL,
   uuid VARCHAR(140) DEFAULT NULL,
   version INT(11) DEFAULT 0,
   is_deleted BIT(1) DEFAULT b'0',
   salt VARCHAR(50) DEFAULT NULL,
+  img_url VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (id),
+  UNIQUE INDEX reg_url (reg_url),
   UNIQUE INDEX uuid (uuid)
 )
 ENGINE = INNODB
@@ -66,17 +70,18 @@ CREATE TABLE customer (
   uuid VARCHAR(140) DEFAULT NULL,
   reg_url VARCHAR(150) DEFAULT NULL,
   reg_date DATETIME DEFAULT NULL,
-  version INT(11) NOT NULL DEFAULT 0,
+  version INT(11) DEFAULT 0,
   is_deleted BIT(1) DEFAULT b'0',
   salt VARCHAR(50) DEFAULT NULL,
+  img_url VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX email (email),
   UNIQUE INDEX reg_url (reg_url),
   UNIQUE INDEX uuid (uuid)
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 6
-AVG_ROW_LENGTH = 3276
+AUTO_INCREMENT = 8
+AVG_ROW_LENGTH = 2340
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -99,13 +104,14 @@ CREATE TABLE developer (
   version INT(11) DEFAULT 0,
   is_deleted BIT(1) DEFAULT b'0',
   salt VARCHAR(50) DEFAULT NULL,
+  img_url VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE INDEX reg_url (reg_url),
   UNIQUE INDEX uuid (uuid)
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 11
-AVG_ROW_LENGTH = 1638
+AUTO_INCREMENT = 17
+AVG_ROW_LENGTH = 1092
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -178,7 +184,7 @@ CREATE TABLE developer_qa (
   id INT(11) NOT NULL AUTO_INCREMENT,
   dev_id INT(11) DEFAULT NULL,
   tech_id INT(11) DEFAULT NULL,
-  rate FLOAT DEFAULT 0,
+  rate DOUBLE DEFAULT 0,
   expire DATE DEFAULT NULL,
   is_expire BIT(1) DEFAULT b'0',
   version INT(11) DEFAULT 0,
@@ -230,7 +236,7 @@ CREATE TABLE ordering (
   descr VARCHAR(3000) DEFAULT NULL,
   customer_id INT(11) DEFAULT NULL,
   date DATETIME NOT NULL,
-  payment FLOAT DEFAULT NULL,
+  payment DOUBLE DEFAULT NULL,
   started BIT(1) DEFAULT b'0',
   started_date DATETIME DEFAULT NULL,
   ended BIT(1) DEFAULT b'0',
@@ -277,7 +283,7 @@ COLLATE utf8_general_ci;
 --
 DROP TABLE IF EXISTS test;
 CREATE TABLE test (
-  id INT(11) NOT NULL DEFAULT 0,
+  id INT(11) NOT NULL AUTO_INCREMENT,
   tech_id INT(11) DEFAULT NULL,
   name VARCHAR(50) DEFAULT NULL,
   admin_id INT(11) DEFAULT NULL,
@@ -292,6 +298,7 @@ CREATE TABLE test (
     REFERENCES technology(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
+AUTO_INCREMENT = 1
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -311,7 +318,7 @@ CREATE TABLE answer (
     REFERENCES question(id) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 37
+AUTO_INCREMENT = 1
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -335,6 +342,25 @@ CREATE TABLE follower (
 ENGINE = INNODB
 AUTO_INCREMENT = 15
 AVG_ROW_LENGTH = 1170
+CHARACTER SET utf8
+COLLATE utf8_general_ci;
+
+--
+-- Описание для таблицы ordering_technology
+--
+DROP TABLE IF EXISTS ordering_technology;
+CREATE TABLE ordering_technology (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  order_id INT(11) DEFAULT NULL,
+  tech_id INT(11) DEFAULT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_ordering_technology_ordering_id FOREIGN KEY (order_id)
+    REFERENCES ordering(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT FK_ordering_technology_technology_id FOREIGN KEY (tech_id)
+    REFERENCES technology(id) ON DELETE RESTRICT ON UPDATE RESTRICT
+)
+ENGINE = INNODB
+AUTO_INCREMENT = 1
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -365,8 +391,8 @@ CREATE TABLE worker (
   id INT(11) NOT NULL AUTO_INCREMENT,
   order_id INT(11) DEFAULT NULL,
   dev_id INT(11) DEFAULT NULL,
-  new_hourly FLOAT DEFAULT NULL,
-  sum_hours FLOAT DEFAULT NULL,
+  new_hourly DOUBLE DEFAULT NULL,
+  sum_hours DOUBLE DEFAULT NULL,
   version INT(11) DEFAULT 0,
   is_deleted BIT(1) DEFAULT b'0',
   PRIMARY KEY (id),
@@ -386,32 +412,39 @@ COMMENT = 'entity that represents developers on some project';
 -- Вывод данных для таблицы admin
 --
 INSERT INTO admin VALUES
-(1, 'adminfreelancer@gnail.com', 'admin', 'Dmytro', 'Shapovalov', 'en', NULL, 0, False, 'admin');
+(1, 'adminfreelancer@gnail.com', 'admin', 'Dmytro', 'Shapovalov', 'en', NULL, NULL, NULL, 0, False, 'admin', NULL);
 
 -- 
 -- Вывод данных для таблицы customer
 --
 INSERT INTO customer VALUES
-(1, 'kumar@gmail.com', 'Kumar', 'Anil', 'Kumar', '2010-11-23 21:34:01', 'en', NULL, NULL, '2004-06-17 00:00:00', 0, False, 'Anil'),
-(2, 'ryzkov@gmail.com', 'Ryzkov', 'Anton', 'Ryzkov', '2009-05-02 13:23:21', 'en', NULL, NULL, '2010-06-21 00:00:00', 0, False, 'Ryzkov'),
-(3, 'strinic@gmail.com', 'Strinic', 'Ivan', 'Strinic', '2006-02-19 16:03:34', 'en', NULL, NULL, '2003-02-11 00:00:00', 0, False, 'Strinic'),
-(4, 'belousov@gmail.com', 'Belousov', 'Nikolai', 'Belousov', '2009-11-28 22:26:01', 'en', NULL, NULL, '2009-06-13 00:00:00', 0, False, 'Belousov'),
-(5, 'mungki@gmail.com', 'Laulau', 'MungKi', 'Lau', '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Lau');
+(1, 'kumar@gmail.com', 'Kumar', 'Anil', 'Kumar', '2010-11-23 21:34:01', 'en', NULL, NULL, '2004-06-17 00:00:00', 0, False, 'Anil', NULL),
+(2, 'ryzkov@gmail.com', 'Ryzkov', 'Anton', 'Ryzkov', '2009-05-02 13:23:21', 'en', NULL, NULL, '2010-06-21 00:00:00', 0, False, 'Ryzkov', NULL),
+(3, 'strinic@gmail.com', 'Strinic', 'Ivan', 'Strinic', '2006-02-19 16:03:34', 'en', NULL, NULL, '2003-02-11 00:00:00', 0, False, 'Strinic', NULL),
+(4, 'belousov@gmail.com', 'Belousov', 'Nikolai', 'Belousov', '2009-11-28 22:26:01', 'en', NULL, NULL, '2009-06-13 00:00:00', 0, False, 'Belousov', NULL),
+(5, 'mungki@gmail.com', 'Laulau', 'MungKi', 'Lau', '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Lau', NULL),
+(6, 'sadamaza@gmail.com', '6e4938ca228ebe9b6d54b1989940fe5e2c714d93711f4cf8e79f8689f59dc3c8', 'sada', 'maza', NULL, NULL, '7131b214-c305-4dcc-93da-a73f6bab5ba4', NULL, '2016-01-21 00:00:00', NULL, NULL, 'UTQZNuHYMAVzabbGSGfTFTUzHbgsUALugVoggepYNlLfrzYQoq', NULL),
+(7, 'fff@mail.ru', '79e5b9fe1d8a68d3f5eea4affe27348fb199a364bd10b261b50bc61eefdf6fd8', 'fff', 'fff', NULL, NULL, '95edc503-e7f1-46d1-9606-2332429d62d1', NULL, '2016-01-21 18:30:32', NULL, NULL, 'eWmRkNIsAYIZiiKtibBwDxBbbRfOerkUibGUgZoTjKmfjITwxA', NULL);
 
 -- 
 -- Вывод данных для таблицы developer
 --
 INSERT INTO developer VALUES
-(1, 'iuliana@gmail.com', 'Pavaloaie', 'Iuliana', 'Pavaloaie', 13.3, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Iuli'),
-(2, 'ivanov@gmail.com', 'Ivanov', 'Sergey', 'Ivanov', 10.2, '2011-05-21 22:44:01', 'en', NULL, NULL, '2011-10-11 00:00:00', 0, False, 'Serg'),
-(3, 'andres@gmail.com', 'Pinilla', 'Andres', 'Pinilla Palacios', 13.3, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Andr'),
-(4, 'ian@gmail.com', 'Anderson', 'Ian', 'Anderson', 12.4, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Ian'),
-(5, 'hajji@gmail.com', 'Makram', 'Hajji', 'Makram', 11.9, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Hajj'),
-(6, 'stanisa@gmail.com', 'Koncic', 'Stanisa', 'Koncic', 10.8, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Stan'),
-(7, 'ognev@gmail.com', 'Ognev', 'Ivan', 'Ognev', 25.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Ogn'),
-(8, 'gupta@gmail.com', 'Ashish', 'gupta', 'Ashish', 10.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'gupta'),
-(9, 'lamine@gmail.com', 'Jellad', 'Mohamed', 'Lamine Jellad', 14.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Mohamed'),
-(10, 'stefan@gmail.com', 'Scekic', 'Stefan', 'Scekic', 14.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Scekic');
+(1, 'iuliana@gmail.com', 'Pavaloaie', 'Iuliana', 'Pavaloaie', 13.3, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Iuli', NULL),
+(2, 'ivanov@gmail.com', 'Ivanov', 'Sergey', 'Ivanov', 10.2, '2011-05-21 22:44:01', 'en', NULL, NULL, '2011-10-11 00:00:00', 0, False, 'Serg', NULL),
+(3, 'andres@gmail.com', 'Pinilla', 'Andres', 'Pinilla Palacios', 13.3, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Andr', NULL),
+(4, 'ian@gmail.com', 'Anderson', 'Ian', 'Anderson', 12.4, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Ian', NULL),
+(5, 'hajji@gmail.com', 'Makram', 'Hajji', 'Makram', 11.9, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Hajj', NULL),
+(6, 'stanisa@gmail.com', 'Koncic', 'Stanisa', 'Koncic', 10.8, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Stan', NULL),
+(7, 'ognev@gmail.com', 'Ognev', 'Ivan', 'Ognev', 25.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Ogn', NULL),
+(8, 'gupta@gmail.com', 'Ashish', 'gupta', 'Ashish', 10.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'gupta', NULL),
+(9, 'lamine@gmail.com', 'Jellad', 'Mohamed', 'Lamine Jellad', 14.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Mohamed', NULL),
+(10, 'stefan@gmail.com', 'Scekic', 'Stefan', 'Scekic', 14.2, '2008-01-01 00:00:01', 'en', NULL, NULL, '2013-10-11 00:00:00', 0, False, 'Scekic', NULL),
+(11, 'mrudevich96@gmail.com', '4ef4670e5feefd3f23abd4437d26833a701043e20677713bb8a63ac7839f1223', 'Max', 'Rudevich', NULL, NULL, NULL, 'c69d4658-93a1-46b9-8209-df73602a9d1a', NULL, '2016-01-21 00:00:00', NULL, NULL, 'uGutvCmwchECwwgkvrMtHBonhLOiJEiSVEjaepMoqSSfHefjcq', NULL),
+(13, 'max@gmail.com', '51c8b23f801d375fe1b413e8f24badd709d515e472f07bef76972a9951773df4', 'max', 'max', NULL, NULL, NULL, 'c2b9eeef-e708-480f-8af0-4726715fc5df', NULL, '2016-01-21 17:24:15', NULL, NULL, 'UVbQmQVjUPcRuUfXvbWpmznANlpZnczSIvadbaEGqdLYyKyVAF', NULL),
+(14, 'zxc@gmail.com', '9aa7f549a95fa796bced1068a3438918c11963c7159d0d46094ef1a067847684', 'zxc', 'zxc', NULL, NULL, NULL, NULL, NULL, '2016-01-21 17:39:37', NULL, NULL, 'ipQjYmSvcrxQJHKALnhzApkKDmYSCsLmLMGGIMEnOjoMZQtZxJ', NULL),
+(15, 'zxc@gmail.com', 'e6aee8f3372a168d13a3f063f3e6129b7372547f86aedbfd3181679758191c04', 'sad', 'das', NULL, NULL, NULL, 'edcd518c-73de-4906-a65e-564687f7653c', NULL, '2016-01-21 17:58:55', NULL, NULL, 'zyrCCyReaICZcxWukFnxYgBUmqsJJFvlfDqWucrKEfUFVWNJFK', NULL),
+(16, 'user@gmail.com', '3dc2bbbbe9f2936e42f0db60b7f753b8c2f83394f794a60c8d847a4e1eb0f790', 'user', 'user', NULL, NULL, NULL, '6a477ccb-7b0e-4446-9845-7b77a5bdb71e', NULL, '2016-01-21 19:08:18', NULL, NULL, 'eRzTFKhvFvkxPdEIJKrfNpSQDOdDxNfrEKwLsaYHHyGAtyWlnL', NULL);
 
 -- 
 -- Вывод данных для таблицы technology
@@ -492,12 +525,12 @@ INSERT INTO feedback VALUES
 -- Вывод данных для таблицы ordering
 --
 INSERT INTO ordering VALUES
-(1, 'SMM Instagram', 'hourly', 'I need my instagram services sold, good rates for resale on my panel.', 1, '2009-06-13 00:00:00', 20.4, False, NULL, False, NULL, False, 0, False),
-(2, 'mt5 stuff for Stonev', 'hourly', 'will send details of project. Fairly simple EA.', 2, '2015-09-23 00:00:00', 18.9, False, NULL, False, NULL, False, 0, False),
+(1, 'SMM Instagram', 'hourly', 'I need my instagram services sold, good rates for resale on my panel.', 1, '2009-06-13 00:00:00', 20.399999618530273, False, NULL, False, NULL, False, 0, False),
+(2, 'mt5 stuff for Stonev', 'hourly', 'will send details of project. Fairly simple EA.', 2, '2015-09-23 00:00:00', 18.899999618530273, False, NULL, False, NULL, False, 0, False),
 (3, 'True Mobile Website Design', 'fixed', 'This project is for a web design and development team that can build out True Mobile site for a website which is already responsive. Experienced design and development team candidates only. For this task you would do the following: 1) Using a mockup tool we will provide. Create a full integrated mockup for the current site for about 10 key pages. Once client approves the mockup, you would then design the entire site. Site has approximately 82 pages but would be condensed heavily, we would follow a theme based on a specific theme design pages such as (home, main category page (content), sub category page ( content), dinning menu page and photo gallery), all other pages would adjust to these specific page design. Mock would be done using https://www.fluidui.com/ or other design mockup tools that lets us preview the functionality. Site would view able in various devices (tablets and phones). If this meets the standards, development begins. ', 3, '2009-06-13 00:00:00', 1700, True, '2015-12-13 00:00:00', False, NULL, True, 0, False),
 (4, 'Write some Software', 'hourly', 'customized software development project', 4, '2015-06-13 00:00:00', 14.5, True, '2015-07-01 00:00:00', True, '2015-08-21 00:00:00', False, 0, False),
-(5, 'Malware/Redirect correction on Website', 'hourly', 'I am having a malware/redirect issue on my website that is causing it to redirect to random other websites. Also, there is not a specific page or product that causes the issue. It happens randomly throughout the site.', 5, '2015-11-03 00:00:00', 21.8, True, '2015-11-11 00:00:00', False, NULL, False, 0, False),
-(6, 'GA Consulting', 'hourly', 'I am searching about a consulence on Google analytics.', 5, '2015-09-23 00:00:00', 13.9, False, NULL, False, NULL, False, 0, False);
+(5, 'Malware/Redirect correction on Website', 'hourly', 'I am having a malware/redirect issue on my website that is causing it to redirect to random other websites. Also, there is not a specific page or product that causes the issue. It happens randomly throughout the site.', 5, '2015-11-03 00:00:00', 21.799999237060547, True, '2015-11-11 00:00:00', False, NULL, False, 0, False),
+(6, 'GA Consulting', 'hourly', 'I am searching about a consulence on Google analytics.', 5, '2015-09-23 00:00:00', 13.899999618530273, False, NULL, False, NULL, False, 0, False);
 
 -- 
 -- Вывод данных для таблицы question
@@ -546,6 +579,12 @@ INSERT INTO follower VALUES
 (14, 10, 'It is very easy for me, i will do this.', 6, 0, False);
 
 -- 
+-- Вывод данных для таблицы ordering_technology
+--
+
+-- Таблица freelancerdb.ordering_technology не содержит данных
+
+-- 
 -- Вывод данных для таблицы test_question
 --
 
@@ -560,9 +599,9 @@ INSERT INTO worker VALUES
 (3, 3, 9, NULL, 72, 0, False),
 (4, 4, 4, 14.5, 123, 0, False),
 (5, 4, 5, 14.5, 130, 0, False),
-(6, 5, 6, 21.8, 178, 0, False),
-(7, 5, 7, 21.8, 171, 0, False),
-(8, 5, 8, 21.8, 164, 0, False);
+(6, 5, 6, 21.799999237060547, 178, 0, False),
+(7, 5, 7, 21.799999237060547, 171, 0, False),
+(8, 5, 8, 21.799999237060547, 164, 0, False);
 
 -- 
 -- Восстановить предыдущий режим SQL (SQL mode)

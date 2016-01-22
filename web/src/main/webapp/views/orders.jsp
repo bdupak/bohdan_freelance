@@ -21,9 +21,9 @@
 					<div class="panel-title">
 						<a data-toggle="collapse" href="#order_filter"> Filter </a>
 						<div class="pull-right">
-							<a class="btn btn-warning" data-tooltip="yes"
-								data-toggle="collapse" title="Open filter" data-placement="left"
-								href="#order_filter">
+							<a class="btn btn-warning order-open-filter-btn"
+								data-tooltip="yes" data-toggle="collapse" title="Open filter"
+								data-placement="left" href="#order_filter">
 								<i class="fa fa-angle-double-down fa-2x"></i>
 							</a>
 						</div>

@@ -6,9 +6,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="google-signin-client_id"
-          content="535548665233-q580bffq5d59n7guobvg0smqf61vk98s.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
 <title>Sign in</title>
 <jsp:include page="/template/headImport.jsp" />
 <link rel="stylesheet"
@@ -36,7 +33,7 @@
 								</div>
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<div class="form-group">
-                                        <div class="social-btn google-plus g-signin2" data-onsuccess="onSignIn">
+										<div class="social-btn google-plus">
 											<img alt="LInkedin" class="social-img hvr-grow"
 												src="${pageContext.request.contextPath}/resources/img/social_icon/google_plus_icon.png" />
 										</div>
@@ -45,7 +42,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body margin-top-sm">
 						<c:if test="${notCorrectData != null}">
 							<div
 								class="alert alert-message alert-message-danger animated fadeInUp">
@@ -58,7 +55,7 @@
 						<form id="loginform" class="form-horizontal animated fadeInUp"
 							role="form" method="post"
                               action="${pageContext.request.contextPath}/user/signin">
-							<div class="input-group padding-bottom cabinet-top">
+							<div class="input-group padding-bottom">
 								<span class="input-group-addon">
 									<i class="glyphicon glyphicon-user"></i>
 								</span>
@@ -78,7 +75,7 @@
 							<div class="row text-center">
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<input class="btn btn-warning btn-block"
-										value="Login" type="submit">
+                                           value="Login" id="login" type="submit">
 								</div>
 								<div class="col-xs-6 col-sm-6 col-md-6">
 									<label for="default" class="btn btn-default">
@@ -99,36 +96,8 @@
 			</div>
 		</div>
 	</div>
-    <script>
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail());
 
-            var name = profile.getId();
-            var img = profile.getImageUrl();
-            var email = profile.getEmail();
 
-            $.ajax
-            (
-                    {
-                        url: 'user/signinByGoogle',
-                        data: {name: name, img: img, email: email},
-                        type: 'post',
-                        cache: false,
-                        success: function (data) {
-                            alert('success');
-                        },
-                        error: function () {
-                            alert('error');
-                        }
-                    }
-            );
-        }
-    </script>
-	<jsp:include page="/template/footImport.jsp" />
-    <script src="${pageContext.request.contextPath}/resources/js/signin/googleauth.js"></script>
+    <jsp:include page="/template/footImport.jsp" />
 </body>
 </html>
